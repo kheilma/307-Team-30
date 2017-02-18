@@ -25,6 +25,7 @@ public class Recommendation {
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         Date date2 = new Date();
         this.date = dateFormat.format(date2);
+        // a console print statement to make sure date is working
         Log.d("Date Test\n\n\n",this.date);
     }
 
