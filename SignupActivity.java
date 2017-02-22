@@ -1,8 +1,9 @@
-package com.smacnakgmail.look;
+package com.meads30gmail.look;
 
 /**
- * Created by Me on 8/3/2016.
+ * Created by Matt on 2/16/2017.
  */
+
 import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.Toast;
@@ -36,6 +37,14 @@ public class SignupActivity extends AsyncTask<String, Void, String> {
         String passWord = arg0[2];
         String phoneNumber = arg0[3];
         String emailAddress = arg0[4];
+
+        User friendExample = new User("bob", "bob", "bob", "2262", "bob@gmail.com");
+        User example = new User(fullName, user, passWord,  phoneNumber, emailAddress);
+        example.addFriend(friendExample);
+        friendExample.addFriend(example);
+        example.newRecommendation("https://www.youtube.com/watch?v=dQw4w9WgXcQ", "video", example, friendExample);
+
+
 
         String link;
         String data;
