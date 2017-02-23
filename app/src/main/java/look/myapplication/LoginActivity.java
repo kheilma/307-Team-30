@@ -69,6 +69,7 @@ public class LoginActivity extends AsyncTask<String, Void, String> {
                     Toast.makeText(context, "Login successfull.", Toast.LENGTH_SHORT).show();
                     MainActivity mainActivity = (MainActivity)context;
                     mainActivity.setLoggedIn(true, userName);
+                    mainActivity.setContentView(R.layout.profile);
                 } else if (query_result.equals("FAILURE")) {
                     Toast.makeText(context, "Login failed.", Toast.LENGTH_SHORT).show();
                 } else {
