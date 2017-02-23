@@ -16,6 +16,14 @@
             android:onClick="createR"
             android:text="Create New Recommendation"/>
 
+        <Button
+            android:text="Change Password"
+            android:layout_width="178dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/button2"
+            android:layout_weight="0.01"
+            android:onClick="loginScreen (MainActivity)" />
+
     </LinearLayout>
 
 </ScrollView>

@@ -16,7 +16,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
-
+import java.util.regex.Pattern;
 public class SignupActivity extends AsyncTask<String, Void, String> {
 
     private Context context;
@@ -42,7 +42,24 @@ public class SignupActivity extends AsyncTask<String, Void, String> {
         String data;
         BufferedReader bufferedReader;
         String result;
-
+        if (Pattern.matches(fullName, "")) {
+            return new String("name can not be blank");
+        }
+        if (!(Pattern.matches(user, "[a-zA-Z0-9]+"))) {
+            return new String("Invalid username");
+        }
+        if (!Pattern.matches(emailAddress, "[a-z]+[@][a-z]+[.][a-z]+")) {
+            return new String("not a valid email address");
+        }
+        if (!Pattern.matches(phoneNumber, "[0-9]{10}")) {
+            return new String("not a valid phone number");
+        }
+        if (passWord.length() < 8) {
+            return new String("password not long enough");
+        }
+        if (passWord.equals(passWord.toUpperCase()) || passWord.equals(passWord.toLowerCase())) {
+            return new String("password must contain at least one uppercase and lowercase letter");
+        }
         try {
             data = "?fullname=" + URLEncoder.encode(fullName, "UTF-8");
             data += "&username=" + URLEncoder.encode(user, "UTF-8");
