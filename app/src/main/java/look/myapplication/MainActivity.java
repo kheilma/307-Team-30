@@ -67,7 +67,7 @@ public class MainActivity extends Activity {
         new LoginActivity(this).execute(userName, passWord);
     }
 
-    public void createReocommendation(){
+    public void createRecommendation(){
         // Holds code fore creating recommendation after clicking the button on the profile
         // Crashes the app when button is clicked
     }
