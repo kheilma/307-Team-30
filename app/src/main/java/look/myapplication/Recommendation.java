@@ -1,4 +1,4 @@
-package com.meads30gmail.look;
+package look.myapplication;
 
 import android.util.Log;
 
