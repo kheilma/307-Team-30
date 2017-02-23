@@ -67,6 +67,11 @@ public class MainActivity extends Activity {
         new LoginActivity(this).execute(userName, passWord);
     }
 
+    public void createReocommendation(){
+        // Holds code fore creating recommendation after clicking the button on the profile
+        // Crashes the app when button is clicked
+    }
+
 
 
     public void signupScreen(View v) {
