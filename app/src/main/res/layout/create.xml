@@ -5,20 +5,25 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:weightSum="1"
         android:layout_height="match_parent"
+        android:weightSum="1"
+        android:gravity="center"
         android:orientation="vertical">
 
         <EditText
+            android:id="@+id/destinationUserName"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/destinationUserName"
+            android:gravity="center"
             android:ems="10"
             android:hint="@string/recipient"/>
+
+        <requestFocus />
 
         <EditText
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:id="@+id/description"
             android:ems="10"
             android:hint="@string/description"/>
@@ -26,6 +31,7 @@
         <EditText
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:id="@+id/recType"
             android:ems="10"
             android:hint="@string/type"/>
@@ -33,6 +39,7 @@
         <EditText
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:id="@+id/link"
             android:ems="10"
             android:hint="@string/link"/>
@@ -41,9 +48,16 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+
             android:id="@+id/btnNewRec"
             android:onClick="createRecommendation"
             android:text="@string/done"/>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+        </FrameLayout>
 
     </LinearLayout>
 
