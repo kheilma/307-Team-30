@@ -50,7 +50,7 @@ public class SignupActivity extends AsyncTask<String, Void, String> {
             data += "&phonenumber=" + URLEncoder.encode(phoneNumber, "UTF-8");
             data += "&emailaddress=" + URLEncoder.encode(emailAddress, "UTF-8");
 
-            link = "http://  ---  /signup.php" + data;
+            link = "http://l00k.000webhostapp.com/signup.php" + data;
             URL url = new URL(link);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
 
