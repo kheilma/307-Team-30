@@ -16,7 +16,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
-
+import java.util.regex.Pattern;
 public class LoginActivity extends AsyncTask<String, Void, String> {
 
     private Context context;
@@ -41,6 +41,12 @@ public class LoginActivity extends AsyncTask<String, Void, String> {
         String data;
         BufferedReader bufferedReader;
         String result;
+        if (userName.matches("")) {
+            return new String("name can not be blank");
+        }
+        if ((passWord.matches(""))) {
+            return new String("Invalid password");
+        }
 
         try {
             data = "?username=" + URLEncoder.encode(userName, "UTF-8");

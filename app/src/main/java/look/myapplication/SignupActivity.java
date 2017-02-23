@@ -42,16 +42,17 @@ public class SignupActivity extends AsyncTask<String, Void, String> {
         String data;
         BufferedReader bufferedReader;
         String result;
-        if (Pattern.matches(fullName, "")) {
+
+        if (fullName.matches("")) {
             return new String("name can not be blank");
         }
-        if (!(Pattern.matches(user, "[a-zA-Z0-9]+"))) {
+        if (!(user.matches("[a-zA-Z0-9]+"))) {
             return new String("Invalid username");
         }
-        if (!Pattern.matches(emailAddress, "[a-z]+[@][a-z]+[.][a-z]+")) {
+        if (!emailAddress.matches("[a-z]+[@][a-z]+[.][a-z]+")) {
             return new String("not a valid email address");
         }
-        if (!Pattern.matches(phoneNumber, "[0-9]{10}")) {
+        if (!phoneNumber.matches("[0-9]{10}")) {
             return new String("not a valid phone number");
         }
         if (passWord.length() < 8) {
