@@ -17,10 +17,12 @@ public class Recommendation {
     private String date;
     private String link;
     private String description;
+    private int rating;
 
     public Recommendation(String link, String type, String description, String recipient) {
         this.link = link;
         this.type = type;
+        this.description = description;
         this.recipient = recipient;
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         Date date2 = new Date();
