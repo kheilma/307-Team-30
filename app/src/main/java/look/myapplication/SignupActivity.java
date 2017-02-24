@@ -16,7 +16,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
-
+import java.util.regex.Pattern;
 public class SignupActivity extends AsyncTask<String, Void, String> {
 
     private Context context;
@@ -43,6 +43,24 @@ public class SignupActivity extends AsyncTask<String, Void, String> {
         BufferedReader bufferedReader;
         String result;
 
+        if (fullName.matches("")) {
+            return new String("name can not be blank");
+        }
+        if (!(user.matches("[a-zA-Z0-9]+"))) {
+            return new String("Invalid username");
+        }
+        if (!emailAddress.matches("[a-z]+[@][a-z]+[.][a-z]+")) {
+            return new String("not a valid email address");
+        }
+        if (!phoneNumber.matches("[0-9]{10}")) {
+            return new String("not a valid phone number");
+        }
+        if (passWord.length() < 8) {
+            return new String("password not long enough");
+        }
+        if (passWord.equals(passWord.toUpperCase()) || passWord.equals(passWord.toLowerCase())) {
+            return new String("password must contain at least one uppercase and lowercase letter");
+        }
         try {
             data = "?fullname=" + URLEncoder.encode(fullName, "UTF-8");
             data += "&username=" + URLEncoder.encode(user, "UTF-8");
@@ -50,7 +68,7 @@ public class SignupActivity extends AsyncTask<String, Void, String> {
             data += "&phonenumber=" + URLEncoder.encode(phoneNumber, "UTF-8");
             data += "&emailaddress=" + URLEncoder.encode(emailAddress, "UTF-8");
 
-            link = "http://  ---  /signup.php" + data;
+            link = "http://l00k.000webhostapp.com/signup.php" + data;
             URL url = new URL(link);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
 
@@ -70,7 +88,7 @@ public class SignupActivity extends AsyncTask<String, Void, String> {
                 JSONObject jsonObj = new JSONObject(jsonStr);
                 String query_result = jsonObj.getString("query_result");
                 if (query_result.equals("SUCCESS")) {
-                    Toast.makeText(context, "Data inserted successfully. Signup successfull.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Data inserted successfully. Signup successful.", Toast.LENGTH_SHORT).show();
                 } else if (query_result.equals("FAILURE")) {
                     Toast.makeText(context, "Data could not be inserted. Signup failed.", Toast.LENGTH_SHORT).show();
                 } else {

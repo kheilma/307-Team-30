@@ -16,7 +16,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
-
+import java.util.regex.Pattern;
 public class LoginActivity extends AsyncTask<String, Void, String> {
 
     private Context context;
@@ -41,12 +41,18 @@ public class LoginActivity extends AsyncTask<String, Void, String> {
         String data;
         BufferedReader bufferedReader;
         String result;
+        if (userName.matches("")) {
+            return new String("name can not be blank");
+        }
+        if ((passWord.matches(""))) {
+            return new String("Invalid password");
+        }
 
         try {
             data = "?username=" + URLEncoder.encode(userName, "UTF-8");
             data += "&password=" + URLEncoder.encode(passWord, "UTF-8");
 
-            link = "http://  --  /Login.php" + data;
+            link = "http://l00k.000webhostapp.com/Login.php" + data;
             URL url = new URL(link);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
 
@@ -69,6 +75,7 @@ public class LoginActivity extends AsyncTask<String, Void, String> {
                     Toast.makeText(context, "Login successfull.", Toast.LENGTH_SHORT).show();
                     MainActivity mainActivity = (MainActivity)context;
                     mainActivity.setLoggedIn(true, userName);
+                    mainActivity.setContentView(R.layout.profile);
                 } else if (query_result.equals("FAILURE")) {
                     Toast.makeText(context, "Login failed.", Toast.LENGTH_SHORT).show();
                 } else {
