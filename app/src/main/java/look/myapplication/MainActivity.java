@@ -67,6 +67,16 @@ public class MainActivity extends Activity {
         new LoginActivity(this).execute(userName, passWord);
     }
 
+    public void changePass(View v) {
+        EditText currPassword = (EditText) findViewById(R.id.currentPasswordChange);
+        EditText newPassword = (EditText) findViewById(R.id.newPasswordChange);
+        String currPass = currPassword.getText().toString();
+        String newPass = newPassword.getText().toString();
+
+        Toast.makeText(this, "Attemtping to change password...", Toast.LENGTH_LONG).show();
+        new ChangePasswordActivity(this).execute(currPass, newPass);
+    }
+
     public void createRecommendation(){
         // Holds code fore creating recommendation after clicking the button on the profile
         // Crashes the app when button is clicked
@@ -88,6 +98,13 @@ public class MainActivity extends Activity {
         }
     }
 
+    public void changePassScreen(View v) {
+        setContentView(R.layout.changepassword);
+    }
+
+    public void changeRecScreen(View v) {
+        setContentView(R.layout.create);
+    }
 
     public boolean getLoggedIn() {
         return this.loggedIn;
