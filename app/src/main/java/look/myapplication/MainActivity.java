@@ -90,6 +90,19 @@ public class MainActivity extends Activity {
         }
     }
 
+    public void profileScreen(View v) {
+        setContentView(R.layout.profile);
+    }
+
+    public void addFriendScreen (View v) {
+        setContentView(R.layout.newfriend);
+    }
+
+    public void addFriend(View v) {
+        EditText name = (EditText) findViewById(R.id.friendUserName);
+        String friendName = name.getText().toString();
+        Toast.makeText(this, "Adding friend", Toast.LENGTH_SHORT).show();
+    }
 
 
     public void loginScreen(View v) {
