@@ -9,5 +9,6 @@
     <string name="description">Description</string>
     <string name="type">Type (video, article, song, etc)</string>
     <string name="link">Link</string>
+    <string name="back">Back</string>
 
 </resources>
