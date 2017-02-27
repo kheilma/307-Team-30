@@ -27,6 +27,7 @@ public class MainActivity extends Activity {
     private boolean loggedIn;
     private boolean spinnerSet;
     private String user;
+    private User current_user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,6 +127,7 @@ public class MainActivity extends Activity {
     public void setLoggedIn(boolean loggedIn, String userName) {
         this.loggedIn = loggedIn;
         user = "'" + userName + "'";
+        current_user = new User(userName, NULL, NULL, NULL, NULL);
     }
 
     public Context getContext() {
