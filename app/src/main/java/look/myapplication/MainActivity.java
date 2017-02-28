@@ -127,7 +127,7 @@ public class MainActivity extends Activity {
     public void setLoggedIn(boolean loggedIn, String userName) {
         this.loggedIn = loggedIn;
         user = "'" + userName + "'";
-        current_user = new User(userName, NULL, NULL, NULL, NULL);
+        current_user = new User(userName, null, null, null, null);
     }
 
     public Context getContext() {
