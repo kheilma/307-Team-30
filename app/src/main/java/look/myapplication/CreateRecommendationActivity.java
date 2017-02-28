@@ -2,9 +2,19 @@ package look.myapplication;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.widget.Toast;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 
 /**
- * Created by Matt on 2/21/2017.
+ * Created by Me on 2/27/2017.
  */
 
 public class CreateRecommendationActivity extends AsyncTask<String, Void, String> {
@@ -19,22 +29,24 @@ public class CreateRecommendationActivity extends AsyncTask<String, Void, String
 
     @Override
     protected String doInBackground(String... arg0) {
-        String userName = arg0[0]
+        String userName = arg0[0];
         String recipient = arg0[1];
         String description = arg0[2];
         String type = arg0[3];
         String recLink = arg0[4];
-        
+
         String data;
         String link;
-        
+        BufferedReader bufferedReader;
+        String result;
+
         try {
             data = "?username=" + URLEncoder.encode(userName, "UTF-8");
-            data = "&recipient=" + URLEncoder.encode(recipient, "UTF-8");
-            data = "&description=" + URLEncoder.encode(description, "UTF-8");
-            data = "&type=" + URLEncoder.encode(type, "UTF-8");
-            data = "&recLink=" + URLEncoder.encode(recLink, "UTF-8");
-            
+            data += "&recipient=" + URLEncoder.encode(recipient, "UTF-8");
+            data += "&description=" + URLEncoder.encode(description, "UTF-8");
+            data += "&type=" + URLEncoder.encode(type, "UTF-8");
+            data += "&recLink=" + URLEncoder.encode(recLink, "UTF-8");
+
             link = "http://l00k.000webhostapp.com/sendRecommendation.php" + data;
             URL url = new URL(link);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -46,7 +58,7 @@ public class CreateRecommendationActivity extends AsyncTask<String, Void, String
             return new String("Exception: " + e.getMessage());
         }
     }
-    
+
     protected void onPostExecute(String result) {
         String jsonStr = result;
         if (jsonStr != null) {
