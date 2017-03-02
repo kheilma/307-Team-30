@@ -88,6 +88,18 @@ public class MainActivity extends Activity {
     public void createRecommendation(View v){
         // Holds code for creating recommendation after clicking the button on the profile
         Toast.makeText(this, "Created Recommendation", Toast.LENGTH_SHORT).show();
+
+        EditText name = (EditText) findViewById(R.id.destinationUserName);
+        String recipient = name.getText().toString();
+        EditText description = (EditText) findViewById(R.id.description);
+        String recDescription = name.getText().toString();
+        EditText type = (EditText) findViewById(R.id.recType);
+        String recType = name.getText().toString();
+        EditText link = (EditText) findViewById(R.id.link);
+        String recLink = name.getText().toString();
+
+        String content = "description:" + recDescription + "|type:" + recType + "|link" + recLink;
+        new CreateRecommendationActivity(this, current_user).execute(user.substring(1, user.length()-1), recipient, content);
     }
 
     public void addFriend(View v) {
@@ -106,36 +118,34 @@ public class MainActivity extends Activity {
         ListView notifications = (ListView) findViewById(R.id.notificationList); // Get the list
         //ArrayList<String> nList = current_user.getNotifications(); // Get the notifications
 
-       // final ArrayAdapter<String> updater = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, nList); // Update the list with the notifications
+        // final ArrayAdapter<String> updater = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, nList); // Update the list with the notifications
         //notifications.setAdapter(updater); // Set updater
         //notifications.setOnItemClickListener(new AdapterView.OnItemClickListener() { // Add listener for clicks on the notifications
-         //   @Override
+        //   @Override
         //    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         //        TextView text=(TextView) view;
         //    }
         //});
     }
 
-    public void queueScreen(View v) {
-        setContentView(R.layout.queue);
-        ListView recommendations = (ListView) findViewById(R.id.recQ); // Get the list
-        ArrayList<Recommendation> recQ = current_user.getRecommendations(); // Get the recommendations
-        ArrayList<String> recQString = new ArrayList<String>(); // Holds the strings to display
+    public void queueScreen(String recQ) {
+        String[] contentArray = recQ.split("\n");
 
-        // Grab links of recommendations for the queue display (proof of concept)
-        for(int i = 0; i < recQ.size(); i++){
-            String temp = recQ.get(i).getLink();
-            recQString.add(temp);
+        TableLayout stk = (TableLayout) findViewById(R.id.table_main);
+        stk.removeAllViews();
+        stk.removeAllViewsInLayout();
+
+        for (int i = 0; i < contentArray.length; i++) {
+            TableRow tbrow = new TableRow(this);
+            TextView t1v = new TextView(this);
+            t1v.setText(contentArray[i]);
+            t1v.setTextSize(24);
+            t1v.setTextColor(Color.BLACK);
+            t1v.setGravity(Gravity.CENTER);
+            tbrow.addView(t1v);
+
+            stk.addView(tbrow);
         }
-
-        final ArrayAdapter<String> updater = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, recQString); // Update the list with the recommendations
-        recommendations.setAdapter(updater); // Set updater
-        recommendations.setOnItemClickListener(new AdapterView.OnItemClickListener() { // Add listener for clicks on the queue items
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                TextView text=(TextView) view;
-            }
-        });
     }
 
     public void signupScreen(View v) {
@@ -168,14 +178,22 @@ public class MainActivity extends Activity {
         setContentView(R.layout.create);
     }
 
+    public void changeQueueScreen(View v) {
+        setContentView(R.layout.queue);
+        String userName = user.substring(1, user.length()-1);
+        new getQueueActivity(this).execute(userName);
+    }
+
     public boolean getLoggedIn() {
         return this.loggedIn;
     }
 
     public void setLoggedIn(boolean loggedIn, String userName) {
         this.loggedIn = loggedIn;
-        user = "'" + userName + "'";
         current_user = new User(userName, null, null, null, null);
+        setContentView(R.layout.queue);
+        Toast.makeText(this, "Loading recommendations for " + userName, Toast.LENGTH_SHORT).show();
+        new getQueueActivity(this).execute(userName);
     }
 
     public Context getContext() {
