@@ -55,7 +55,9 @@ class User {
     }
 
 
-    public ArrayList<Recommendation> getRecommendations() { return recommendations; }
+    public ArrayList<Recommendation> getRecommendations() {
+        return recommendations;
+    }
 
     public String getUserName(){
         return userName;
