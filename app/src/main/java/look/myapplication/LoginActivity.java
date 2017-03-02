@@ -43,6 +43,13 @@ public class LoginActivity extends AsyncTask<String, Void, String> {
         BufferedReader bufferedReader;
         String result;
 
+        if (userName.matches("")) {
+            return new String("username can not be blank");
+        }
+        if (passWord.matches("")) {
+            return new String("password field can not be blank");
+        }
+
         try {
             data = "?username=" + URLEncoder.encode(userName, "UTF-8");
             data += "&password=" + URLEncoder.encode(passWord, "UTF-8");
