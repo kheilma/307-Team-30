@@ -48,16 +48,10 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+
             android:id="@+id/btnNewRec"
             android:onClick="createRecommendation"
             android:text="@string/done"/>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/btnReturn"
-            android:onClick="profileScreen"
-            android:text="@string/back"/>
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -65,6 +59,16 @@
             android:layout_weight="1">
         </FrameLayout>
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/profileBack"
+            android:onClick="profileScreen"
+            android:text="@string/back"
+            android:elevation="0dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="56dp"
+            android:layout_marginEnd="56dp" />
     </LinearLayout>
 
 </ScrollView>
