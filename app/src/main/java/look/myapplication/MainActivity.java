@@ -15,11 +15,13 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
+import java.util.ArrayList;
 
 
 public class MainActivity extends Activity {
@@ -27,6 +29,7 @@ public class MainActivity extends Activity {
     private boolean loggedIn;
     private boolean spinnerSet;
     private String user;
+    private User current_user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,12 +70,52 @@ public class MainActivity extends Activity {
         new LoginActivity(this).execute(userName, passWord);
     }
 
-    public void createRecommendation(){
-        // Holds code fore creating recommendation after clicking the button on the profile
-        // Crashes the app when button is clicked
+    public void changePass(View v) {
+        EditText currPassword = (EditText) findViewById(R.id.currentPasswordChange);
+        EditText newPassword = (EditText) findViewById(R.id.newPasswordChange);
+        String currPass = currPassword.getText().toString();
+        String newPass = newPassword.getText().toString();
+
+        Toast.makeText(this, "Attempting to change password...", Toast.LENGTH_LONG).show();
+        new ChangePasswordActivity(this).execute(currPass, newPass);
     }
 
+    public void createRecommendation(View v){
+        // Holds code for creating recommendation after clicking the button on the profile
+        Toast.makeText(this, "Created Recommendation", Toast.LENGTH_SHORT).show();
+    }
 
+    public void addFriend(View v) {
+        EditText name = (EditText) findViewById(R.id.friendUserName);
+        String friendName = name.getText().toString();
+        // User friend = getUser(friendName);
+
+        Toast.makeText(this, "Adding " + friendName + " as a friend", Toast.LENGTH_SHORT).show();
+        //current_user.addFriend(friend);
+        name.setText("");
+    }
+
+    public void queueScreen(View v) {
+        setContentView(R.layout.queue);
+        ListView recommendations = (ListView) findViewById(R.id.recQ); // Get the list
+        ArrayList<Recommendation> recQ = current_user.getRecommendations(); // Get the recommendations
+        ArrayList<String> recQString = new ArrayList<String>(); // Holds the strings to display
+
+        // Grab links of recommendations for the queue display (proof of concept)
+        for(int i = 0; i < recQ.size(); i++){
+            String temp = recQ.get(i).getLink();
+            recQString.add(temp);
+        }
+
+        final ArrayAdapter<String> updater = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, recQString); // Update the list with the recommendations
+        recommendations.setAdapter(updater); // Set updater
+        recommendations.setOnItemClickListener(new AdapterView.OnItemClickListener() { // Add listener for clicks on the queue items
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                TextView text=(TextView) view;
+            }
+        });
+    }
 
     public void signupScreen(View v) {
         if (!loggedIn) {
@@ -81,6 +124,7 @@ public class MainActivity extends Activity {
     }
 
     public void profileScreen(View v) {
+
         setContentView(R.layout.profile);
     }
 
@@ -88,19 +132,20 @@ public class MainActivity extends Activity {
         setContentView(R.layout.newfriend);
     }
 
-    public void addFriend(View v) {
-        EditText name = (EditText) findViewById(R.id.friendUserName);
-        String friendName = name.getText().toString();
-        Toast.makeText(this, "Adding friend", Toast.LENGTH_SHORT).show();
-    }
-
-
     public void loginScreen(View v) {
         if(!loggedIn) {
             setContentView(R.layout.login);
         }
     }
 
+    public void changePassScreen(View v) {
+
+        setContentView(R.layout.changepassword);
+    }
+
+    public void changeRecScreen(View v) {
+        setContentView(R.layout.create);
+    }
 
     public boolean getLoggedIn() {
         return this.loggedIn;
@@ -109,6 +154,7 @@ public class MainActivity extends Activity {
     public void setLoggedIn(boolean loggedIn, String userName) {
         this.loggedIn = loggedIn;
         user = "'" + userName + "'";
+        current_user = new User(userName, null, null, null, null);
     }
 
     public Context getContext() {

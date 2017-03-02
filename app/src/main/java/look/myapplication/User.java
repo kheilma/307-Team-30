@@ -27,15 +27,20 @@ class User {
         this.fullName  = fullName;
         friendCount = 0;
 
+        //Test Recommendations to show the queue
+        Recommendation test1 = new Recommendation("test1.com", "text", "This is a test", "Kyle");
+        Recommendation test2 = new Recommendation("test2.com", "text", "This is a test", "Matt");
+        Recommendation test3 = new Recommendation("test3.com", "text", "This is a test", "Travis");
+        Recommendation test4 = new Recommendation("test4.com", "text", "This is a test", "Stephen");
+        recommendations.add(0,test1);
+        recommendations.add(1,test2);
+        recommendations.add(2,test3);
+        recommendations.add(3,test4);
     }
 
     public void addFriend( User newFriend) {
         friendList.add(newFriend);
         friendCount++;
-    }
-
-    public String getUserName(){
-        return userName;
     }
 
     public void newRecommendation(String link, String type, String description, String recipient) {
@@ -54,6 +59,11 @@ class User {
     }
 
 
+    public ArrayList<Recommendation> getRecommendations() { return recommendations; }
+
+    public String getUserName(){
+        return userName;
+    }
 
     public String getFullName() {
         return fullName;
