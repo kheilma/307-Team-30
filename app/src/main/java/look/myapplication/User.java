@@ -30,7 +30,7 @@ class User {
         //Test Recommendations to show the queue
         for(int i = 0; i < 10; i++){
             Recommendation rec = new Recommendation("Test"+(i+1)+".com", "text", "This is a test", "Kyle");
-            recommendations.add(0,rec);
+            recommendations.add(rec);
         }
     }
 
@@ -53,7 +53,6 @@ class User {
             }
         }
     }
-
 
     public ArrayList<Recommendation> getRecommendations() { return recommendations; }
 
