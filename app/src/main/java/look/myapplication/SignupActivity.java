@@ -49,7 +49,7 @@ public class SignupActivity extends AsyncTask<String, Void, String> {
         if (!(user.matches("[a-zA-Z0-9]+"))) {
             return new String("Invalid username");
         }
-        if (!emailAddress.matches("[a-z]+[@][a-z]+[.][a-z]+")) {
+        if (!emailAddress.matches("[a-z0-9]+[@][a-z]+[.][a-z]+")) {
             return new String("not a valid email address");
         }
         if (!phoneNumber.matches("[0-9]{10}")) {
