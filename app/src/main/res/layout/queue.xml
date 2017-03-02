@@ -4,12 +4,42 @@
     android:fillViewport="true">
 
     <ListView
+        android:elevation="-20dp"
         android:id="@+id/recQ"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
+        android:orientation="vertical"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="10.0sp"
+        android:padding="16dip"
+        android:clipToPadding="false"
         android:layout_alignParentTop="true"
-        android:orientation="vertical">
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_above="@+id/recQBack">
     </ListView>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/recQBack"
+        android:onClick="profileScreen"
+        android:text="@string/back"
+        android:elevation="0dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="56dp"
+        android:layout_marginEnd="56dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/recQRefresh"
+        android:onClick="queueScreen"
+        android:text="Refresh"
+        android:elevation="0dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
 
 </RelativeLayout>
