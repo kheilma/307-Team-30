@@ -40,7 +40,7 @@ public class CreateRecommendationActivity extends AsyncTask<String, Void, String
         try {
             data = "?sender=" + URLEncoder.encode(userName, "UTF-8");
             data += "&recipient=" + URLEncoder.encode(recipient, "UTF-8");
-            data += "&Content=" + URLEncoder.encode(content, "UTF-8");
+            data += "&content=" + URLEncoder.encode(content, "UTF-8");
 
             link = "http://l00k.000webhostapp.com/sendRecommendation.php" + data;
             URL url = new URL(link);

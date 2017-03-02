@@ -1,9 +1,5 @@
 package look.myapplication;
 
-/**
- * Created by Travis Kovacic on 3/1/2017.
- */
-
 import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.Toast;
@@ -17,31 +13,38 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 
-public class CreateNotificationActivity extends AsyncTask<String, Void, String> {
+/**
+ * Created by Travis Kovacic on 3/2/2017.
+ */
+
+public class getNotificationActivity extends AsyncTask<String, Void, String> {
 
     private Context context;
+    private boolean loggedIn;
+    private String userName;
 
-    public CreateNotificationActivity(Context context) {
+    public getNotificationActivity(Context context) {
         this.context = context;
+        this.loggedIn = true;
+    }
+
+    protected void onPreExecute() {
+
     }
 
     @Override
     protected String doInBackground(String... arg0) {
-       String userName = arg0[0];
-        String recipient = arg0[1];
-        String message = arg0[2];
 
-        String data;
         String link;
+        String data;
         BufferedReader bufferedReader;
         String result;
 
         try {
+            userName = arg0[0];
             data = "?username=" + URLEncoder.encode(userName, "UTF-8");
-            data += "&recipient=" + URLEncoder.encode(recipient, "UTF-8");
-            data += "&message=" + URLEncoder.encode(message, "UTF-8");
 
-            link = "http://l00k.000webhostapp.com/sendNotification.php" + data;
+            link = "http://l00k.000webhostapp.com/getNotification.php" + data;
             URL url = new URL(link);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
 
@@ -53,6 +56,7 @@ public class CreateNotificationActivity extends AsyncTask<String, Void, String> 
         }
     }
 
+    @Override
     protected void onPostExecute(String result) {
         String jsonStr = result;
         if (jsonStr != null) {
@@ -60,19 +64,24 @@ public class CreateNotificationActivity extends AsyncTask<String, Void, String> 
                 JSONObject jsonObj = new JSONObject(jsonStr);
                 String query_result = jsonObj.getString("query_result");
                 if (query_result.equals("SUCCESS")) {
-                    Toast.makeText(context, "Notification sent.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Succesfully pulled up queue.", Toast.LENGTH_SHORT).show();
+                    MainActivity mainActivity = (MainActivity) context;
+                    mainActivity.notificationScreen(jsonObj.getString("query_message"));
                 } else if (query_result.equals("FAILURE")) {
-                    Toast.makeText(context, "Failed to send notification.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Failed to pull up recommendations for " + userName, Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(context, "Please seek assistance from your Complaint Department representative.", Toast.LENGTH_SHORT).show();
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
-                Toast.makeText(context, result , Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, result, Toast.LENGTH_SHORT).show();
             }
         } else {
             Toast.makeText(context, "Couldn't get any JSON data.", Toast.LENGTH_SHORT).show();
         }
     }
+
+
 }
+
 

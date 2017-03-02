@@ -43,7 +43,7 @@ public class MainActivity extends Activity {
 
     public void sendNotification(View v, User sender, String receiver){
         Toast.makeText(this, "Sending notification...", Toast.LENGTH_SHORT).show();
-        new CreateNotificationActivity(this).execute(sender.getUserName(), sender.getUserName()+" added you as a friend.");
+        new CreateNotificationActivity(this).execute(sender.getUserName(), receiver, sender.getUserName()+" added you as a friend.");
     }
 
     public void signup(View v) {
@@ -105,27 +105,36 @@ public class MainActivity extends Activity {
     public void addFriend(View v) {
         EditText name = (EditText) findViewById(R.id.friendUserName);
         String friendName = name.getText().toString();
-        // User friend = getUser(friendName);
 
         Toast.makeText(this, "Adding " + friendName + " as a friend", Toast.LENGTH_SHORT).show();
         sendNotification(v, current_user, friendName); // Send notification from current_user to friendName
-        //current_user.addFriend(friend);
         name.setText("");
     }
 
-    public void notificationScreen(View v) {
+    public void changeNotificationScreen(View v) {
         setContentView(R.layout.notifications);
-        ListView notifications = (ListView) findViewById(R.id.notificationList); // Get the list
-        //ArrayList<String> nList = current_user.getNotifications(); // Get the notifications
+        String userName = user.substring(1, user.length()-1);
+        new getNotificationActivity(this).execute(userName);
+    }
 
-        // final ArrayAdapter<String> updater = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, nList); // Update the list with the notifications
-        //notifications.setAdapter(updater); // Set updater
-        //notifications.setOnItemClickListener(new AdapterView.OnItemClickListener() { // Add listener for clicks on the notifications
-        //   @Override
-        //    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        //        TextView text=(TextView) view;
-        //    }
-        //});
+    public void notificationScreen(String nList) {
+        String[] contentArray = nList.split("\n");
+
+        TableLayout stk = (TableLayout) findViewById(R.id.notification_table);
+        stk.removeAllViews();
+        stk.removeAllViewsInLayout();
+
+        for (int i = 0; i < contentArray.length; i++) {
+            TableRow tbrow = new TableRow(this);
+            TextView t1v = new TextView(this);
+            t1v.setText(contentArray[i]);
+            t1v.setTextSize(24);
+            t1v.setTextColor(Color.BLACK);
+            t1v.setGravity(Gravity.CENTER);
+            tbrow.addView(t1v);
+
+            stk.addView(tbrow);
+        }
     }
 
     public void queueScreen(String recQ) {

@@ -6,6 +6,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:weightSum="1"
+        android:gravity="center"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
@@ -15,7 +16,6 @@
             android:id="@+id/btnCreateR"
             android:onClick="changeRecScreen"
             android:text="Create New Recommendation"/>
-
 
         <Button
             android:text="Change Password"
@@ -47,6 +47,16 @@
             android:layout_height="0dp"
             android:layout_weight="1">
         </FrameLayout>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnviewNotifications"
+            android:layout_alignParentBottom="true"
+            android:onClick="changeNotificationScreen"
+            android:text="View Notifications"/>
+
+
 
 
     </LinearLayout>
