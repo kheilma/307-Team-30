@@ -6,7 +6,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:weightSum="1"
-        android:gravity="center"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
@@ -17,12 +16,6 @@
             android:onClick="changeRecScreen"
             android:text="Create New Recommendation"/>
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/btnRecQ"
-            android:onClick="queueScreen"
-            android:text="Recommendation Queue"/>
 
         <Button
             android:text="Change Password"
@@ -39,6 +32,14 @@
             android:id="@+id/btnAddFriend"
             android:onClick="addFriendScreen"
             android:text="Add Friend"
+            />
+
+        <Button
+            android:layout_width="178dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnViewQueue"
+            android:onClick="changeQueueScreen"
+            android:text="View my queue"
             />
 
         <FrameLayout
