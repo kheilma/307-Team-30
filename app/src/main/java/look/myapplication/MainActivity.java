@@ -42,8 +42,7 @@ public class MainActivity extends Activity {
     }
 
     public void sendNotification(View v, User sender, String receiver){
-        Toast.makeText(this, "Sending notification...", Toast.LENGTH_SHORT).show();
-        new CreateNotificationActivity(this).execute(sender.getUserName(), receiver, sender.getUserName()+" added you as a friend.");
+
     }
 
     public void signup(View v) {
@@ -107,8 +106,10 @@ public class MainActivity extends Activity {
         String friendName = name.getText().toString();
 
         Toast.makeText(this, "Adding " + friendName + " as a friend", Toast.LENGTH_SHORT).show();
-        sendNotification(v, current_user, friendName); // Send notification from current_user to friendName
         name.setText("");
+
+        Toast.makeText(this, "Sending notification...", Toast.LENGTH_SHORT).show();
+        new CreateNotificationActivity(this).execute(current_user.getUserName(), friendName, current_user.getUserName()+" added you as a friend.");
     }
 
     public void changeNotificationScreen(View v) {
