@@ -3,6 +3,14 @@
     android:layout_height="match_parent"
     android:fillViewport="true">
 
+    <TableLayout
+        android:id="@+id/table_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:layout_centerHorizontal="true" >
+    </TableLayout>
+
     <ListView
         android:elevation="-20dp"
         android:id="@+id/recQ"
