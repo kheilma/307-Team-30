@@ -27,7 +27,7 @@ public class CreateNotificationActivity extends AsyncTask<String, Void, String> 
 
     @Override
     protected String doInBackground(String... arg0) {
-       String userName = arg0[0];
+        String userName = arg0[0];
         String recipient = arg0[1];
         String message = arg0[2];
 

@@ -19,7 +19,7 @@ class User {
     private ArrayList<Recommendation> recommendations = new ArrayList<>();
 
     // Initializer for User object
-    User(String fullName, String userName, String password, String phoneNumber, String eMail) {
+    User(String userName, String fullName, String password, String phoneNumber, String eMail) {
         this.userName = userName;
         this.eMail = eMail;
         this.phoneNumber = phoneNumber;
