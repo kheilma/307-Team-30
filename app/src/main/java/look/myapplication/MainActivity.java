@@ -41,6 +41,11 @@ public class MainActivity extends Activity {
         spinnerSet = false;
     }
 
+    public void sendNotification(View v, User sender, String receiver){
+        Toast.makeText(this, "Sending notification...", Toast.LENGTH_SHORT).show();
+        new CreateNotificationActivity(this).execute(sender.getUserName(), sender.getUserName()+" added you as a friend.");
+    }
+
     public void signup(View v) {
         EditText etFullName = (EditText) findViewById(R.id.etFullName);
         EditText etUserName = (EditText) findViewById(R.id.etUserName);
@@ -91,8 +96,24 @@ public class MainActivity extends Activity {
         // User friend = getUser(friendName);
 
         Toast.makeText(this, "Adding " + friendName + " as a friend", Toast.LENGTH_SHORT).show();
+        sendNotification(v, current_user, friendName); // Send notification from current_user to friendName
         //current_user.addFriend(friend);
         name.setText("");
+    }
+
+    public void notificationScreen(View v) {
+        setContentView(R.layout.notifications);
+        ListView notifications = (ListView) findViewById(R.id.notificationList); // Get the list
+        //ArrayList<String> nList = current_user.getNotifications(); // Get the notifications
+
+       // final ArrayAdapter<String> updater = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, nList); // Update the list with the notifications
+        //notifications.setAdapter(updater); // Set updater
+        //notifications.setOnItemClickListener(new AdapterView.OnItemClickListener() { // Add listener for clicks on the notifications
+         //   @Override
+        //    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        //        TextView text=(TextView) view;
+        //    }
+        //});
     }
 
     public void queueScreen(View v) {
