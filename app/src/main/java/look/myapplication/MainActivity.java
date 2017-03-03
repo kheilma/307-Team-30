@@ -15,10 +15,12 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.util.ArrayList;
@@ -144,8 +146,10 @@ public class MainActivity extends Activity {
         TableLayout stk = (TableLayout) findViewById(R.id.table_main);
         stk.removeAllViews();
         stk.removeAllViewsInLayout();
-
+        LinearLayout mainLayout = (LinearLayout)findViewById(R.id.table_main);
         for (int i = 0; i < contentArray.length; i++) {
+            Button deleteButton = new Button(this);
+            deleteButton.setText("delete");
             TableRow tbrow = new TableRow(this);
             TextView t1v = new TextView(this);
             t1v.setText(contentArray[i]);
@@ -153,8 +157,8 @@ public class MainActivity extends Activity {
             t1v.setTextColor(Color.BLACK);
             t1v.setGravity(Gravity.CENTER);
             tbrow.addView(t1v);
-
             stk.addView(tbrow);
+            mainLayout.addView(deleteButton);
         }
     }
 
