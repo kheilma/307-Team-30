@@ -42,10 +42,19 @@
             android:text="View my queue"
             />
 
+        <Button
+            android:layout_width="178dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnViewFriends"
+            android:onClick="friendScreen"
+            android:text="View My Friends"
+            />
+
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1">
+
         </FrameLayout>
 
         <Button

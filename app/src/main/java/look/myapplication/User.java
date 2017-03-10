@@ -65,12 +65,18 @@ class User {
         return userName;
     }
 
+    public int getFriendCount() { return friendCount; }
+
     public String getFullName() {
         return fullName;
     }
 
     public String geteMail() {
         return eMail;
+    }
+
+    public ArrayList<User> getFriendList() {
+        return friendList;
     }
 
     public void seteMail(String eMail) {

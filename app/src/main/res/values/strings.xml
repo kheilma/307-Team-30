@@ -11,4 +11,10 @@
     <string name="link">Link</string>
     <string name="back">Back</string>
 
+    <string-array name="friendOpts">
+        <item>Delete</item>
+        <item>Add To Group</item>
+        <item>Recommend</item>
+    </string-array>
+
 </resources>

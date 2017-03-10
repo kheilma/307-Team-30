@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -93,11 +94,11 @@ public class MainActivity extends Activity {
         EditText name = (EditText) findViewById(R.id.destinationUserName);
         String recipient = name.getText().toString();
         EditText description = (EditText) findViewById(R.id.description);
-        String recDescription = name.getText().toString();
+        String recDescription = description.getText().toString();
         EditText type = (EditText) findViewById(R.id.recType);
-        String recType = name.getText().toString();
+        String recType = type.getText().toString();
         EditText link = (EditText) findViewById(R.id.link);
-        String recLink = name.getText().toString();
+        String recLink = link.getText().toString();
 
         String content = "description:" + recDescription + "|type:" + recType + "|link" + recLink;
         new CreateRecommendationActivity(this, current_user).execute(user.substring(1, user.length()-1), recipient, content);
@@ -112,6 +113,69 @@ public class MainActivity extends Activity {
 
         Toast.makeText(this, "Sending notification...", Toast.LENGTH_SHORT).show();
         new CreateNotificationActivity(this).execute(current_user.getUserName(), friendName, current_user.getUserName()+" added you as a friend.");
+    }
+
+    public void friendScreen(final View v) {
+        setContentView(R.layout.friendlist);
+        TableLayout t = (TableLayout) findViewById(R.id.friendListTable);
+        t.removeAllViews();
+        t.removeAllViewsInLayout();
+        ArrayList<User> friends = current_user.getFriendList();
+        String[] names = new String[4];
+        names[0] = "Matt";
+        names[1] = "Travis";
+        names[2] = "Stephen";
+        names[3] = "Kyle";
+
+        for( int i = 0; i < 4; i++) {
+           //names[i] = friends.get(i).getUserName();
+            TableRow row = new TableRow(this);
+            TextView text = new TextView(this);
+            CheckBox box = new CheckBox(this);
+            Button rec = new Button(this);
+            Button delete = new Button(this);
+
+            text.setText(names[i]);
+            text.setTextColor(Color.MAGENTA);
+            text.setGravity(Gravity.CENTER);
+            text.setTextSize(24);
+
+            box.setText("");
+            box.setTextSize(24);
+
+            //this button currently send the user to the create recommendation screen
+            // ideally, it should be updated so the recipient is filled in already
+            rec.setText("Recommend");
+            rec.setTextSize(24);
+            rec.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    changeRecScreen(v);
+                }
+            }); {
+
+            }
+
+            delete.setText("Unfriend");
+            delete.setTextSize(24);
+            delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // not sure how the database stuff works but deleting the person would go here
+                    // name of friend is saved into name[i] for searching the database
+                    // for now i guess back to the profile screen
+                    profileScreen(v);
+                }
+            });
+
+            row.addView(text);
+            row.addView(box);
+            row.addView(rec);
+            row.addView(delete);
+            t.addView(row);
+
+        }
+        new ViewFriendsActivity(this).execute(current_user);
     }
 
     public void changeNotificationScreen(View v) {
