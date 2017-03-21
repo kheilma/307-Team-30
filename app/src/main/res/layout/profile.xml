@@ -49,21 +49,29 @@
             android:onClick="friendScreen"
             android:text="View My Friends"
             />
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1">
-
-        </FrameLayout>
-
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/btnviewNotifications"
             android:layout_alignParentBottom="true"
             android:onClick="changeNotificationScreen"
-            android:text="View Notifications"/>
+            android:text="View Notifications"
+            />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+        </FrameLayout>
+
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnLogout"
+            android:layout_alignParentBottom="true"
+            android:onClick="logout"
+            android:text="Logout"/>
 
 
 

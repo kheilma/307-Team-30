@@ -274,6 +274,14 @@ public class MainActivity extends Activity {
         new getQueueActivity(this).execute(userName);
     }
 
+    public void logout(View v){
+        Toast.makeText(this, "Logging out...", Toast.LENGTH_SHORT).show();
+        this.loggedIn = false;
+        current_user = null;
+        user = null;
+        setContentView(R.layout.login);
+    }
+
     public Context getContext() {
         return this;
     }
