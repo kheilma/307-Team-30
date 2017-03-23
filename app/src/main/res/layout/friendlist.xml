@@ -28,7 +28,8 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:id="@+id/createGroup"
-        android:text="Create Group"
+        android:onClick="groupsScreen"
+        android:text="View Groups"
         />
 
 

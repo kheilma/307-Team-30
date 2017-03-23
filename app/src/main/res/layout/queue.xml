@@ -1,31 +1,23 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true">
+    android:fillViewport="true"
+    android:background="@color/White">
 
-    <TableLayout
-        android:id="@+id/table_main"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:layout_centerHorizontal="true" >
-    </TableLayout>
+        android:layout_height="wrap_content">
 
-    <ListView
-        android:elevation="-20dp"
-        android:id="@+id/recQ"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="10.0sp"
-        android:padding="16dip"
-        android:clipToPadding="false"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_above="@+id/recQBack">
-    </ListView>
+        <TableLayout
+            android:id="@+id/table_main"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" >
+        </TableLayout>
+
+
+    </ScrollView>
+
 
     <Button
         android:layout_width="wrap_content"

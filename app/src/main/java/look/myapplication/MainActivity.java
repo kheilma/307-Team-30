@@ -7,6 +7,7 @@ package look.myapplication;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.Menu;
@@ -18,6 +19,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RatingBar;
 import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -115,6 +117,48 @@ public class MainActivity extends Activity {
         new CreateNotificationActivity(this).execute(current_user.getUserName(), friendName, current_user.getUserName()+" added you as a friend.");
     }
 
+    public void groupsScreen (final View v) {
+        setContentView(R.layout.groups);
+        TableLayout table = (TableLayout) findViewById(R.id.groupTable);
+        table.removeAllViewsInLayout();
+        table.removeAllViews();
+        ArrayList<String> groups = current_user.getGroups();
+        for(int i = 0; i < 110; i++) {
+            groups.add(i, "REally long name to see how it works on the screen, a few more letters to push it off the screen " + i);
+            TableRow row = new TableRow(this);
+            TextView text =  new TextView(this);
+            Button view = new Button(this);
+
+            groups.set(0, "Short");
+            String gName = groups.get(i);
+            if(gName.length() < 21) {
+                text.setText(gName);
+            }
+            else {
+                text.setText(gName.substring(0,20));
+            }
+            text.setTextSize(24);
+            text.setPadding(10,0,50,0);
+            row.addView(text);
+
+            view.setText("View");
+            view.setGravity(Gravity.RIGHT);
+            view.setTextSize(24);
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(view.getContext(), "Viewing Group",Toast.LENGTH_SHORT ).show();
+                }
+            });
+
+            row.addView(view);
+
+
+
+            table.addView(row);
+        }
+    }
+
     public void friendScreen(final View v) {
         setContentView(R.layout.friendlist);
         TableLayout t = (TableLayout) findViewById(R.id.friendListTable);
@@ -128,25 +172,22 @@ public class MainActivity extends Activity {
         names[3] = "Kyle";
 
         for( int i = 0; i < 4; i++) {
-           //names[i] = friends.get(i).getUserName();
+            //names[i] = friends.get(i).getUserName();
             TableRow row = new TableRow(this);
             TextView text = new TextView(this);
-            CheckBox box = new CheckBox(this);
             Button rec = new Button(this);
             Button delete = new Button(this);
 
             text.setText(names[i]);
+            text.setPadding(0,0,20,0);
             text.setTextColor(Color.MAGENTA);
             text.setGravity(Gravity.CENTER);
-            text.setTextSize(24);
-
-            box.setText("");
-            box.setTextSize(24);
+            text.setTextSize(16);
 
             //this button currently send the user to the create recommendation screen
             // ideally, it should be updated so the recipient is filled in already
             rec.setText("Recommend");
-            rec.setTextSize(24);
+            rec.setTextSize(16);
             rec.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -157,7 +198,7 @@ public class MainActivity extends Activity {
             }
 
             delete.setText("Unfriend");
-            delete.setTextSize(24);
+            delete.setTextSize(16);
             delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -169,7 +210,6 @@ public class MainActivity extends Activity {
             });
 
             row.addView(text);
-            row.addView(box);
             row.addView(rec);
             row.addView(delete);
             t.addView(row);
@@ -208,21 +248,42 @@ public class MainActivity extends Activity {
         String[] contentArray = recQ.split("\n");
 
         TableLayout stk = (TableLayout) findViewById(R.id.table_main);
+        stk.setBackgroundColor(Color.WHITE);
         stk.removeAllViews();
         stk.removeAllViewsInLayout();
         LinearLayout mainLayout = (LinearLayout)findViewById(R.id.table_main);
+        mainLayout.setBackgroundColor(Color.WHITE);
         for (int i = 0; i < contentArray.length; i++) {
             Button deleteButton = new Button(this);
             deleteButton.setText("delete");
+
+            Button viewButton = new Button(this);
+
             TableRow tbrow = new TableRow(this);
             TextView t1v = new TextView(this);
-            t1v.setText(contentArray[i]);
-            t1v.setTextSize(24);
-            t1v.setTextColor(Color.BLACK);
-            t1v.setGravity(Gravity.CENTER);
-            tbrow.addView(t1v);
+
+            RatingBar bar = new RatingBar(this);
+            bar.setMax(5);
+            bar.setStepSize(1);
+            bar.setNumStars(5);
+            bar.setProgress(0);
+            bar.setBackgroundColor(Color.WHITE);
+            bar.setLayoutParams(new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            ));
+
+
+            viewButton.setText(contentArray[i]);
+            viewButton.setTextSize(24);
+            viewButton.setTextColor(Color.BLACK);
+            viewButton.setGravity(Gravity.CENTER);
+            viewButton.setBackgroundColor(Color.WHITE);
+
+            tbrow.addView(viewButton, TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.MATCH_PARENT);
+            tbrow.addView(deleteButton);
             stk.addView(tbrow);
-            mainLayout.addView(deleteButton);
+            mainLayout.addView(bar);
         }
     }
 

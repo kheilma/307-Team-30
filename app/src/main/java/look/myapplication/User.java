@@ -15,8 +15,9 @@ class User {
     private String phoneNumber;
     private String password;
     private ArrayList<User> friendList = new ArrayList<>();
-    private int friendCount;
+    private ArrayList<String> groups = new ArrayList<>();
     private ArrayList<Recommendation> recommendations = new ArrayList<>();
+    private int friendCount;
 
     // Initializer for User object
     User(String userName, String fullName, String password, String phoneNumber, String eMail) {
@@ -38,6 +39,11 @@ class User {
         friendList.add(newFriend);
         friendCount++;
     }
+
+    public void addGroup(String group) {
+        groups.add(group);
+    }
+
 
     public void newRecommendation(String link, String type, String description, String recipient) {
         Recommendation r = new Recommendation(link, type, description, recipient);
@@ -77,6 +83,10 @@ class User {
 
     public ArrayList<User> getFriendList() {
         return friendList;
+    }
+
+    public ArrayList<String> getGroups() {
+        return groups;
     }
 
     public void seteMail(String eMail) {

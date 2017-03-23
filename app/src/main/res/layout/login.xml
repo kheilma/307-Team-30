@@ -47,6 +47,7 @@
             android:onClick="signupScreen"
             android:text="Don't have an account?" />
 
+
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
