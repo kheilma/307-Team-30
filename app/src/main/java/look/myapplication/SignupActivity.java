@@ -17,10 +17,12 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.regex.Pattern;
+
 public class SignupActivity extends AsyncTask<String, Void, String> {
 
     private Context context;
     private String user;
+    private String hash;
 
     public SignupActivity(Context context) {
         this.context = context;
@@ -28,6 +30,28 @@ public class SignupActivity extends AsyncTask<String, Void, String> {
 
     protected void onPreExecute() {
 
+    }
+
+    public static String byteArrayToHexString(byte[] b){
+        StringBuffer sb = new StringBuffer(b.length * 2);
+        for (int i = 0; i < b.length; i++){
+            int v = b[i] & 0xff;
+            if (v < 16) {
+                sb.append('0');
+            }
+            sb.append(Integer.toHexString(v));
+        }
+        return sb.toString().toUpperCase();
+    }
+
+    public static byte[] computeHash(String x)
+            throws Exception
+    {
+        java.security.MessageDigest d =null;
+        d = java.security.MessageDigest.getInstance("SHA-1");
+        d.reset();
+        d.update(x.getBytes());
+        return  d.digest();
     }
 
     @Override
@@ -56,15 +80,22 @@ public class SignupActivity extends AsyncTask<String, Void, String> {
             return new String("not a valid phone number");
         }
         if (passWord.length() < 8) {
-            return new String("password not long enough");
+            return new String("password not length needs to be at least 8 characters");
         }
         if (passWord.equals(passWord.toUpperCase()) || passWord.equals(passWord.toLowerCase())) {
             return new String("password must contain at least one uppercase and lowercase letter");
         }
+
+        try {
+            hash = byteArrayToHexString(computeHash(passWord));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         try {
             data = "?fullname=" + URLEncoder.encode(fullName, "UTF-8");
             data += "&username=" + URLEncoder.encode(user, "UTF-8");
-            data += "&password=" + URLEncoder.encode(passWord, "UTF-8");
+            data += "&password=" + URLEncoder.encode(hash, "UTF-8");
             data += "&phonenumber=" + URLEncoder.encode(phoneNumber, "UTF-8");
             data += "&emailaddress=" + URLEncoder.encode(emailAddress, "UTF-8");
 
