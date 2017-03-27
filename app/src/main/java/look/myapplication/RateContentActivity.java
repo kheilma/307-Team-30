@@ -1,4 +1,4 @@
-package com.smacnakgmail.look;
+package look.myapplication;
 
 import android.content.Context;
 import android.os.AsyncTask;
