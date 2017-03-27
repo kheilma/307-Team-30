@@ -7,23 +7,17 @@ package look.myapplication;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RatingBar;
-import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.util.ArrayList;
@@ -159,30 +153,40 @@ public class MainActivity extends Activity {
         }
     }
 
-    public void friendScreen(final View v) {
+    public void friendScreen(View v) {
+        String userName = user;
+        setContentView(R.layout.friendlist);
+        Toast.makeText(this, "Bringing up your friends...", Toast.LENGTH_SHORT).show();
+        new ViewFriendsActivity(this).execute(userName);
+    }
+
+    public void setFriendScreen(String friendsString) {
         setContentView(R.layout.friendlist);
         TableLayout t = (TableLayout) findViewById(R.id.friendListTable);
         t.removeAllViews();
         t.removeAllViewsInLayout();
-        ArrayList<User> friends = current_user.getFriendList();
-        String[] names = new String[4];
-        names[0] = "Matt";
-        names[1] = "Travis";
-        names[2] = "Stephen";
-        names[3] = "Kyle";
+        String[] names = friendsString.split("\n");
 
-        for( int i = 0; i < 4; i++) {
-            //names[i] = friends.get(i).getUserName();
+        for( int i = 0; i < names.length; i++) {
             TableRow row = new TableRow(this);
             TextView text = new TextView(this);
             Button rec = new Button(this);
             Button delete = new Button(this);
 
-            text.setText(names[i]);
+            String name = names[i].substring(0, names[i].indexOf('|'));
+            String accepted = names[i].substring(names[i].indexOf('|')+1);
+
+            if(accepted.equals("1")) {
+                text.setText(name);
+                text.setTextSize(16);
+            } else {
+                name += "\n (not accepted)";
+                text.setText(name);
+                text.setTextSize(8);
+            }
             text.setPadding(0,0,20,0);
             text.setTextColor(Color.MAGENTA);
             text.setGravity(Gravity.CENTER);
-            text.setTextSize(16);
 
             //this button currently send the user to the create recommendation screen
             // ideally, it should be updated so the recipient is filled in already
@@ -191,7 +195,7 @@ public class MainActivity extends Activity {
             rec.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    changeRecScreen(v);
+                    changeRecScreen(view);
                 }
             }); {
 
@@ -205,7 +209,7 @@ public class MainActivity extends Activity {
                     // not sure how the database stuff works but deleting the person would go here
                     // name of friend is saved into name[i] for searching the database
                     // for now i guess back to the profile screen
-                    profileScreen(v);
+                    profileScreen(view);
                 }
             });
 
@@ -215,7 +219,6 @@ public class MainActivity extends Activity {
             t.addView(row);
 
         }
-        new ViewFriendsActivity(this).execute(current_user);
     }
 
     public void changeNotificationScreen(View v) {
@@ -272,7 +275,6 @@ public class MainActivity extends Activity {
                     LinearLayout.LayoutParams.WRAP_CONTENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT
             ));
-
 
             viewButton.setText(contentArray[i]);
             viewButton.setTextSize(24);
