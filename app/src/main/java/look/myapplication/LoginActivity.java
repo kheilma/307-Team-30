@@ -16,13 +16,13 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.regex.Pattern;
 
 public class LoginActivity extends AsyncTask<String, Void, String> {
 
     private Context context;
     private boolean loggedIn;
     private String userName;
+    private String hash;
 
     public LoginActivity(Context context) {
         this.context = context;
@@ -31,6 +31,28 @@ public class LoginActivity extends AsyncTask<String, Void, String> {
 
     protected void onPreExecute() {
 
+    }
+
+    public static String byteArrayToHexString(byte[] b){
+        StringBuffer sb = new StringBuffer(b.length * 2);
+        for (int i = 0; i < b.length; i++){
+            int v = b[i] & 0xff;
+            if (v < 16) {
+                sb.append('0');
+            }
+            sb.append(Integer.toHexString(v));
+        }
+        return sb.toString().toUpperCase();
+    }
+
+    public static byte[] computeHash(String x)
+            throws Exception
+    {
+        java.security.MessageDigest d =null;
+        d = java.security.MessageDigest.getInstance("SHA-1");
+        d.reset();
+        d.update(x.getBytes());
+        return  d.digest();
     }
 
     @Override
@@ -51,10 +73,17 @@ public class LoginActivity extends AsyncTask<String, Void, String> {
         }
 
         try {
+            hash = byteArrayToHexString(computeHash(passWord));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try {
             data = "?username=" + URLEncoder.encode(userName, "UTF-8");
-            data += "&password=" + URLEncoder.encode(passWord, "UTF-8");
+            data += "&password=" + URLEncoder.encode(hash, "UTF-8");
 
             link = "http://l00k.000webhostapp.com/Login.php" + data;
+            System.out.println(link);
             URL url = new URL(link);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
 
