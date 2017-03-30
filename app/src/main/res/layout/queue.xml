@@ -2,22 +2,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    android:background="@color/White">
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TableLayout
-            android:id="@+id/table_main"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center" >
-        </TableLayout>
-
-
-    </ScrollView>
-
+    android:background="@color/colorPrimaryDark">
 
     <Button
         android:layout_width="wrap_content"
@@ -41,5 +26,18 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_above="@id/recQBack"
+        android:id="@+id/QScroll">
 
+        <TableLayout
+            android:id="@+id/table_main"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+     >
+        </TableLayout>
+    </ScrollView>
 </RelativeLayout>

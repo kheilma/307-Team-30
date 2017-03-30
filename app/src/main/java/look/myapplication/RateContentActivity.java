@@ -44,7 +44,7 @@ public class RateContentActivity  extends AsyncTask<String, Void, String> {
             String recipient = arg0[0];
             String content = arg0[1];
             String rating = arg0[2];
-            data = "?recipient=" + URLEncoder.encode(userName, "UTF-8");
+            data = "?recipient=" + URLEncoder.encode(recipient, "UTF-8");
             data += "&Content=" + URLEncoder.encode(content, "UTF-8");
             data += "&rating=" + URLEncoder.encode(rating, "UTF-8");
 

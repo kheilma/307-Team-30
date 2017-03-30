@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -249,7 +250,7 @@ public class MainActivity extends Activity {
 
     public void queueScreen(String recQ) {
         String[] contentArray = recQ.split("\n");
-
+        final String content = new String(recQ);
         TableLayout stk = (TableLayout) findViewById(R.id.table_main);
         stk.setBackgroundColor(Color.WHITE);
         stk.removeAllViews();
@@ -260,12 +261,24 @@ public class MainActivity extends Activity {
             Button deleteButton = new Button(this);
             deleteButton.setText("delete");
 
+            Button submit = new Button(this);
+            submit.setText("Submit");
+            submit.setLayoutParams(new RelativeLayout.LayoutParams(
+                    RelativeLayout.LayoutParams.WRAP_CONTENT,
+                    RelativeLayout.LayoutParams.WRAP_CONTENT
+            ));
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)submit.getLayoutParams();
+            params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+
+            RelativeLayout ratingBar = new RelativeLayout(getContext());
+
             Button viewButton = new Button(this);
 
             TableRow tbrow = new TableRow(this);
+            TableRow barRow = new TableRow(this);
             TextView t1v = new TextView(this);
 
-            RatingBar bar = new RatingBar(this);
+            final RatingBar bar = new RatingBar(this);
             bar.setMax(5);
             bar.setStepSize(1);
             bar.setNumStars(5);
@@ -285,7 +298,27 @@ public class MainActivity extends Activity {
             tbrow.addView(viewButton, TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.MATCH_PARENT);
             tbrow.addView(deleteButton);
             stk.addView(tbrow);
-            mainLayout.addView(bar);
+
+            submit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String name = current_user.userName;
+                    String rating =  "" + bar.getRating();
+                    Toast.makeText(getContext(), "name: " + name + "content: " + content , Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "rating: " + rating, Toast.LENGTH_LONG).show();
+                    new RateContentActivity(getContext()).execute(name,content,rating);
+                }
+            });
+            TextView border = new TextView(this);
+            border.setText("-");
+            border.setTextSize(1);
+            border.setTextColor(Color.BLACK);
+            border.setBackgroundColor(Color.BLACK);
+
+            ratingBar.addView(bar);
+            ratingBar.addView(submit);
+            mainLayout.addView(ratingBar);
+            mainLayout.addView(border, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         }
     }
 
