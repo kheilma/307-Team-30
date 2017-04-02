@@ -21,6 +21,8 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
+
 import java.util.ArrayList;
 
 
@@ -258,8 +260,8 @@ public class MainActivity extends Activity {
         LinearLayout mainLayout = (LinearLayout)findViewById(R.id.table_main);
         mainLayout.setBackgroundColor(Color.WHITE);
         for (int i = 0; i < contentArray.length; i++) {
-            Button deleteButton = new Button(this);
-            deleteButton.setText("delete");
+            //Button deleteButton = new Button(this);
+            //deleteButton.setText("delete");
 
             Button submit = new Button(this);
             submit.setText("Submit");
@@ -273,6 +275,8 @@ public class MainActivity extends Activity {
             RelativeLayout ratingBar = new RelativeLayout(getContext());
 
             Button viewButton = new Button(this);
+            Button toggleButton = new Button(this);
+            toggleButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.unfavorite));
 
             TableRow tbrow = new TableRow(this);
             TableRow barRow = new TableRow(this);
@@ -289,14 +293,25 @@ public class MainActivity extends Activity {
                     LinearLayout.LayoutParams.WRAP_CONTENT
             ));
 
-            viewButton.setText(contentArray[i]);
-            viewButton.setTextSize(24);
+            toggleButton.setLayoutParams(new TableLayout.LayoutParams(
+                    TableLayout.LayoutParams.WRAP_CONTENT,
+                    TableLayout.LayoutParams.WRAP_CONTENT
+            ));
+
+            if(contentArray[i].length() > 20) {
+                viewButton.setText(contentArray[i].substring(0,19));
+            }
+            else {
+                viewButton.setText(contentArray[i]);
+            }
+            viewButton.setTextSize(18);
             viewButton.setTextColor(Color.BLACK);
             viewButton.setGravity(Gravity.CENTER);
             viewButton.setBackgroundColor(Color.WHITE);
 
-            tbrow.addView(viewButton, TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.MATCH_PARENT);
-            tbrow.addView(deleteButton);
+            tbrow.addView(viewButton, TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT);
+            tbrow.addView(toggleButton, TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT);
+            //tbrow.addView(deleteButton, TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT);
             stk.addView(tbrow);
 
             submit.setOnClickListener(new View.OnClickListener() {
