@@ -223,6 +223,11 @@ public class MainActivity extends Activity {
         }
     }
 
+    public void changefavoritesScreen(View V) {
+        setContentView(R.layout.favorites);
+        //develop favorites from database
+    }
+
     public void changeNotificationScreen(View v) {
         setContentView(R.layout.notifications);
         String userName = user.substring(1, user.length()-1);
@@ -460,6 +465,7 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View view) {
                 // call activity to add favorites
+                // consider calling activity in the delete button above
                 profileScreen(getCurrentFocus());
             }
         });

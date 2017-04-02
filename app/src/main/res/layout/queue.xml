@@ -11,8 +11,8 @@
         android:text="@string/back"
         android:elevation="0dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginRight="56dp"
-        android:layout_marginEnd="56dp" />
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <Button
         android:layout_width="wrap_content"
@@ -21,9 +21,10 @@
         android:onClick="changeQueueScreen"
         android:text="Refresh"
         android:elevation="0dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignBaseline="@+id/QdeleteButton"
+        android:layout_alignBottom="@+id/QdeleteButton"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <ScrollView
         android:layout_width="match_parent"

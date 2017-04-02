@@ -50,7 +50,7 @@
             android:text="View My Friends"
             />
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="177dp"
             android:layout_height="wrap_content"
             android:id="@+id/btnviewNotifications"
             android:layout_alignParentBottom="true"
@@ -65,12 +65,19 @@
             android:text="My Groups"
             android:onClick="groupsScreen"/>
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/favoritesBtn"
+            android:text="favorites"
+            android:onClick="favoritesScreen"
+            android:layout_gravity="center"/>
+
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1">
         </FrameLayout>
-
 
         <Button
             android:layout_width="wrap_content"
@@ -79,6 +86,7 @@
             android:layout_alignParentBottom="true"
             android:onClick="logout"
             android:text="Logout"/>
+
 
 
 
