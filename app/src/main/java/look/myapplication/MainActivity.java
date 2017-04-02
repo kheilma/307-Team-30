@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
@@ -30,6 +31,8 @@ public class MainActivity extends Activity {
 
     private boolean loggedIn;
     private boolean spinnerSet;
+    public ArrayList<String> delete = new ArrayList<>(20);
+    public ArrayList<String> faves = new ArrayList<>(20);
     private String user;
     private User current_user;
 
@@ -147,11 +150,7 @@ public class MainActivity extends Activity {
                     Toast.makeText(view.getContext(), "Viewing Group",Toast.LENGTH_SHORT ).show();
                 }
             });
-
             row.addView(view);
-
-
-
             table.addView(row);
         }
     }
@@ -238,21 +237,117 @@ public class MainActivity extends Activity {
         stk.removeAllViewsInLayout();
 
         for (int i = 0; i < contentArray.length; i++) {
-            TableRow tbrow = new TableRow(this);
+            LinearLayout row = new LinearLayout(this);
+            row.setOrientation(LinearLayout.HORIZONTAL);
             TextView t1v = new TextView(this);
             t1v.setText(contentArray[i]);
             t1v.setTextSize(24);
             t1v.setTextColor(Color.BLACK);
-            t1v.setGravity(Gravity.CENTER);
-            tbrow.addView(t1v);
+            t1v.setGravity(Gravity.LEFT);
+            t1v.setLayoutParams(new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    1
+            ));
 
-            stk.addView(tbrow);
+            Button accept = new Button(this);
+            accept.setText("Accept");
+            accept.setTextSize(24);
+            accept.setTextColor(Color.BLACK);
+            accept.setGravity(Gravity.RIGHT);
+            accept.setLayoutParams(new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            ));
+
+
+            Button ignore = new Button(this);
+            ignore.setText("Ignore");
+            ignore.setTextSize(24);
+            ignore.setTextColor(Color.BLACK);
+            ignore.setGravity(Gravity.RIGHT);
+            ignore.setLayoutParams(new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            ));
+
+            row.addView(t1v);
+            row.addView(accept);
+            row.addView(ignore);
+
+            stk.addView(row);
         }
+    }
+
+    public void deleteQ(String recQ) {
+        setContentView(R.layout.qdelete);
+        String[] contentArray = recQ.split("\n");
+        final String fullContent = new String(recQ);
+        TableLayout dTable = (TableLayout) findViewById(R.id.deleteQTable);
+        dTable.setBackgroundColor(Color.WHITE);
+        dTable.removeAllViews();
+        dTable.removeAllViewsInLayout();
+        for (int i = 0; i < contentArray.length; i++) {
+            RelativeLayout row = new RelativeLayout(this);
+            TextView text = new TextView(this);
+            final String content = contentArray[i];
+            text.setText(content);
+            text.setBackgroundColor(Color.WHITE);
+            text.setLayoutParams(new RelativeLayout.LayoutParams(
+                    RelativeLayout.LayoutParams.WRAP_CONTENT,
+                    RelativeLayout.LayoutParams.WRAP_CONTENT
+            ));
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)text.getLayoutParams();
+            params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+
+            final CheckBox box = new CheckBox(this);
+            box.setLayoutParams(new RelativeLayout.LayoutParams(
+                    RelativeLayout.LayoutParams.WRAP_CONTENT,
+                    RelativeLayout.LayoutParams.WRAP_CONTENT
+                    )
+            );
+            box.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(box.isChecked()) {
+                        delete.add(content);
+                    }
+                    else {
+                        delete.remove(content);
+                    }
+                }
+            });
+
+            RelativeLayout.LayoutParams param1 = (RelativeLayout.LayoutParams)box.getLayoutParams();
+            param1.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+
+            row.addView(text);
+            row.addView(box);
+            dTable.addView(row);
+        }
+        Button delete = (Button) findViewById(R.id.deleteQScrnBtn);
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // call activity for deleting from Q
+                profileScreen(getCurrentFocus());
+            }
+        });
+
+        Button back = (Button) findViewById(R.id.recQBack2);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setContentView(R.layout.queue);
+                queueScreen(fullContent);
+            }
+        });
+
     }
 
     public void queueScreen(String recQ) {
         String[] contentArray = recQ.split("\n");
-        final String content = new String(recQ);
+        final String fullContent = new String(recQ);
         TableLayout stk = (TableLayout) findViewById(R.id.table_main);
         stk.setBackgroundColor(Color.WHITE);
         stk.removeAllViews();
@@ -260,9 +355,7 @@ public class MainActivity extends Activity {
         LinearLayout mainLayout = (LinearLayout)findViewById(R.id.table_main);
         mainLayout.setBackgroundColor(Color.WHITE);
         for (int i = 0; i < contentArray.length; i++) {
-            //Button deleteButton = new Button(this);
-            //deleteButton.setText("delete");
-
+            final String content = contentArray[i];
             Button submit = new Button(this);
             submit.setText("Submit");
             submit.setLayoutParams(new RelativeLayout.LayoutParams(
@@ -274,13 +367,28 @@ public class MainActivity extends Activity {
 
             RelativeLayout ratingBar = new RelativeLayout(getContext());
 
-            Button viewButton = new Button(this);
-            Button toggleButton = new Button(this);
+            TextView viewButton = new TextView(this);
+            final ToggleButton toggleButton = new ToggleButton(this);
             toggleButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.unfavorite));
+            toggleButton.setText("");
+            toggleButton.setTextOn("");
+            toggleButton.setTextOff("");
+            toggleButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(toggleButton.isChecked()) {
+                        toggleButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.favorite));
+                        faves.add(content);
+                    }
+                    else {
+                        toggleButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.unfavorite));
+                        faves.remove(content);
+                    }
+                }
+            });
+
 
             TableRow tbrow = new TableRow(this);
-            TableRow barRow = new TableRow(this);
-            TextView t1v = new TextView(this);
 
             final RatingBar bar = new RatingBar(this);
             bar.setMax(5);
@@ -299,19 +407,23 @@ public class MainActivity extends Activity {
             ));
 
             if(contentArray[i].length() > 20) {
-                viewButton.setText(contentArray[i].substring(0,19));
+                viewButton.setText(content.substring(0,19));
             }
             else {
-                viewButton.setText(contentArray[i]);
+                viewButton.setText(content);
             }
             viewButton.setTextSize(18);
             viewButton.setTextColor(Color.BLACK);
             viewButton.setGravity(Gravity.CENTER);
             viewButton.setBackgroundColor(Color.WHITE);
+            viewButton.setLayoutParams(new TableLayout.LayoutParams(
+                    TableLayout.LayoutParams.WRAP_CONTENT,
+                    TableLayout.LayoutParams.WRAP_CONTENT,
+                    1
+            ));
 
             tbrow.addView(viewButton, TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT);
             tbrow.addView(toggleButton, TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT);
-            //tbrow.addView(deleteButton, TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT);
             stk.addView(tbrow);
 
             submit.setOnClickListener(new View.OnClickListener() {
@@ -335,6 +447,22 @@ public class MainActivity extends Activity {
             mainLayout.addView(ratingBar);
             mainLayout.addView(border, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         }
+        Button delete = (Button) findViewById(R.id.QdeleteButton);
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                deleteQ(fullContent);
+            }
+        });
+
+        Button back = (Button) findViewById(R.id.recQBack);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // call activity to add favorites
+                profileScreen(getCurrentFocus());
+            }
+        });
     }
 
     public void signupScreen(View v) {

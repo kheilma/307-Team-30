@@ -8,7 +8,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/recQBack"
-        android:onClick="profileScreen"
         android:text="@string/back"
         android:elevation="0dp"
         android:layout_alignParentBottom="true"
