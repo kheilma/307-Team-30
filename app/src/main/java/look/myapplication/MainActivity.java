@@ -106,6 +106,13 @@ public class MainActivity extends Activity {
         new CreateRecommendationActivity(this, current_user).execute(user.substring(1, user.length()-1), recipient, content);
     }
 
+    public void removeRecommendation(View v, String content) {
+        Toast.makeText(this, "Removed Recommendation", Toast.LENGTH_SHORT).show();
+
+        String name = user;
+        new RemoveRecommendationActivity(this, current_user).execute(user.substring(1, user.length()-1), content);
+    }
+
     public void addFriend(View v) {
         EditText name = (EditText) findViewById(R.id.friendUserName);
         String friendName = name.getText().toString();
@@ -224,7 +231,7 @@ public class MainActivity extends Activity {
     }
 
     public void changefavoritesScreen(View V) {
-        setContentView(R.layout.favorites);
+        //setContentView(R.layout.favorites);
         //develop favorites from database
     }
 
@@ -336,6 +343,7 @@ public class MainActivity extends Activity {
             public void onClick(View view) {
                 // call activity for deleting from Q
                 profileScreen(getCurrentFocus());
+                removeRecommendation(view, fullContent);
             }
         });
 
