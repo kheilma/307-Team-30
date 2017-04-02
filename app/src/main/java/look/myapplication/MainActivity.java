@@ -162,6 +162,10 @@ public class MainActivity extends Activity {
         }
     }
 
+    public void acceptFriend(View v, String notifcationSender){
+        new AcceptFriendActivity(this).execute(current_user.getUserName(), notifcationSender);
+    }
+
     public void friendScreen(View v) {
         String userName = user;
         setContentView(R.layout.friendlist);
@@ -242,7 +246,7 @@ public class MainActivity extends Activity {
     }
 
     public void notificationScreen(String nList) {
-        String[] contentArray = nList.split("\n");
+        final String[] contentArray = nList.split("\n");
 
         TableLayout stk = (TableLayout) findViewById(R.id.notification_table);
         stk.removeAllViews();
@@ -252,7 +256,8 @@ public class MainActivity extends Activity {
             LinearLayout row = new LinearLayout(this);
             row.setOrientation(LinearLayout.HORIZONTAL);
             TextView t1v = new TextView(this);
-            t1v.setText(contentArray[i]);
+            final String name = contentArray[i];
+            t1v.setText(name);
             t1v.setTextSize(24);
             t1v.setTextColor(Color.BLACK);
             t1v.setGravity(Gravity.LEFT);
@@ -271,6 +276,13 @@ public class MainActivity extends Activity {
                     LinearLayout.LayoutParams.WRAP_CONTENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT
             ));
+            accept.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    profileScreen(getCurrentFocus());
+                    acceptFriend(view, name);
+                }
+            });
 
 
             Button ignore = new Button(this);
