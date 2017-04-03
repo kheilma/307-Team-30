@@ -83,7 +83,6 @@ public class LoginActivity extends AsyncTask<String, Void, String> {
             data += "&password=" + URLEncoder.encode(hash, "UTF-8");
 
             link = "http://l00k.000webhostapp.com/Login.php" + data;
-            System.out.println(link);
             URL url = new URL(link);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
 
