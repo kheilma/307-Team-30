@@ -27,8 +27,9 @@ public class AcceptFriendActivity extends AsyncTask<String, Void, String> {
 
     @Override
     protected String doInBackground(String... arg0) {
-        String userName = arg0[0];
-        String userToAdd = arg0[1];
+        String user = arg0[0];
+        String friend = arg0[1];
+        String answer = arg0[2];
 
         String data;
         String link;
@@ -36,10 +37,14 @@ public class AcceptFriendActivity extends AsyncTask<String, Void, String> {
         String result;
 
         try {
-            data = "?user=" + URLEncoder.encode(userName, "UTF-8");
-            data += "&userToAdd=" + URLEncoder.encode(userToAdd, "UTF-8");
+            data = "?user=" + URLEncoder.encode(user, "UTF-8");
+            data += "&friend=" + URLEncoder.encode(friend, "UTF-8");
+            data += "&answer=" + URLEncoder.encode(answer, "UTF-8");
 
-            link = "http://l00k.000webhostapp.com/acceptFriend.php" + data;
+            link = "http://l00k.000webhostapp.com/AcceptFriendRequest.php" + data;
+
+            System.out.println(link);
+
             URL url = new URL(link);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
 
