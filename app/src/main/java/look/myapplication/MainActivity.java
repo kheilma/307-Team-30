@@ -163,7 +163,9 @@ public class MainActivity extends Activity {
     }
 
     public void acceptFriend(View v, String notifcationSender){
-        new AcceptFriendActivity(this).execute(current_user.getUserName(), notifcationSender);
+        String username = user.substring(1, user.length()-1);
+        System.out.println(username);
+        new AcceptFriendActivity(this).execute(user, friend, answer);
     }
 
     public void friendScreen(View v) {
@@ -193,8 +195,8 @@ public class MainActivity extends Activity {
                 text.setText(name);
                 text.setTextSize(16);
             } else {
-                name += "\n (not accepted)";
-                text.setText(name);
+                String othername = name + "\n (not accepted)";
+                text.setText(othername);
                 text.setTextSize(8);
             }
             text.setPadding(0,0,20,0);
@@ -219,9 +221,7 @@ public class MainActivity extends Activity {
             delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    // not sure how the database stuff works but deleting the person would go here
-                    // name of friend is saved into name[i] for searching the database
-                    // for now i guess back to the profile screen
+                    acceptFriend(view, name, "0");
                     profileScreen(view);
                 }
             });
@@ -280,7 +280,7 @@ public class MainActivity extends Activity {
                 @Override
                 public void onClick(View view) {
                     profileScreen(getCurrentFocus());
-                    acceptFriend(view, name);
+                    acceptFriend(view, name, "1");
                 }
             });
 
@@ -294,6 +294,14 @@ public class MainActivity extends Activity {
                     LinearLayout.LayoutParams.WRAP_CONTENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT
             ));
+            ignore.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    profileScreen(getCurrentFocus());
+                    acceptFriend(view, name, "0");
+
+                }
+            });
 
             row.addView(t1v);
             row.addView(accept);
