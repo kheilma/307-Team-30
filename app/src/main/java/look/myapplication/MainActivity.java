@@ -95,12 +95,21 @@ public class MainActivity extends Activity {
 
         EditText name = (EditText) findViewById(R.id.destinationUserName);
         String recipient = name.getText().toString();
+        name.setText("");
+
         EditText description = (EditText) findViewById(R.id.description);
         String recDescription = description.getText().toString();
+        description.setText("");
+
         EditText type = (EditText) findViewById(R.id.recType);
         String recType = type.getText().toString();
+        type.setText("");
+
         EditText link = (EditText) findViewById(R.id.link);
         String recLink = link.getText().toString();
+        link.setText("");
+
+        changeRecScreen(getCurrentFocus());
 
         String content = "description:" + recDescription + "|type:" + recType + "|link" + recLink;
         new CreateRecommendationActivity(this, current_user).execute(user.substring(1, user.length()-1), recipient, content);
@@ -119,6 +128,8 @@ public class MainActivity extends Activity {
 
         Toast.makeText(this, "Adding " + friendName + " as a friend", Toast.LENGTH_SHORT).show();
         name.setText("");
+
+        addFriendScreen(getCurrentFocus());
 
         Toast.makeText(this, "Sending notification...", Toast.LENGTH_SHORT).show();
         new CreateNotificationActivity(this).execute(current_user.getUserName(), friendName, current_user.getUserName()+" added you as a friend.");
