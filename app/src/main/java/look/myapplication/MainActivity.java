@@ -162,7 +162,7 @@ public class MainActivity extends Activity {
         }
     }
 
-    public void acceptFriend(View v, String notifcationSender){
+    public void acceptFriend(View v, String friend, String answer){
         String username = user.substring(1, user.length()-1);
         System.out.println(username);
         new AcceptFriendActivity(this).execute(user, friend, answer);
