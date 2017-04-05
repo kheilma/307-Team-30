@@ -64,7 +64,7 @@ public class RemoveRecommendationActivity extends AsyncTask<String, Void, String
                 if (query_result.equals("SUCCESS")) {
                     Toast.makeText(context, "Recommendation deleted.", Toast.LENGTH_SHORT).show();
                 } else if (query_result.equals("FAILURE")) {
-                    Toast.makeText(context, "Failed to send recommendation.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Failed to delete recommendation.", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(context, "Please seek assistance from your Complaint Department representative.", Toast.LENGTH_SHORT).show();
                 }
