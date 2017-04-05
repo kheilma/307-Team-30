@@ -296,6 +296,7 @@ public class MainActivity extends Activity {
             // ideally, it should be updated so the recipient is filled in already
             rec.setText("Recommend");
             rec.setTextSize(16);
+            rec.setTag(name);
             rec.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -615,7 +616,11 @@ public class MainActivity extends Activity {
     }
 
     public void changeRecScreen(View v) {
+
         setContentView(R.layout.create);
+        String nameRecommendingTo = v.getTag().toString();
+        EditText name = (EditText) findViewById(R.id.destinationUserName);
+        name.setText(nameRecommendingTo);
     }
 
     public void changeQueueScreen(View v) {
