@@ -124,6 +124,84 @@ public class MainActivity extends Activity {
         new CreateNotificationActivity(this).execute(current_user.getUserName(), friendName, current_user.getUserName()+" added you as a friend.");
     }
 
+    public void newGroup(View v) {
+        setContentView(R.layout.creategroup);
+        EditText group = (EditText) findViewById(R.id.groupName);
+        String groupName = group.getText().toString();
+
+        String userName = user;
+        Toast.makeText(this, "Bringing up your friends...", Toast.LENGTH_SHORT).show();
+        new ViewFriendsActivity(this).execute(userName, "1");
+
+
+
+
+    }
+
+    public void setNewGroupScreen(String friendsString) {
+        TableLayout t = (TableLayout) findViewById(R.id.groupFriendsList);
+        t.removeAllViews();
+        t.removeAllViewsInLayout();
+        String[] names = friendsString.split("\n");
+
+        final ArrayList<String> addedFriends = new ArrayList<String>();
+
+        for (int i = 0; i < names.length; i++) {
+            TableRow row = new TableRow(this);
+            TextView text = new TextView(this);
+            Button rec = new Button(this);
+            Button delete = new Button(this);
+
+            String name = names[i].substring(0, names[i].indexOf('|'));
+            String accepted = names[i].substring(names[i].indexOf('|') + 1);
+
+            final String friendName = name;
+
+            if (accepted.equals("1")) {
+                text.setText(name);
+                text.setTextSize(16);
+            } else {
+                name += "\n (not accepted)";
+                text.setText(name);
+                text.setTextSize(8);
+            }
+            text.setPadding(0, 0, 20, 0);
+            text.setTextColor(Color.MAGENTA);
+            text.setGravity(Gravity.CENTER);
+
+            rec.setText("Add To Group");
+            rec.setTextSize(16);
+            rec.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    addedFriends.add(0, friendName);
+                    Toast.makeText(getContext(), "Added: " + friendName , Toast.LENGTH_SHORT).show();
+                }
+            });
+            {
+
+            }
+            row.addView(text);
+            row.addView(rec);
+            t.addView(row);
+
+        }
+
+        Button submit = (Button) findViewById(R.id.CreateGroupButton);
+        submit.setOnClickListener(new View.OnClickListener() {
+            public void onClick (View view) {
+                String name = current_user.getUserName();
+                String selectedFriends = "";
+                for (String currName : addedFriends)  {
+                    selectedFriends += currName + ",";
+                }
+
+                new CreateGroupActivity(getContext()).execute(name,selectedFriends);
+            }
+        });
+
+    }
+
     public void groupsScreen (final View v) {
         setContentView(R.layout.groups);
         TableLayout table = (TableLayout) findViewById(R.id.groupTable);
@@ -172,7 +250,7 @@ public class MainActivity extends Activity {
         String userName = user;
         setContentView(R.layout.friendlist);
         Toast.makeText(this, "Bringing up your friends...", Toast.LENGTH_SHORT).show();
-        new ViewFriendsActivity(this).execute(userName);
+        new ViewFriendsActivity(this).execute(userName, "2");
     }
 
     public void setFriendScreen(String friendsString) {

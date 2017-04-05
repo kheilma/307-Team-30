@@ -2,8 +2,6 @@ package look.myapplication;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.widget.ListView;
-import android.widget.TableLayout;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -11,45 +9,36 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.ArrayList;
 
 /**
- * Created by Matt on 3/7/2017.
+ * Created by kyleyo on 4/4/2017.
  */
 
-public class ViewFriendsActivity extends AsyncTask<String, Void, String> {
-
+public class CreateGroupActivity extends AsyncTask<String, Void, String> {
     private Context context;
-    private boolean loggedIn;
-    private String userName;
-    private String choice;
 
-    public ViewFriendsActivity(Context context) {
+    public CreateGroupActivity(Context context) {
         this.context = context;
-        this.loggedIn = false;
-    }
-
-    protected void onPreExecute() {
-
     }
 
     @Override
     protected String doInBackground(String... arg0) {
-        userName = arg0[0];
-        choice = arg0[1];
-        String link;
+        String userName = arg0[0];
+        String selectedFriends = arg0[1];
+
         String data;
+        String link;
         BufferedReader bufferedReader;
         String result;
 
         try {
-            data = "?username=" + URLEncoder.encode(userName, "UTF-8");
+            data = "?username=" + URLEncoder.encode("dssad", "UTF-8");
+            data += "&recipient=" + URLEncoder.encode(selectedFriends, "UTF-8");
 
-            link = "http://l00k.000webhostapp.com/viewFriends.php" + data;
+            link = "http://l00k.000webhostapp.com/createGroup.php" + data;
             URL url = new URL(link);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
 
@@ -61,7 +50,6 @@ public class ViewFriendsActivity extends AsyncTask<String, Void, String> {
         }
     }
 
-    @Override
     protected void onPostExecute(String result) {
         String jsonStr = result;
         if (jsonStr != null) {
@@ -69,14 +57,9 @@ public class ViewFriendsActivity extends AsyncTask<String, Void, String> {
                 JSONObject jsonObj = new JSONObject(jsonStr);
                 String query_result = jsonObj.getString("query_result");
                 if (query_result.equals("SUCCESS")) {
-                    MainActivity mainActivity = (MainActivity)context;
-                    if (choice.equals("2")) {
-                        mainActivity.setFriendScreen(jsonObj.getString("query_message"));
-                    } else {
-                        mainActivity.setNewGroupScreen(jsonObj.getString("query_message"));
-                    }
+                    Toast.makeText(context, "Notification sent.", Toast.LENGTH_SHORT).show();
                 } else if (query_result.equals("FAILURE")) {
-                    Toast.makeText(context, "Could not bring up friends list.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Failed to send notification.", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(context, "Please seek assistance from your Complaint Department representative.", Toast.LENGTH_SHORT).show();
                 }
