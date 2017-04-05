@@ -20,6 +20,8 @@ public class AcceptFriendActivity extends AsyncTask<String, Void, String> {
 
     private Context context;
     private User user;
+    private String choice;
+    private String friendName;
 
     public AcceptFriendActivity(Context context) {
         this.context = context;
@@ -30,6 +32,8 @@ public class AcceptFriendActivity extends AsyncTask<String, Void, String> {
         String user = arg0[0];
         String friend = arg0[1];
         String answer = arg0[2];
+        choice = answer;
+        friendName = friend;
 
         String data;
         String link;
@@ -63,9 +67,18 @@ public class AcceptFriendActivity extends AsyncTask<String, Void, String> {
                 JSONObject jsonObj = new JSONObject(jsonStr);
                 String query_result = jsonObj.getString("query_result");
                 if (query_result.equals("SUCCESS")) {
-                    Toast.makeText(context, "Friend invite accepted.", Toast.LENGTH_SHORT).show();
+                    if(choice.equals("1")) {
+                        Toast.makeText(context, "Friend invite accepted.", Toast.LENGTH_SHORT).show();
+                    } else if(choice.equals("0")){
+                        Toast.makeText(context, friendName + " removed as a friend.", Toast.LENGTH_SHORT).show();
+                    }
+
                 } else if (query_result.equals("FAILURE")) {
-                    Toast.makeText(context, "Failed to accept friend invite.", Toast.LENGTH_SHORT).show();
+                    if(choice.equals("1")) {
+                        Toast.makeText(context, "Failed to accept friend invite.", Toast.LENGTH_SHORT).show();
+                    } else if(choice.equals("0")){
+                        Toast.makeText(context, "Failed to remove " + friendName + " as a friend.", Toast.LENGTH_SHORT).show();
+                    }
                 } else {
                     Toast.makeText(context, "Please seek assistance from your Complaint Department representative.", Toast.LENGTH_SHORT).show();
                 }

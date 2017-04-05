@@ -386,7 +386,7 @@ public class MainActivity extends Activity {
             ignore.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    profileScreen(getCurrentFocus());
+                    changeNotificationScreen(getCurrentFocus());
                     acceptFriend(view, name, "0");
 
                 }
