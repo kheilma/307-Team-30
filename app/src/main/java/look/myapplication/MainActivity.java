@@ -188,7 +188,7 @@ public class MainActivity extends Activity {
             Button rec = new Button(this);
             Button delete = new Button(this);
 
-            String name = names[i].substring(0, names[i].indexOf('|'));
+            final String name = names[i].substring(0, names[i].indexOf('|'));
             String accepted = names[i].substring(names[i].indexOf('|')+1);
 
             if(accepted.equals("1")) {
