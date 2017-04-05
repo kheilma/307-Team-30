@@ -29,8 +29,7 @@ public class RemoveRecommendationActivity extends AsyncTask<String, Void, String
     @Override
     protected String doInBackground(String... arg0) {
         String userName = arg0[0];
-        String recipient = arg0[1];
-        String content = arg0[2];
+        String content = arg0[1];
 
         String data;
         String link;
@@ -39,7 +38,6 @@ public class RemoveRecommendationActivity extends AsyncTask<String, Void, String
 
         try {
             data = "?sender=" + URLEncoder.encode(userName, "UTF-8");
-            data += "&recipient=" + URLEncoder.encode(recipient, "UTF-8");
             data += "&content=" + URLEncoder.encode(content, "UTF-8");
 
             link = "http://l00k.000webhostapp.com/removeRecommendation.php" + data;
