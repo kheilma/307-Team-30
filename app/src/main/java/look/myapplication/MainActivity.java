@@ -235,7 +235,7 @@ public class MainActivity extends Activity {
     }
 
     public void changefavoritesScreen(View V) {
-        //setContentView(R.layout.favorites);
+        setContentView(R.layout.favorites);
         //develop favorites from database
     }
 

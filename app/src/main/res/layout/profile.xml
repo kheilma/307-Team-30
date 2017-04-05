@@ -70,7 +70,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/favoritesBtn"
             android:text="favorites"
-            android:onClick="favoritesScreen"
+            android:onClick="changefavoritesScreen"
             android:layout_gravity="center"/>
 
         <FrameLayout
