@@ -450,8 +450,10 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View view) {
                 // call activity for deleting from Q
+                String[] contents = fullContent.split("&");
+                System.out.println("CONTENTS: " + contents[0]);
                 profileScreen(getCurrentFocus());
-                removeRecommendation(view, fullContent);
+                //removeRecommendation(view, fullContent);
             }
         });
 
@@ -616,7 +618,13 @@ public class MainActivity extends Activity {
     public void changeRecScreen(View v) {
 
         setContentView(R.layout.create);
-        String nameRecommendingTo = v.getTag().toString();
+        String nameRecommendingTo;
+        if(v.getTag() != null){
+            nameRecommendingTo = v.getTag().toString();
+        } else {
+            nameRecommendingTo = "";
+        }
+
         EditText name = (EditText) findViewById(R.id.destinationUserName);
         name.setText(nameRecommendingTo);
     }

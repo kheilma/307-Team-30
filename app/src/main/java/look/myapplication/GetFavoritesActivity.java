@@ -17,12 +17,12 @@ import java.net.URLEncoder;
  * Created by Me on 4/1/2017.
  */
 
-public class GetFavroitesActivity  extends AsyncTask<String, Void, String> {
+public class GetFavoritesActivity  extends AsyncTask<String, Void, String> {
     private Context context;
     private boolean loggedIn;
     private String userName;
 
-    public GetFavroitesActivity(Context context) {
+    public GetFavoritesActivity(Context context) {
         this.context = context;
         this.loggedIn = true;
     }
