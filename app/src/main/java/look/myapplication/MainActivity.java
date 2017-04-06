@@ -118,8 +118,11 @@ public class MainActivity extends Activity {
     public void removeRecommendation(View v, String content) {
         Toast.makeText(this, "Removed Recommendation", Toast.LENGTH_SHORT).show();
 
-        String name = user;
-        new RemoveRecommendationActivity(this, current_user).execute(user.substring(1, user.length()-1), content);
+        String recipient = user.substring(1, user.length()-1);
+        int indexOfRecipient = content.indexOf("&");
+        String sender = content.substring(0, indexOfRecipient);
+
+        new RemoveRecommendationActivity(this, current_user).execute(sender, recipient, content);
     }
 
     public void addFriend(View v) {
@@ -447,15 +450,17 @@ public class MainActivity extends Activity {
             row.addView(box);
             dTable.addView(row);
         }
-        Button delete = (Button) findViewById(R.id.deleteQScrnBtn);
-        delete.setOnClickListener(new View.OnClickListener() {
+        final Button deleteB = (Button) findViewById(R.id.deleteQScrnBtn);
+        deleteB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // call activity for deleting from Q
-                String[] contents = fullContent.split("&");
-                System.out.println("CONTENTS: " + contents[0]);
                 profileScreen(getCurrentFocus());
-                //removeRecommendation(view, fullContent);
+
+                for(int i = 0; i < delete.size(); i++){
+                    removeRecommendation(view, delete.get(i));
+                }
+
             }
         });
 
