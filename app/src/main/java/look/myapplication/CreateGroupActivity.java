@@ -26,8 +26,9 @@ public class CreateGroupActivity extends AsyncTask<String, Void, String> {
 
     @Override
     protected String doInBackground(String... arg0) {
-        String userName = arg0[0];
-        String selectedFriends = arg0[1];
+        String owner = arg0[0];
+        String groupName = "'" + arg0[1] + "'";
+        String members = "'" + arg0[2] + "'";
 
         String data;
         String link;
@@ -35,10 +36,12 @@ public class CreateGroupActivity extends AsyncTask<String, Void, String> {
         String result;
 
         try {
-            data = "?username=" + URLEncoder.encode("dssad", "UTF-8");
-            data += "&recipient=" + URLEncoder.encode(selectedFriends, "UTF-8");
+            data = "?owner=" + URLEncoder.encode(owner, "UTF-8");
+            data += "&GroupName=" + URLEncoder.encode(groupName, "UTF-8");
+            data += "&members=" + URLEncoder.encode(members, "UTF-8");
 
             link = "http://l00k.000webhostapp.com/createGroup.php" + data;
+            System.out.println(link);
             URL url = new URL(link);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
 
