@@ -143,10 +143,6 @@ public class MainActivity extends Activity {
         String userName = user;
         Toast.makeText(this, "Bringing up your friends...", Toast.LENGTH_SHORT).show();
         new ViewFriendsActivity(this).execute(userName, "1");
-
-
-
-
     }
 
     public void setNewGroupScreen(String friendsString) {
@@ -201,13 +197,15 @@ public class MainActivity extends Activity {
         Button submit = (Button) findViewById(R.id.CreateGroupButton);
         submit.setOnClickListener(new View.OnClickListener() {
             public void onClick (View view) {
-                String name = current_user.getUserName();
+                String owner = user;
+                EditText editText = (EditText)findViewById(R.id.groupName);
+                String groupName = editText.getText().toString();
                 String selectedFriends = "";
                 for (String currName : addedFriends)  {
                     selectedFriends += currName + ",";
                 }
 
-                new CreateGroupActivity(getContext()).execute(name,selectedFriends);
+                new CreateGroupActivity(getContext()).execute(owner, groupName,selectedFriends);
             }
         });
 
