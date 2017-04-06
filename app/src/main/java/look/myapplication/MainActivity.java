@@ -549,12 +549,12 @@ public class MainActivity extends Activity {
 
             submit.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
+               public void onClick(View v) {
                     String name = current_user.userName;
                     String rating =  "" + bar.getRating();
-                    Toast.makeText(getContext(), "name: " + name + "content: " + content , Toast.LENGTH_SHORT).show();
-                    Toast.makeText(getContext(), "rating: " + rating, Toast.LENGTH_LONG).show();
-                    new RateContentActivity(getContext()).execute(name,content,rating);
+                    String sender = content.split("&")[0];
+                    String dbcontent = content.split("&")[2];
+                    new RateContentActivity(getContext()).execute(name,sender,dbcontent,rating);
                 }
             });
             TextView border = new TextView(this);
