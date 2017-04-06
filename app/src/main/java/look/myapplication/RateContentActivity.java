@@ -42,13 +42,16 @@ public class RateContentActivity  extends AsyncTask<String, Void, String> {
 
         try {
             String recipient = arg0[0];
-            String content = arg0[1];
-            String rating = arg0[2];
+            String sender = arg0[1];
+            String content = arg0[2];
+            String rating = arg0[3];
             data = "?recipient=" + URLEncoder.encode(recipient, "UTF-8");
+            data += "&sender=" + URLEncoder.encode(sender, "UTF-8");
             data += "&Content=" + URLEncoder.encode(content, "UTF-8");
             data += "&rating=" + URLEncoder.encode(rating, "UTF-8");
 
             link = "http://l00k.000webhostapp.com/rateContent.php" + data;
+            System.out.println(link);
             URL url = new URL(link);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
 
@@ -82,6 +85,4 @@ public class RateContentActivity  extends AsyncTask<String, Void, String> {
             Toast.makeText(context, "Couldn't get any JSON data.", Toast.LENGTH_SHORT).show();
         }
     }
-
-
 }
