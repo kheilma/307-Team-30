@@ -400,11 +400,21 @@ public class MainActivity extends Activity {
         stk.removeAllViews();
         stk.removeAllViewsInLayout();
 
+
+
         for (int i = 0; i < contentArray.length; i++) {
             LinearLayout row = new LinearLayout(this);
             row.setOrientation(LinearLayout.HORIZONTAL);
             TextView t1v = new TextView(this);
             final String name = contentArray[i];
+
+            // Don't know why there is a name with an empty string inside the notifications...
+            // But this gets rid of the empty notification
+            if(name.equals("")){
+                System.out.println("WHAT");
+                return;
+            }
+
             t1v.setText(name);
             t1v.setTextSize(24);
             t1v.setTextColor(Color.BLACK);
