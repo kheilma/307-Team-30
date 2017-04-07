@@ -33,6 +33,7 @@ public class MainActivity extends Activity {
     private boolean spinnerSet;
     public ArrayList<String> delete = new ArrayList<>(20);
     public ArrayList<String> faves = new ArrayList<>(20);
+    public ArrayList<String> unFave = new ArrayList<>(20);
     private String user;
     private User current_user;
 
@@ -565,12 +566,13 @@ public class MainActivity extends Activity {
 
     }
 
-    public void queueScreen(String recQ, int favorites) {
+    public void queueScreen(String recQ, final int favorites) {
         String[] contentArray = recQ.split("\n");
         final String fullContent = recQ;
         TableLayout stk = (TableLayout) findViewById(R.id.table_main);
         stk.setBackgroundColor(Color.WHITE);
         stk.removeAllViews();
+        final int f = favorites;
         stk.removeAllViewsInLayout();
         LinearLayout mainLayout = (LinearLayout)findViewById(R.id.table_main);
         mainLayout.setBackgroundColor(Color.WHITE);
@@ -617,6 +619,10 @@ public class MainActivity extends Activity {
                         faves.add(recipient);
                         faves.add(content);
 
+                    }
+                    else if (!toggleButton.isChecked() && favorites == 1){
+                        unFave.add(recipient);
+                        unFave.add(content);
                     }
                     else {
                         toggleButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.unfavorite));
@@ -677,7 +683,7 @@ public class MainActivity extends Activity {
             viewButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    viewContent(content, fullContent, rating);
+                    viewContent(content, fullContent, rating, f);
                 }
             });
 
@@ -720,8 +726,15 @@ public class MainActivity extends Activity {
             public void onClick(View view) {
                 // call activity to add favorites
                 // consider calling activity in the delete button above
-                for(int i = 0; i < faves.size(); i += 2) {
-                    new MakeFavoriteActivity(getContext(), current_user).execute(current_user.userName, faves.get(i), faves.get(i+1) );
+                if(f ==1) {
+                    for(int i = 0; i < faves.size(); i += 2) {
+                        new UnFavoriteActivity(getContext(), current_user).execute(current_user.userName, unFave.get(i), unFave.get(i+1) );
+                    }
+                }
+                else {
+                    for (int i = 0; i < faves.size(); i += 2) {
+                        new MakeFavoriteActivity(getContext(), current_user).execute(current_user.userName, faves.get(i), faves.get(i + 1));
+                    }
                 }
                 faves.clear();
                 profileScreen(getCurrentFocus());
@@ -746,7 +759,7 @@ public class MainActivity extends Activity {
         }
     }
 
-    public void viewContent(String details, String fullQ, int rating) {
+    public void viewContent(String details, String fullQ, int rating, int favorites) {
         setContentView(R.layout.viewcontent);
         final String fullContent = new String(fullQ);
         TableLayout viewT = (TableLayout) findViewById(R.id.viewtable);
@@ -813,11 +826,12 @@ public class MainActivity extends Activity {
         viewT.addView(starBar);
 
         Button back = (Button) findViewById(R.id.viewBack);
+        final int f = favorites;
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 setContentView(R.layout.queue);
-                queueScreen(fullContent, 0);
+                queueScreen(fullContent, f);
             }
         });
     }
