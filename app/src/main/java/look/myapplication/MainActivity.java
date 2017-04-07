@@ -352,7 +352,8 @@ public class MainActivity extends Activity {
     }
 
     public void changefavoritesScreen(View V) {
-        setContentView(R.layout.favorites);
+        setContentView(R.layout.queue);
+        new GetFavoritesActivity(getContext());
         //develop favorites from database
     }
 
@@ -504,6 +505,7 @@ public class MainActivity extends Activity {
                 for(int i = 0; i < delete.size(); i++){
                     removeRecommendation(view, delete.get(i));
                 }
+                delete.clear();
 
             }
         });
@@ -530,6 +532,9 @@ public class MainActivity extends Activity {
         mainLayout.setBackgroundColor(Color.WHITE);
         for (int i = 0; i < contentArray.length; i++) {
             final String content = contentArray[i];
+            String [] info = content.split("&");
+            final String recipient = new String(info[1]);
+            final int rating = Integer.parseInt(info[3]);
             Button submit = new Button(this);
             submit.setText("Submit");
             submit.setLayoutParams(new RelativeLayout.LayoutParams(
@@ -552,11 +557,14 @@ public class MainActivity extends Activity {
                 public void onClick(View view) {
                     if(toggleButton.isChecked()) {
                         toggleButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.favorite));
+                        faves.add(recipient);
                         faves.add(content);
+
                     }
                     else {
                         toggleButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.unfavorite));
                         faves.remove(content);
+                        faves.remove(recipient);
                     }
                 }
             });
@@ -566,9 +574,9 @@ public class MainActivity extends Activity {
 
             final RatingBar bar = new RatingBar(this);
             bar.setMax(5);
+            bar.setProgress(rating);
             bar.setStepSize(1);
             bar.setNumStars(5);
-            bar.setProgress(0);
             bar.setBackgroundColor(Color.WHITE);
             bar.setLayoutParams(new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -607,7 +615,7 @@ public class MainActivity extends Activity {
             viewButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    viewContent(content, fullContent);
+                    viewContent(content, fullContent, rating);
                 }
             });
 
@@ -650,12 +658,16 @@ public class MainActivity extends Activity {
             public void onClick(View view) {
                 // call activity to add favorites
                 // consider calling activity in the delete button above
+                for(int i = 0; i < faves.size(); i += 2) {
+                    new MakeFavoriteActivity(getContext(), current_user).execute(current_user.userName, faves.get(i), faves.get(i+1) );
+                }
+                faves.clear();
                 profileScreen(getCurrentFocus());
             }
         });
     }
 
-    public void viewContent(String details, String fullQ) {
+    public void viewContent(String details, String fullQ, int rating) {
         setContentView(R.layout.viewcontent);
         final String fullContent = new String(fullQ);
         TableLayout viewT = (TableLayout) findViewById(R.id.viewtable);
@@ -699,10 +711,27 @@ public class MainActivity extends Activity {
         linkText.setText(link);
         linkRow.addView(linkText);
 
+        RelativeLayout rate = new RelativeLayout(this);
+
+
+        TableRow starBar = new TableRow(this);
+        RatingBar bar = new RatingBar(this);
+        bar.setNumStars(5);
+        bar.setStepSize(1);
+        bar.setProgress(rating);
+        bar.setIsIndicator(true);
+        bar.setLayoutParams(new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.WRAP_CONTENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT
+        ));
+        rate.addView(bar);
+        starBar.addView(rate);
+
         viewT.addView(senderRow);
         viewT.addView(descriptionRow);
         viewT.addView(type);
         viewT.addView(linkRow);
+        viewT.addView(starBar);
 
         Button back = (Button) findViewById(R.id.viewBack);
         back.setOnClickListener(new View.OnClickListener() {
