@@ -227,7 +227,7 @@ public class MainActivity extends Activity {
     }
 
     public void getGroupsScreen (String recQ) {
-        String[] groupsArray = recQ.split("\n");
+        final String[] groupsArray = recQ.split("\n");
         setContentView(R.layout.groups);
         TableLayout table = (TableLayout) findViewById(R.id.groupTable);
         table.removeAllViewsInLayout();
@@ -264,11 +264,33 @@ public class MainActivity extends Activity {
                 @Override
                 public void onClick(View view) {
                     Toast.makeText(view.getContext(), "Viewing Group",Toast.LENGTH_SHORT ).show();
+                    viewGroup(groupsArray);
                 }
             });
             row.addView(view);
             table.addView(row);
         }
+    }
+
+    public void viewGroup( String [] groups) {
+        setContentView(R.layout.viewcontent);
+        TableLayout t = (TableLayout)findViewById(R.id.viewtable);
+        for(int i = 0; i < groups[0].split("&").length; i++) {
+            TextView text = new TextView(this);
+            TableRow row = new TableRow(this);
+            text.setText(groups[0].split("&")[i]);
+            text.setTextSize(24);
+            row.addView(text);
+            t.addView(row);
+        }
+        Button back = (Button) findViewById(R.id.viewBack);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                groupsScreen(getCurrentFocus());
+            }
+        });
+
     }
 
     public void acceptFriend(View v, String friend, String answer){
