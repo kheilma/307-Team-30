@@ -318,7 +318,9 @@ public class MainActivity extends Activity {
 
                 public void onClick(View view) {
                     System.out.println("Checking out " + name + "'s profile!");
-                    changeFriendProfileScreen(view);
+
+                    // SET THE RATING TO 0 FOR RIGHT NOW, NEED TO BE ABLE TO PULL RATING FROM THE USER
+                    populateFriendProfile(view, name, "0");
                 }
             });
 
@@ -354,8 +356,15 @@ public class MainActivity extends Activity {
         }
     }
 
-    public void changeFriendProfileScreen(View V) {
+    public void populateFriendProfile(View V, String name, String rating) {
+
         setContentView(R.layout.friendprofile);
+
+        TextView profileTitle = (TextView) findViewById(R.id.profileTitle);
+        profileTitle.setText("Profile Name: " + name);
+
+        TextView profileRating = (TextView) findViewById(R.id.profileRating);
+        profileRating.setText("Profile Rating: " + rating);
     }
 
     public void changefavoritesScreen(View V) {
