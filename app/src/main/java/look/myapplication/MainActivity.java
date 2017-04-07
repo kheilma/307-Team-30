@@ -621,8 +621,14 @@ public class MainActivity extends Activity {
 
                     }
                     else if (!toggleButton.isChecked() && favorites == 1){
+                        toggleButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.unfavorite));
                         unFave.add(recipient);
                         unFave.add(content);
+                    }
+                    else if(favorites == 1){
+                        unFave.remove(recipient);
+                        unFave.remove(content);
+                        toggleButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.favorite));
                     }
                     else {
                         toggleButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.unfavorite));
@@ -726,8 +732,8 @@ public class MainActivity extends Activity {
             public void onClick(View view) {
                 // call activity to add favorites
                 // consider calling activity in the delete button above
-                if(f ==1) {
-                    for(int i = 0; i < faves.size(); i += 2) {
+                if(f == 1) {
+                    for(int i = 0; i < unFave.size(); i += 2) {
                         new UnfavoriteActivity(getContext(), current_user).execute(current_user.userName, unFave.get(i), unFave.get(i+1) );
                     }
                 }
@@ -737,6 +743,7 @@ public class MainActivity extends Activity {
                     }
                 }
                 faves.clear();
+                unFave.clear();
                 profileScreen(getCurrentFocus());
             }
         });
