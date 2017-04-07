@@ -369,7 +369,11 @@ public class MainActivity extends Activity {
 
     public void blockFriend(View v){
         TextView friendNameTextView = (TextView) findViewById(R.id.profileTitle);
-        String friendName = friendNameTextView.getText().toString();
+        String friendNameNotSplit = friendNameTextView.getText().toString();
+        int index = friendNameNotSplit.indexOf(":");
+        // index+2 to go past the :, and the space after it just to get the name with no spaces
+        // This will not need to be done if profileTitle does not have the "Profile Name: " before the actual name
+        String friendName = friendNameNotSplit.substring(index+2, friendNameNotSplit.length());
         System.out.println("Blocking " + friendName + "!");
     }
 
