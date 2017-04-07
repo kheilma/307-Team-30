@@ -520,7 +520,7 @@ public class MainActivity extends Activity {
                 for(int i = 0; i < delete.size(); i++){
                     removeRecommendation(view, delete.get(i));
                 }
-
+                delete.clear();
             }
         });
 
