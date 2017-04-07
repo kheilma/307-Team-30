@@ -93,9 +93,14 @@ public class MainActivityTest {
         assertEquals(test.substring(0, test.indexOf(',')), "{\"query_result\":\"SUCCESS\"");
     }
 
+    @Test
+    public void blockFriend() throws Exception {
+        String userName = "test";
+        String friendName = "friend";
+        String test = new BlockActivity(null).doInBackground(userName, friendName);
 
-
-
+        assertEquals(test, "{\"query_result\":\"SUCCESS\"");
+    }
 
 
 
