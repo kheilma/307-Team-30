@@ -369,7 +369,7 @@ public class MainActivity extends Activity {
 
     public void changefavoritesScreen(View V) {
         setContentView(R.layout.queue);
-        new GetFavoritesActivity(getContext());
+        new GetFavoritesActivity(getContext()).execute(current_user.userName);
         //develop favorites from database
     }
 
@@ -530,13 +530,13 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View view) {
                 setContentView(R.layout.queue);
-                queueScreen(fullContent);
+                queueScreen(fullContent, 1);
             }
         });
 
     }
 
-    public void queueScreen(String recQ) {
+    public void queueScreen(String recQ, int favorites) {
         String[] contentArray = recQ.split("\n");
         final String fullContent = recQ;
         TableLayout stk = (TableLayout) findViewById(R.id.table_main);
@@ -684,6 +684,23 @@ public class MainActivity extends Activity {
                 profileScreen(getCurrentFocus());
             }
         });
+        Button refresh = (Button) findViewById(R.id.recQRefresh);
+        if(favorites == 1) {
+            refresh.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new GetFavoritesActivity(getContext()).execute(current_user.userName);
+                }
+            });
+        }
+        else {
+            refresh.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    changeQueueScreen(getCurrentFocus());
+                }
+            });
+        }
     }
 
     public void viewContent(String details, String fullQ, int rating) {
@@ -757,7 +774,7 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
                 setContentView(R.layout.queue);
-                queueScreen(fullContent);
+                queueScreen(fullContent, 0);
             }
         });
     }
