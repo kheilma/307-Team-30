@@ -522,10 +522,6 @@ public class MainActivity extends Activity {
                     removeRecommendation(view, delete.get(i));
                 }
                 delete.clear();
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/master
             }
         });
 
@@ -542,7 +538,7 @@ public class MainActivity extends Activity {
 
     public void queueScreen(String recQ) {
         String[] contentArray = recQ.split("\n");
-        final String fullContent = new String(recQ);
+        final String fullContent = recQ;
         TableLayout stk = (TableLayout) findViewById(R.id.table_main);
         stk.setBackgroundColor(Color.WHITE);
         stk.removeAllViews();
@@ -552,7 +548,7 @@ public class MainActivity extends Activity {
         for (int i = 0; i < contentArray.length; i++) {
             final String content = contentArray[i];
             String [] info = content.split("&");
-            final String recipient = new String(info[1]);
+            final String recipient = info[1];
             final int rating = Integer.parseInt(info[3]);
             Button submit = new Button(this);
             submit.setText("Submit");
