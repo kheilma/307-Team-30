@@ -235,14 +235,15 @@ public class MainActivity extends Activity {
             TableRow row = new TableRow(this);
             TextView text =  new TextView(this);
             Button view = new Button(this);
-            if (groupsArray[i].indexOf('&') == -1) {
-                text.setText("You have no groups!");
-                row.addView(text);
-                table.addView(row);
-                return;
-            }
+
 
             final String groupName = groupsArray[i].substring(0, groupsArray[i].indexOf('&'));
+
+            if(groupsArray.length < 2) {
+                break;
+            }
+            final String groupName = groupsArray[i].substring(0, groupsArray[i].length() - 2);
+
             if(groupName.length() < 21) {
                 text.setText(groupName);
             }
