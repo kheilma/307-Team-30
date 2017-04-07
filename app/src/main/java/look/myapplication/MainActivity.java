@@ -425,12 +425,27 @@ public class MainActivity extends Activity {
             RelativeLayout row = new RelativeLayout(this);
             TextView text = new TextView(this);
             final String content = contentArray[i];
-            text.setText(content);
             text.setBackgroundColor(Color.WHITE);
             text.setLayoutParams(new RelativeLayout.LayoutParams(
                     RelativeLayout.LayoutParams.WRAP_CONTENT,
                     RelativeLayout.LayoutParams.WRAP_CONTENT
             ));
+
+            String description = "";
+            String[] split = content.split("description:");
+            if(split.length > 1) {
+                for(int j = 0; j < split[1].length(); j++) {
+                    if(split[1].charAt(j) == '|') {
+                        break;
+                    }
+                    description += split[1].charAt(j);
+                }
+                text.setText(description);
+            }
+            else {
+                text.setText(content);
+            }
+
             RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)text.getLayoutParams();
             params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
 
@@ -458,6 +473,12 @@ public class MainActivity extends Activity {
             row.addView(text);
             row.addView(box);
             dTable.addView(row);
+            TextView border = new TextView(this);
+            border.setText("");
+            border.setTextSize(1);
+            border.setBackgroundColor(Color.BLACK);
+            dTable.addView(border, TableLayout.LayoutParams.MATCH_PARENT,
+                    TableLayout.LayoutParams.WRAP_CONTENT);
         }
         final Button deleteB = (Button) findViewById(R.id.deleteQScrnBtn);
         deleteB.setOnClickListener(new View.OnClickListener() {
@@ -465,7 +486,6 @@ public class MainActivity extends Activity {
             public void onClick(View view) {
                 // call activity for deleting from Q
                 profileScreen(getCurrentFocus());
-
                 for(int i = 0; i < delete.size(); i++){
                     removeRecommendation(view, delete.get(i));
                 }
@@ -545,8 +565,16 @@ public class MainActivity extends Activity {
                     TableLayout.LayoutParams.WRAP_CONTENT
             ));
 
-            if(contentArray[i].length() > 20) {
-                viewButton.setText(content.substring(0,19));
+            String description = "";
+            String[] split = content.split("description:");
+            if(split.length > 1) {
+                for(int j = 0; j < split[1].length(); j++) {
+                    if(split[1].charAt(j) == '|') {
+                        break;
+                    }
+                    description += split[1].charAt(j);
+                }
+                viewButton.setText(description);
             }
             else {
                 viewButton.setText(content);
@@ -560,6 +588,13 @@ public class MainActivity extends Activity {
                     TableLayout.LayoutParams.WRAP_CONTENT,
                     1
             ));
+
+            viewButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    viewContent(content, fullContent);
+                }
+            });
 
             tbrow.addView(viewButton, TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT);
             tbrow.addView(toggleButton, TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT);
@@ -601,6 +636,65 @@ public class MainActivity extends Activity {
                 // call activity to add favorites
                 // consider calling activity in the delete button above
                 profileScreen(getCurrentFocus());
+            }
+        });
+    }
+
+    public void viewContent(String details, String fullQ) {
+        setContentView(R.layout.viewcontent);
+        final String fullContent = new String(fullQ);
+        TableLayout viewT = (TableLayout) findViewById(R.id.viewtable);
+        String[] names = details.split("&");
+        String info = names[3];
+        String[] chunks = names[2].split("\\|");
+
+        TableRow senderRow = new TableRow(this);
+        TextView senderName = new TextView(this);
+        senderName.setText("Sender: " + names[0]);
+        senderName.setTextSize(32);
+        senderRow.addView(senderName);
+
+        TableRow descriptionRow = new TableRow(this);
+        TextView description = new TextView(this);
+        String desc = "Description: ";
+        if(chunks[0].length() > 0) {
+            desc += chunks[0].substring(12,chunks[0].length());
+        }
+        description.setText(desc);
+        description.setTextSize(32);
+        descriptionRow.addView(description);
+
+        TableRow type = new TableRow(this);
+        TextView typeText = new TextView(this);
+        String typ = "Type: ";
+        if(chunks.length > 1 && chunks[1].length() > 5){
+            typ += chunks[1].substring(5,chunks[1].length());
+        }
+        typeText.setText(typ);
+        typeText.setTextSize(32);
+        type.addView(typeText);
+
+        TableRow linkRow = new TableRow(this);
+        TextView linkText = new TextView(this);
+        String link = "Link: ";
+        if(chunks.length > 1 && chunks[2].length() > 4) {
+            link += chunks[2].substring(4,chunks[2].length());
+        }
+        linkText.setTextSize(32);
+        linkText.setText(link);
+        linkRow.addView(linkText);
+
+        viewT.addView(senderRow);
+        viewT.addView(descriptionRow);
+        viewT.addView(type);
+        viewT.addView(linkRow);
+
+        Button back = (Button) findViewById(R.id.viewBack);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setContentView(R.layout.queue);
+                queueScreen(fullContent);
             }
         });
     }
