@@ -87,7 +87,7 @@ public class MainActivity extends Activity {
         String newPass = newPassword.getText().toString();
 
         Toast.makeText(this, "Attempting to change password...", Toast.LENGTH_LONG).show();
-        new ChangePasswordActivity(this).execute(currPass, newPass);
+        new ChangePasswordActivity(this).execute(user, currPass, newPass);
     }
 
     public void createRecommendation(View v){
