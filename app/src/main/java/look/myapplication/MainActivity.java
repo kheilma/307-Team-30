@@ -161,7 +161,11 @@ public class MainActivity extends Activity {
             TextView text = new TextView(this);
             Button rec = new Button(this);
             Button delete = new Button(this);
-
+            if (names[i].indexOf('|') == -1) {
+                Toast.makeText(getContext(), "Add friends before creating a group!" , Toast.LENGTH_SHORT).show();
+                setContentView(R.layout.profile);
+                return;
+            }
             String name = names[i].substring(0, names[i].indexOf('|'));
             String accepted = names[i].substring(names[i].indexOf('|') + 1);
 
@@ -214,25 +218,30 @@ public class MainActivity extends Activity {
 
     }
 
-    public void groupsScreen (final View v) {
+    public void groupsScreen(View v) {
+        setContentView(R.layout.groups);
+        String username = user.substring(1, user.length()-1);
+
+        new GetGroupsActivity(this).execute(username);
+    }
+
+    public void getGroupsScreen (String recQ) {
+        String[] groupsArray = recQ.split("\n");
         setContentView(R.layout.groups);
         TableLayout table = (TableLayout) findViewById(R.id.groupTable);
         table.removeAllViewsInLayout();
         table.removeAllViews();
-        ArrayList<String> groups = current_user.getGroups();
-        for(int i = 0; i < 110; i++) {
-            groups.add(i, "REally long name to see how it works on the screen, a few more letters to push it off the screen " + i);
+        for(int i = 0; i < groupsArray.length; i++) {
             TableRow row = new TableRow(this);
             TextView text =  new TextView(this);
             Button view = new Button(this);
 
-            groups.set(0, "Short");
-            String gName = groups.get(i);
-            if(gName.length() < 21) {
-                text.setText(gName);
+            final String groupName = groupsArray[i].substring(0, groupsArray[i].length()-2);
+            if(groupName.length() < 21) {
+                text.setText(groupName);
             }
             else {
-                text.setText(gName.substring(0,20));
+                text.setText(groupName.substring(0,20));
             }
             text.setTextSize(24);
             text.setPadding(10,0,50,0);

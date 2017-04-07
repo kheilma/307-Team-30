@@ -2,6 +2,7 @@ package look.myapplication;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -65,7 +66,8 @@ public class GetGroupsActivity extends AsyncTask<String, Void, String> {
                 if (query_result.equals("SUCCESS")) {
                     Toast.makeText(context, "Succesfully pulled up queue.", Toast.LENGTH_SHORT).show();
                     MainActivity mainActivity = (MainActivity)context;
-                    mainActivity.queueScreen(jsonObj.getString("query_message"));
+                    mainActivity.getGroupsScreen(jsonObj.getString("query_message"));
+                    Log.d("teste", jsonObj.getString("query_message"));
                 } else if (query_result.equals("FAILURE")) {
                     Toast.makeText(context, "Failed to pull up recommendations for " + userName, Toast.LENGTH_SHORT).show();
                 } else {
