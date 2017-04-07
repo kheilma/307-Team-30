@@ -121,8 +121,8 @@ public class MainActivity extends Activity {
         String recipient = user.substring(1, user.length()-1);
         int indexOfRecipient = content.indexOf("&");
         String sender = content.substring(0, indexOfRecipient);
-
-        new RemoveRecommendationActivity(this, current_user).execute(sender, recipient, content);
+        String real_content = content.split("&")[2];
+        new RemoveRecommendationActivity(this, current_user).execute(sender, recipient, real_content);
     }
 
     public void addFriend(View v) {
