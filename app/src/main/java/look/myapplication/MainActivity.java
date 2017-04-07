@@ -481,7 +481,7 @@ public class MainActivity extends Activity {
             String[] split = content.split("description:");
             if(split.length > 1) {
                 for(int j = 0; j < split[1].length(); j++) {
-                    if(split[1].charAt(j) == '|') {
+                    if(split[1].charAt(j) == '|' || i > 19) {
                         break;
                     }
                     description += split[1].charAt(j);
@@ -489,7 +489,12 @@ public class MainActivity extends Activity {
                 text.setText(description);
             }
             else {
-                text.setText(content);
+                if(content.length() > 20) {
+                    text.setText(content.substring(0,19));
+                }
+                else {
+                    text.setText(content);
+                }
             }
 
             RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)text.getLayoutParams();
@@ -562,13 +567,15 @@ public class MainActivity extends Activity {
         for (int i = 0; i < contentArray.length; i++) {
             final String content = contentArray[i];
             if (content.indexOf('&') == -1) {
-
                 return;
             }
+            int fav = 0;
             String [] info = content.split("&");
             final String recipient = info[1];
             final int rating = Integer.parseInt(info[3]);
-            final int fav = Integer.parseInt(info[4]);
+            if(favorites == 0) {
+               fav = Integer.parseInt(info[4]);
+            }
             Button submit = new Button(this);
             submit.setText("Submit");
             submit.setLayoutParams(new RelativeLayout.LayoutParams(
@@ -582,7 +589,7 @@ public class MainActivity extends Activity {
 
             TextView viewButton = new TextView(this);
             final ToggleButton toggleButton = new ToggleButton(this);
-            if(fav == 1) {
+            if(fav == 1 || favorites == 1) {
                 toggleButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.favorite));
                 toggleButton.setChecked(true);
             }
@@ -640,7 +647,12 @@ public class MainActivity extends Activity {
                 viewButton.setText(description);
             }
             else {
-                viewButton.setText(content);
+                if(content.length() > 20) {
+                    viewButton.setText(content.substring(0,19));
+                }
+                else {
+                    viewButton.setText(content);
+                }
             }
             viewButton.setTextSize(18);
             viewButton.setTextColor(Color.BLACK);
