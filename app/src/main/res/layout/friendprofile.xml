@@ -31,6 +31,16 @@
             android:layout_alignParentStart="true" />
 
         <Button
+            android:text="block"
+            android:id="@+id/block"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentBottom="true"
+            android:onClick="blockFriend"
+            />
+
+        <Button
             android:text="@string/back"
             android:id="@+id/Back"
             android:layout_width="wrap_content"

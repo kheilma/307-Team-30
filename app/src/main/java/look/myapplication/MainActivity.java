@@ -367,6 +367,12 @@ public class MainActivity extends Activity {
         profileRating.setText("Profile Rating: " + rating);
     }
 
+    public void blockFriend(View v){
+        TextView friendNameTextView = (TextView) findViewById(R.id.profileTitle);
+        String friendName = friendNameTextView.getText().toString();
+        System.out.println("Blocking " + friendName + "!");
+    }
+
     public void changefavoritesScreen(View V) {
         setContentView(R.layout.queue);
         new GetFavoritesActivity(getContext()).execute(current_user.userName);
