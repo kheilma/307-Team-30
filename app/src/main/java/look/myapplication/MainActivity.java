@@ -728,7 +728,7 @@ public class MainActivity extends Activity {
                 // consider calling activity in the delete button above
                 if(f ==1) {
                     for(int i = 0; i < faves.size(); i += 2) {
-                        new UnFavoriteActivity(getContext(), current_user).execute(current_user.userName, unFave.get(i), unFave.get(i+1) );
+                        new UnfavoriteActivity(getContext(), current_user).execute(current_user.userName, unFave.get(i), unFave.get(i+1) );
                     }
                 }
                 else {
