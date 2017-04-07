@@ -659,6 +659,8 @@ public class MainActivity extends Activity {
         this.loggedIn = false;
         current_user = null;
         user = null;
+        delete = new ArrayList<>(20);
+        faves = new ArrayList<>(20);
         setContentView(R.layout.login);
     }
 
