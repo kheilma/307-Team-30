@@ -695,7 +695,7 @@ public class MainActivity extends Activity {
             refresh.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    new GetFavoritesActivity(getContext()).execute(current_user.userName);
+                    changefavoritesScreen(getCurrentFocus());
                 }
             });
         }
