@@ -375,6 +375,10 @@ public class MainActivity extends Activity {
         // This will not need to be done if profileTitle does not have the "Profile Name: " before the actual name
         String friendName = friendNameNotSplit.substring(index+2, friendNameNotSplit.length());
         System.out.println("Blocking " + friendName + "!");
+
+        String username = user.substring(1, user.length()-1);
+
+        new BlockActivity(this).execute(username, friendName);
     }
 
     public void changefavoritesScreen(View V) {
