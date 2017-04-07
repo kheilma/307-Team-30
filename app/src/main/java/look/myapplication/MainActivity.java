@@ -292,6 +292,7 @@ public class MainActivity extends Activity {
             final String name = names[i].substring(0, endIndex);
             String accepted = names[i].substring(endIndex+1);
 
+
             if(accepted.equals("1")) {
                 text.setText(name);
                 text.setTextSize(16);
@@ -303,6 +304,14 @@ public class MainActivity extends Activity {
             text.setPadding(0,0,20,0);
             text.setTextColor(Color.MAGENTA);
             text.setGravity(Gravity.CENTER);
+            text.setOnClickListener(new View.OnClickListener() {
+                @Override
+
+                public void onClick(View view) {
+                    System.out.println("Checking out " + name + "'s profile!");
+                    changeFriendProfileScreen(view);
+                }
+            });
 
             //this button currently send the user to the create recommendation screen
             // ideally, it should be updated so the recipient is filled in already
@@ -334,6 +343,10 @@ public class MainActivity extends Activity {
             t.addView(row);
 
         }
+    }
+
+    public void changeFriendProfileScreen(View V) {
+        setContentView(R.layout.friendprofile);
     }
 
     public void changefavoritesScreen(View V) {
