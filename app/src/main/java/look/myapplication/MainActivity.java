@@ -547,6 +547,10 @@ public class MainActivity extends Activity {
         mainLayout.setBackgroundColor(Color.WHITE);
         for (int i = 0; i < contentArray.length; i++) {
             final String content = contentArray[i];
+            if (content.indexOf('&') == -1) {
+
+                return;
+            }
             String [] info = content.split("&");
             final String recipient = info[1];
             final int rating = Integer.parseInt(info[3]);

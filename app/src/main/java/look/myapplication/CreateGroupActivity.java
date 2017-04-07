@@ -2,6 +2,7 @@ package look.myapplication;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -39,7 +40,6 @@ public class CreateGroupActivity extends AsyncTask<String, Void, String> {
             data = "?owner=" + URLEncoder.encode(owner, "UTF-8");
             data += "&GroupName=" + URLEncoder.encode(groupName, "UTF-8");
             data += "&members=" + URLEncoder.encode(members, "UTF-8");
-
             link = "http://l00k.000webhostapp.com/createGroup.php" + data;
             System.out.println(link);
             URL url = new URL(link);

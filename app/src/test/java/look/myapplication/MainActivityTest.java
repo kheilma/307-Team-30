@@ -8,15 +8,6 @@ import static org.junit.Assert.*;
  * Created by kyleyo on 4/2/2017.
  */
 public class MainActivityTest {
-    @Test
-    public void onCreate() throws Exception {
-
-    }
-
-    @Test
-    public void sendNotification() throws Exception {
-
-    }
 
     @Test
     public void signup() throws Exception {
@@ -43,10 +34,6 @@ public class MainActivityTest {
 
     }
 
-    @Test
-    public void changePass() throws Exception {
-
-    }
 
     @Test
     public void createRecommendation() throws Exception {
@@ -64,6 +51,21 @@ public class MainActivityTest {
     }
 
     @Test
+    public void removeRecommendation() throws Exception {
+
+        String recipient = "Travis";
+        String recDescription = "test";
+        String recType = "test";
+        String recLink = "test";
+
+        String content = "description:" + recDescription + "|type:" + recType + "|link" + recLink;
+
+        String test = new RemoveRecommendationActivity(null, null).doInBackground("test", recipient, content);
+
+        assertEquals(test, "{\"query_result\":\"SUCCESS\"}");
+    }
+
+    @Test
     public void addFriend() throws Exception {
         String friendName = "friend";
         String test = new CreateNotificationActivity(null).doInBackground("test", friendName, "test added you as a friend");
@@ -73,108 +75,29 @@ public class MainActivityTest {
     }
 
     @Test
-    public void groupsScreen() throws Exception {
+    public void newGroup() throws Exception {
+        String groupName = "tester";
+        String userName = "'test'";
 
+        String test = new CreateGroupActivity(null).doInBackground(userName, groupName, "");
+
+        assertEquals(test, "{\"query_result\":\"SUCCESS\"}");
     }
 
-    @Test
-    public void friendScreen() throws Exception {
-
-    }
-
-    @Test
-    public void setFriendScreen() throws Exception {
-
-    }
-
-    @Test
-    public void changefavoritesScreen() throws Exception {
-
-    }
-
-    @Test
-    public void changeNotificationScreen() throws Exception {
-
-    }
-
-    @Test
-    public void notificationScreen() throws Exception {
-
-    }
-
-    @Test
-    public void deleteQ() throws Exception {
-
-    }
-
-    @Test
-    public void queueScreen() throws Exception {
-
-    }
-
-    @Test
-    public void signupScreen() throws Exception {
-
-    }
-
-    @Test
-    public void profileScreen() throws Exception {
-
-    }
-
-    @Test
-    public void addFriendScreen() throws Exception {
-
-    }
-
-    @Test
-    public void loginScreen() throws Exception {
-
-    }
-
-    @Test
-    public void changePassScreen() throws Exception {
-
-    }
-
-    @Test
-    public void changeRecScreen() throws Exception {
-
-    }
 
     @Test
     public void changeQueueScreen() throws Exception {
+        String userName = "test";
+        String test = new getQueueActivity(null).doInBackground(userName);
 
+        assertEquals(test.substring(0, test.indexOf(',')), "{\"query_result\":\"SUCCESS\"");
     }
 
-    @Test
-    public void getLoggedIn() throws Exception {
 
-    }
 
-    @Test
-    public void setLoggedIn() throws Exception {
 
-    }
 
-    @Test
-    public void logout() throws Exception {
 
-    }
 
-    @Test
-    public void getContext() throws Exception {
-
-    }
-
-    @Test
-    public void onCreateOptionsMenu() throws Exception {
-
-    }
-
-    @Test
-    public void onOptionsItemSelected() throws Exception {
-
-    }
 
 }
