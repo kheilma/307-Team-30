@@ -66,11 +66,17 @@
             android:layout_height="wrap_content"
             android:onClick="signup"
             android:text="Sign up" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/back"
+            android:onClick="loginScreen"/>
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1">
+
         </FrameLayout>
 
     </LinearLayout>

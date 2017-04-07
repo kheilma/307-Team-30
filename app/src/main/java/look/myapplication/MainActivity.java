@@ -235,8 +235,10 @@ public class MainActivity extends Activity {
             TableRow row = new TableRow(this);
             TextView text =  new TextView(this);
             Button view = new Button(this);
-
-            final String groupName = groupsArray[i].substring(0, groupsArray[i].length()-2);
+            if(groupsArray.length < 2) {
+                break;
+            }
+            final String groupName = groupsArray[i].substring(0, groupsArray[i].length() - 2);
             if(groupName.length() < 21) {
                 text.setText(groupName);
             }
