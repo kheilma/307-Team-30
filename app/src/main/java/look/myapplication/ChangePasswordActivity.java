@@ -20,6 +20,7 @@ import java.util.regex.Pattern;
 public class ChangePasswordActivity extends AsyncTask<String, Void, String> {
 
     private Context context;
+    private String hash;
 
     public ChangePasswordActivity(Context context) {
         this.context = context;
@@ -29,10 +30,33 @@ public class ChangePasswordActivity extends AsyncTask<String, Void, String> {
 
     }
 
+    public static String byteArrayToHexString(byte[] b){
+        StringBuffer sb = new StringBuffer(b.length * 2);
+        for (int i = 0; i < b.length; i++){
+            int v = b[i] & 0xff;
+            if (v < 16) {
+                sb.append('0');
+            }
+            sb.append(Integer.toHexString(v));
+        }
+        return sb.toString().toUpperCase();
+    }
+
+    public static byte[] computeHash(String x)
+            throws Exception
+    {
+        java.security.MessageDigest d =null;
+        d = java.security.MessageDigest.getInstance("SHA-1");
+        d.reset();
+        d.update(x.getBytes());
+        return  d.digest();
+    }
+
     @Override
     protected String doInBackground(String... arg0) {
-        String currentPass = arg0[0];
-        String newPass = arg0[1];
+        String user = arg0[0];
+        String currentPass = arg0[1];
+        String newPass = arg0[2];
 
 
         String link;
@@ -52,14 +76,21 @@ public class ChangePasswordActivity extends AsyncTask<String, Void, String> {
         if (newPass.equals(newPass.toUpperCase()) || newPass.equals(newPass.toLowerCase())) {
             return new String("password must contain at least one uppercase and lowercase letter");
         }
+
         try {
-            data = "?currpassword=" + URLEncoder.encode(currentPass, "UTF-8");
-            data += "&newpassword=" + URLEncoder.encode(newPass, "UTF-8");
+            hash = byteArrayToHexString(computeHash(newPass));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try {
+            data = "?user=" + URLEncoder.encode(user, "UTF-8");
+            data += "&newpassword=" + URLEncoder.encode(hash, "UTF-8");
 
             link = "http://l00k.000webhostapp.com/changepassword.php" + data;
             URL url = new URL(link);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
-
+            System.out.println(link);
             bufferedReader = new BufferedReader(new InputStreamReader(con.getInputStream()));
             result = bufferedReader.readLine();
             return result;
