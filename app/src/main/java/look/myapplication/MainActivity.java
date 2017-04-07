@@ -568,6 +568,7 @@ public class MainActivity extends Activity {
             String [] info = content.split("&");
             final String recipient = info[1];
             final int rating = Integer.parseInt(info[3]);
+            final int fav = Integer.parseInt(info[4]);
             Button submit = new Button(this);
             submit.setText("Submit");
             submit.setLayoutParams(new RelativeLayout.LayoutParams(
@@ -581,7 +582,13 @@ public class MainActivity extends Activity {
 
             TextView viewButton = new TextView(this);
             final ToggleButton toggleButton = new ToggleButton(this);
-            toggleButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.unfavorite));
+            if(fav == 1) {
+                toggleButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.favorite));
+                toggleButton.setChecked(true);
+            }
+            else {
+                toggleButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.unfavorite));
+            }
             toggleButton.setText("");
             toggleButton.setTextOn("");
             toggleButton.setTextOff("");
