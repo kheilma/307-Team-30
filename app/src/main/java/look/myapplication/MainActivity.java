@@ -235,10 +235,17 @@ public class MainActivity extends Activity {
             TableRow row = new TableRow(this);
             TextView text =  new TextView(this);
             Button view = new Button(this);
-            if(groupsArray.length < 2) {
-                break;
+
+            if (groupsArray[i].indexOf('&') == -1) {
+                text.setText("You have no groups!");
+                row.addView(text);
+                table.addView(row);
+                return;
             }
-            final String groupName = groupsArray[i].substring(0, groupsArray[i].length() - 2);
+
+            final String groupName = groupsArray[i].substring(0, groupsArray[i].indexOf('&'));
+            
+
             if(groupName.length() < 21) {
                 text.setText(groupName);
             }
@@ -311,7 +318,9 @@ public class MainActivity extends Activity {
 
                 public void onClick(View view) {
                     System.out.println("Checking out " + name + "'s profile!");
-                    changeFriendProfileScreen(view);
+
+                    // SET THE RATING TO 0 FOR RIGHT NOW, NEED TO BE ABLE TO PULL RATING FROM THE USER
+                    populateFriendProfile(view, name, "0");
                 }
             });
 
@@ -347,8 +356,15 @@ public class MainActivity extends Activity {
         }
     }
 
-    public void changeFriendProfileScreen(View V) {
+    public void populateFriendProfile(View V, String name, String rating) {
+
         setContentView(R.layout.friendprofile);
+
+        TextView profileTitle = (TextView) findViewById(R.id.profileTitle);
+        profileTitle.setText("Profile Name: " + name);
+
+        TextView profileRating = (TextView) findViewById(R.id.profileRating);
+        profileRating.setText("Profile Rating: " + rating);
     }
 
     public void changefavoritesScreen(View V) {
@@ -506,7 +522,10 @@ public class MainActivity extends Activity {
                     removeRecommendation(view, delete.get(i));
                 }
                 delete.clear();
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/master
             }
         });
 
