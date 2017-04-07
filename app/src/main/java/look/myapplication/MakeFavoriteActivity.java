@@ -31,7 +31,7 @@ public class MakeFavoriteActivity extends AsyncTask<String, Void, String> {
     protected String doInBackground(String... arg0) {
         String userName = arg0[0];
         String recipient = arg0[1];
-        String Content = arg0[2];
+        String Content = arg0[2].split("&")[2];
 
         String data;
         String link;
