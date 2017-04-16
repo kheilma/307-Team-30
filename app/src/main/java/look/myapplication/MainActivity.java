@@ -36,7 +36,7 @@ public class MainActivity extends Activity {
     public ArrayList<String> delete = new ArrayList<>(20);
     public ArrayList<String> faves = new ArrayList<>(20);
     public ArrayList<String> unFave = new ArrayList<>(20);
-    public String [] tagOpts = {"Comedy ", "Tragedy", "Horror", "Science", "Cute", "Sports", "News", "Food"};
+    public String [] tagOpts = {"Comedy ", "Tragedy", "Horror", "Science", "Cute", "Sports", "News", "Food", "NSFW"};
     private int [] mediaTags = new int[tagOpts.length];
     private String user;
     private User current_user;
@@ -115,7 +115,7 @@ public class MainActivity extends Activity {
         link.setText("");
 
         String tags = "";
-        for(int i = 0; i < mediaTags.length - 1; i++) {
+        for(int i = 0; i < mediaTags.length; i++) {
             tags += mediaTags[i] + ",";
         }
         tags = tags.substring(0, tags.length()-1);
@@ -812,7 +812,16 @@ public class MainActivity extends Activity {
         String[] tags = new String[mediaTags.length];
         String[] chunks = names[2].split("\\|");
         if (chunks.length > 3) {
-             tags = chunks[3].substring(5).split(",");
+            String [] tagChunks = chunks[3].substring(5).split(",");
+            for(int j = 0; j < tags.length; j++) {
+                if(j < tagChunks.length) {
+                    tags[j] = tagChunks[j];
+                }
+                else {
+                    tags[j] = "0";
+                }
+            }
+
         }
         TableRow senderRow = new TableRow(this);
         TextView senderName = new TextView(this);
@@ -872,7 +881,7 @@ public class MainActivity extends Activity {
             text += "none";
         }
         else {
-            for (int i = 0; i < mediaTags.length - 1; i++) {
+            for (int i = 0; i < mediaTags.length; i++) {
                 if (Integer.parseInt(tags[i]) == 1) {
                     text += tagOpts[i] + " | ";
                 }
@@ -949,8 +958,10 @@ public class MainActivity extends Activity {
     }
 
     public void changeRecScreen(View v) {
-        // any additional tags can be added to the array tagOpts and the rest should be handled by the loop
         setContentView(R.layout.create);
+        for(int i = 0; i < mediaTags.length; i++){
+            mediaTags[i] = 0;
+        }
         String nameRecommendingTo;
         if(v.getTag() != null){
             nameRecommendingTo = v.getTag().toString();
@@ -964,7 +975,7 @@ public class MainActivity extends Activity {
         TableLayout tags = (TableLayout) findViewById(R.id.recScreenTags);
         TableRow tagRow = new TableRow(this);
         for(int i = 0; i < tagOpts.length; i++) {
-            if(i % 4 == 0) {
+            if(i % 3 == 0) {
                 tagRow = new TableRow(this);
                 tagRow.setGravity(Gravity.CENTER);
             }
@@ -984,7 +995,7 @@ public class MainActivity extends Activity {
                 }
             });
             tagRow.addView(boxTag, TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT);
-            if(i != 0 && (i+1) % 4 == 0 || i == tagOpts.length-1) {
+            if(i != 0 && (i+1) % 3 == 0 || i == tagOpts.length-1) {
                 tags.addView(tagRow, TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT);
             }
         }
