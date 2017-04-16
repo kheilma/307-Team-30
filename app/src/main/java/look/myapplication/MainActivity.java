@@ -12,9 +12,11 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
@@ -34,6 +36,8 @@ public class MainActivity extends Activity {
     public ArrayList<String> delete = new ArrayList<>(20);
     public ArrayList<String> faves = new ArrayList<>(20);
     public ArrayList<String> unFave = new ArrayList<>(20);
+    public String [] tagOpts = {"Comedy ", "Tragedy", "Horror", "Science", "Cute", "Sports", "News", "Food"};
+    private int [] mediaTags = new int[tagOpts.length];
     private String user;
     private User current_user;
 
@@ -90,7 +94,7 @@ public class MainActivity extends Activity {
         new ChangePasswordActivity(this).execute(user, currPass, newPass);
     }
 
-    public void createRecommendation(View v){
+    public void createRecommendation(View v, int [] mediaTags){
         // Holds code for creating recommendation after clicking the button on the profile
         Toast.makeText(this, "Created Recommendation", Toast.LENGTH_SHORT).show();
 
@@ -110,9 +114,15 @@ public class MainActivity extends Activity {
         String recLink = link.getText().toString();
         link.setText("");
 
+        String tags = "";
+        for(int i = 0; i < mediaTags.length - 1; i++) {
+            tags += mediaTags[i] + ",";
+        }
+        tags = tags.substring(0, tags.length()-1);
+
         changeRecScreen(getCurrentFocus());
 
-        String content = "description:" + recDescription + "|type:" + recType + "|link" + recLink;
+        String content = "description:" + recDescription + "|type:" + recType + "|link" + recLink + "|tags:" + tags;
         new CreateRecommendationActivity(this, current_user).execute(user.substring(1, user.length()-1), recipient, content);
     }
 
@@ -529,6 +539,8 @@ public class MainActivity extends Activity {
                     text.setText(content);
                 }
             }
+            text.setTextSize(32);
+            text.setTextColor(Color.BLACK);
 
             RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)text.getLayoutParams();
             params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
@@ -621,7 +633,7 @@ public class MainActivity extends Activity {
 
             RelativeLayout ratingBar = new RelativeLayout(getContext());
 
-            TextView viewButton = new TextView(this);
+            final TextView viewButton = new TextView(this);
             final ToggleButton toggleButton = new ToggleButton(this);
             if(fav == 1 || favorites == 1) {
                 toggleButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.favorite));
@@ -702,6 +714,7 @@ public class MainActivity extends Activity {
             viewButton.setTextColor(Color.BLACK);
             viewButton.setGravity(Gravity.CENTER);
             viewButton.setBackgroundColor(Color.WHITE);
+            viewButton.setPadding(0,0,10,0);
             viewButton.setLayoutParams(new TableLayout.LayoutParams(
                     TableLayout.LayoutParams.WRAP_CONTENT,
                     TableLayout.LayoutParams.WRAP_CONTENT,
@@ -711,12 +724,14 @@ public class MainActivity extends Activity {
             viewButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    viewContent(content, fullContent, rating, f);
+                    boolean isFavorite = toggleButton.isChecked();
+                    viewContent(content, fullContent, rating, isFavorite, f);
                 }
             });
 
             tbrow.addView(viewButton, TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT);
             tbrow.addView(toggleButton, TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT);
+            tbrow.setGravity(Gravity.CENTER);
             stk.addView(tbrow);
 
             submit.setOnClickListener(new View.OnClickListener() {
@@ -788,14 +803,17 @@ public class MainActivity extends Activity {
         }
     }
 
-    public void viewContent(String details, String fullQ, int rating, int favorites) {
+    public void viewContent(String details, String fullQ, int rating, boolean isFavorite, int favorites) {
         setContentView(R.layout.viewcontent);
         final String fullContent = new String(fullQ);
         TableLayout viewT = (TableLayout) findViewById(R.id.viewtable);
         String[] names = details.split("&");
         String info = names[3];
+        String[] tags = new String[mediaTags.length];
         String[] chunks = names[2].split("\\|");
-
+        if (chunks.length > 3) {
+             tags = chunks[3].substring(5).split(",");
+        }
         TableRow senderRow = new TableRow(this);
         TextView senderName = new TextView(this);
         senderName.setText("Sender: " + names[0]);
@@ -848,11 +866,50 @@ public class MainActivity extends Activity {
         rate.addView(bar);
         starBar.addView(rate);
 
+        TableRow tagRow = new TableRow(this);
+        String text = "Tags: ";
+        if(tags.length == 1) {
+            text += "none";
+        }
+        else {
+            for (int i = 0; i < mediaTags.length - 1; i++) {
+                if (Integer.parseInt(tags[i]) == 1) {
+                    text += tagOpts[i] + " | ";
+                }
+            }
+        }
+        if(text.length() == 6) {
+            text += "None";
+        }
+        TextView tagTxt = new TextView(this);
+        tagTxt.setText(text);
+        tagTxt.setTextSize(32);
+        tagRow.addView(tagTxt);
+
+
+
         viewT.addView(senderRow);
         viewT.addView(descriptionRow);
         viewT.addView(type);
         viewT.addView(linkRow);
         viewT.addView(starBar);
+        viewT.addView(tagRow);
+
+        if(isFavorite || favorites == 1){
+            RelativeLayout fav = new RelativeLayout(this);
+            ImageView heartIcon = new ImageView(this);
+            heartIcon.setImageResource(R.drawable.favorite);
+
+            RelativeLayout.LayoutParams rp = new RelativeLayout.LayoutParams(
+                    RelativeLayout.LayoutParams.WRAP_CONTENT,
+                    RelativeLayout.LayoutParams.WRAP_CONTENT
+            );
+            rp.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+
+            fav.addView(heartIcon);
+            viewT.addView(fav);
+
+        }
 
         Button back = (Button) findViewById(R.id.viewBack);
         final int f = favorites;
@@ -892,7 +949,7 @@ public class MainActivity extends Activity {
     }
 
     public void changeRecScreen(View v) {
-
+        // any additional tags can be added to the array tagOpts and the rest should be handled by the loop
         setContentView(R.layout.create);
         String nameRecommendingTo;
         if(v.getTag() != null){
@@ -903,6 +960,43 @@ public class MainActivity extends Activity {
 
         EditText name = (EditText) findViewById(R.id.destinationUserName);
         name.setText(nameRecommendingTo);
+
+        TableLayout tags = (TableLayout) findViewById(R.id.recScreenTags);
+        TableRow tagRow = new TableRow(this);
+        for(int i = 0; i < tagOpts.length; i++) {
+            if(i % 4 == 0) {
+                tagRow = new TableRow(this);
+                tagRow.setGravity(Gravity.CENTER);
+            }
+            final CheckBox boxTag = new CheckBox(this);
+            final int p = i;
+            boxTag.setText(tagOpts[i]);
+            boxTag.setTextSize(18);
+            boxTag.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(boxTag.isChecked()) {
+                        mediaTags[p] = 1;
+                    }
+                    else {
+                        mediaTags[p] = 0;
+                    }
+                }
+            });
+            tagRow.addView(boxTag, TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT);
+            if(i != 0 && (i+1) % 4 == 0 || i == tagOpts.length-1) {
+                tags.addView(tagRow, TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT);
+            }
+        }
+        Button done = (Button) findViewById(R.id.btnNewRec);
+        done.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                createRecommendation(getCurrentFocus(), mediaTags);
+
+            }
+        });
+
     }
 
     public void changeQueueScreen(View v) {
