@@ -1023,9 +1023,7 @@ public class MainActivity extends Activity {
     public void setLoggedIn(boolean loggedIn, String userName) {
         this.loggedIn = loggedIn;
         current_user = new User(userName, null, null, null, null);
-        setContentView(R.layout.queue);
-        Toast.makeText(this, "Loading recommendations for " + userName, Toast.LENGTH_SHORT).show();
-        new getQueueActivity(this).execute(userName);
+        setContentView(R.layout.profile);
     }
 
     public void logout(View v){

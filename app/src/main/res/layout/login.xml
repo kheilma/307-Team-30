@@ -29,8 +29,6 @@
             android:ems="10"
             android:hint="Username" />
 
-        <requestFocus />
-
         <EditText
             android:id="@+id/loginPassword"
             android:layout_width="fill_parent"
@@ -41,21 +39,59 @@
             android:hint="Password"
             android:inputType="textPassword" />
 
-
-        <Button
-            android:id="@+id/button"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:onClick="login"
-            android:text="Login"
-            android:elevation="0dp" />
+            android:layout_marginRight="2dp"
+            android:layout_marginLeft="2dp"
+            android:orientation="horizontal"
+            android:weightSum="2.0">
 
-        <Button
-            android:id="@+id/newAccount"
-            android:layout_width="wrap_content"
+            <TextView android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"/>
+
+            <Button
+                android:gravity="center"
+                android:id="@+id/button"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:onClick="login"
+                android:text="Login" />
+
+            <TextView android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="signupScreen"
-            android:text="Don't have an account?" />
+            android:layout_marginRight="2dp"
+            android:layout_marginLeft="2dp"
+            android:orientation="horizontal"
+            android:weightSum="2.0">
+
+            <TextView android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"/>
+
+            <Button
+                android:id="@+id/newAccount"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="signupScreen"
+                android:text="Sign up" />
+
+            <TextView android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"/>
+
+        </LinearLayout>
+
 
 
         <FrameLayout
