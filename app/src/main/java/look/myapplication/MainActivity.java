@@ -444,7 +444,6 @@ public class MainActivity extends Activity {
             // Don't know why there is a name with an empty string inside the notifications...
             // But this gets rid of the empty notification
             if(name.equals("")){
-                System.out.println("WHAT");
                 return;
             }
 
