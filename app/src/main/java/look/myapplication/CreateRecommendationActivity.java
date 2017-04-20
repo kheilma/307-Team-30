@@ -29,15 +29,38 @@ public class CreateRecommendationActivity extends AsyncTask<String, Void, String
     @Override
     protected String doInBackground(String... arg0) {
         String userName = arg0[0];
-        String recipient = arg0[1];
+        String recipient = "1";
         String content = arg0[2];
-
         String data;
         String link;
         BufferedReader bufferedReader;
         String result;
 
         try {
+            if (recipient.equals("1")) {
+                String groupName = arg0[3];
+                String groups = new GetGroupsActivity(null).doInBackground(userName);
+                String[] groupsArray = groups.split("\n");
+                for (int i = 0; i < groupsArray.length; i++) {
+                    if (groupsArray[i].contains(groupName)) {
+                        String recipients = groupName;
+                        String[] recipientsArray = recipients.split("&");
+                        for (int j = 0; j < groupsArray.length; j++) {
+                            recipient = recipientsArray[j];
+                            data = "?sender=" + URLEncoder.encode(userName, "UTF-8");
+                            data += "&recipient=" + URLEncoder.encode(recipient, "UTF-8");
+                            data += "&content=" + URLEncoder.encode(content, "UTF-8");
+                            link = "http://l00k.000webhostapp.com/sendRecommendation.php" + data;
+
+                            URL url = new URL(link);
+                            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+
+                            data = "";
+                            link = "";
+                        }
+                    }
+                }
+            }
             data = "?sender=" + URLEncoder.encode(userName, "UTF-8");
             data += "&recipient=" + URLEncoder.encode(recipient, "UTF-8");
             data += "&content=" + URLEncoder.encode(content, "UTF-8");

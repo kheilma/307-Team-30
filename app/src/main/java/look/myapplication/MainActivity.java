@@ -23,6 +23,8 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
+import android.content.Intent;
+import android.net.Uri;
 
 import java.util.ArrayList;
 
@@ -263,7 +265,27 @@ public class MainActivity extends Activity {
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(view.getContext(), "Viewing Group",Toast.LENGTH_SHORT ).show();
+                    setContentView(R.layout.create);
+                    EditText name = (EditText) findViewById(R.id.destinationUserName);
+                    String recipient = name.getText().toString();
+                    name.setText("");
+
+                    EditText description = (EditText) findViewById(R.id.description);
+                    String recDescription = description.getText().toString();
+                    description.setText("");
+
+                    EditText type = (EditText) findViewById(R.id.recType);
+                    String recType = type.getText().toString();
+                    type.setText("");
+
+                    EditText link = (EditText) findViewById(R.id.link);
+                    String recLink = link.getText().toString();
+                    link.setText("");
+
+                    changeRecScreen(getCurrentFocus());
+
+                    String content = "description:" + recDescription + "|type:" + recType + "|link" + recLink;
+                    new CreateRecommendationActivity(getContext(), current_user).execute(user.substring(1, user.length()-1), "1", content, groupName);
                 }
             });
             row.addView(view);
