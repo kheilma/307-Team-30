@@ -62,6 +62,13 @@
             android:onClick="logout"
             android:text="Logout"/>
 
+        <Button
+            android:text="Report a bug"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="bugReportScreen"
+            android:id="@+id/bugs" />
+
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="20dp"

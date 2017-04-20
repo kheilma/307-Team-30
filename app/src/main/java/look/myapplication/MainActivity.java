@@ -160,6 +160,20 @@ public class MainActivity extends Activity {
         Toast.makeText(this, "Bringing up your friends...", Toast.LENGTH_SHORT).show();
         new ViewFriendsActivity(this).execute(userName, "1");
     }
+    public void bugReportScreen(View v) {
+        setContentView(R.layout.bugreport);
+    }
+    public void newBugReport(View v) {
+        EditText deviceModel = (EditText) findViewById(R.id.bugdevicemodel);
+        EditText issue = (EditText) findViewById(R.id.bugissue);
+        EditText version = (EditText) findViewById(R.id.bugappversion);
+
+        String deviceModel1 = deviceModel.getText().toString();
+        String issue1 = issue.getText().toString();
+        String version1 = version.getText().toString();
+
+        new SubmitBugActivity(this).execute(deviceModel1, issue1, version1);
+    }
 
     public void setNewGroupScreen(String friendsString) {
         TableLayout t = (TableLayout) findViewById(R.id.groupFriendsList);
@@ -275,7 +289,6 @@ public class MainActivity extends Activity {
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-<<<<<<< HEAD
                     setContentView(R.layout.create);
                     EditText name = (EditText) findViewById(R.id.destinationUserName);
                     String recipient = name.getText().toString();
@@ -297,10 +310,8 @@ public class MainActivity extends Activity {
 
                     String content = "description:" + recDescription + "|type:" + recType + "|link" + recLink;
                     new CreateRecommendationActivity(getContext(), current_user).execute(user.substring(1, user.length()-1), "1", content, groupName);
-=======
                     Toast.makeText(view.getContext(), "Viewing Group",Toast.LENGTH_SHORT ).show();
                     viewGroup(groupsArray);
->>>>>>> origin/master
                 }
             });
             row.addView(view);

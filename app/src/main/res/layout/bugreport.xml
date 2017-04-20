@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/bugdevicemodel"
+        android:hint="Your Device Model (eg. Google Pixel)"
+        android:layout_weight="0.08" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/bugappversion"
+        android:hint="LOOK app version"
+        android:layout_weight="0.08" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/bugissue"
+        android:hint="What is your issue?"
+        android:layout_weight="0.08" />
+
+    <Button
+        android:text="Submit Bug Report"
+        android:layout_width="match_parent"
+        android:layout_height="89dp"
+        android:id="@+id/bugbutton"
+        android:onClick="newBugReport"
+        android:layout_weight="0.02" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnReturn"
+        android:onClick="profileScreen"
+        android:text="@string/back"/>
+</LinearLayout>
