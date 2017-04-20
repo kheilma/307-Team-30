@@ -12,9 +12,11 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
@@ -36,6 +38,8 @@ public class MainActivity extends Activity {
     public ArrayList<String> delete = new ArrayList<>(20);
     public ArrayList<String> faves = new ArrayList<>(20);
     public ArrayList<String> unFave = new ArrayList<>(20);
+    public String [] tagOpts = {"Comedy ", "Tragedy", "Horror", "Science", "Cute", "Sports", "News", "Food", "NSFW"};
+    private int [] mediaTags = new int[tagOpts.length];
     private String user;
     private User current_user;
 
@@ -92,7 +96,7 @@ public class MainActivity extends Activity {
         new ChangePasswordActivity(this).execute(user, currPass, newPass);
     }
 
-    public void createRecommendation(View v){
+    public void createRecommendation(View v, int [] mediaTags){
         // Holds code for creating recommendation after clicking the button on the profile
         Toast.makeText(this, "Created Recommendation", Toast.LENGTH_SHORT).show();
 
@@ -112,9 +116,15 @@ public class MainActivity extends Activity {
         String recLink = link.getText().toString();
         link.setText("");
 
+        String tags = "";
+        for(int i = 0; i < mediaTags.length; i++) {
+            tags += mediaTags[i] + ",";
+        }
+        tags = tags.substring(0, tags.length()-1);
+
         changeRecScreen(getCurrentFocus());
 
-        String content = "description:" + recDescription + "|type:" + recType + "|link" + recLink;
+        String content = "description:" + recDescription + "|type:" + recType + "|link" + recLink + "|tags:" + tags;
         new CreateRecommendationActivity(this, current_user).execute(user.substring(1, user.length()-1), recipient, content);
     }
 
@@ -229,7 +239,7 @@ public class MainActivity extends Activity {
     }
 
     public void getGroupsScreen (String recQ) {
-        String[] groupsArray = recQ.split("\n");
+        final String[] groupsArray = recQ.split("\n");
         setContentView(R.layout.groups);
         TableLayout table = (TableLayout) findViewById(R.id.groupTable);
         table.removeAllViewsInLayout();
@@ -265,6 +275,7 @@ public class MainActivity extends Activity {
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+<<<<<<< HEAD
                     setContentView(R.layout.create);
                     EditText name = (EditText) findViewById(R.id.destinationUserName);
                     String recipient = name.getText().toString();
@@ -286,11 +297,36 @@ public class MainActivity extends Activity {
 
                     String content = "description:" + recDescription + "|type:" + recType + "|link" + recLink;
                     new CreateRecommendationActivity(getContext(), current_user).execute(user.substring(1, user.length()-1), "1", content, groupName);
+=======
+                    Toast.makeText(view.getContext(), "Viewing Group",Toast.LENGTH_SHORT ).show();
+                    viewGroup(groupsArray);
+>>>>>>> origin/master
                 }
             });
             row.addView(view);
             table.addView(row);
         }
+    }
+
+    public void viewGroup( String [] groups) {
+        setContentView(R.layout.viewcontent);
+        TableLayout t = (TableLayout)findViewById(R.id.viewtable);
+        for(int i = 0; i < groups[0].split("&").length; i++) {
+            TextView text = new TextView(this);
+            TableRow row = new TableRow(this);
+            text.setText(groups[0].split("&")[i]);
+            text.setTextSize(24);
+            row.addView(text);
+            t.addView(row);
+        }
+        Button back = (Button) findViewById(R.id.viewBack);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                groupsScreen(getCurrentFocus());
+            }
+        });
+
     }
 
     public void acceptFriend(View v, String friend, String answer){
@@ -384,10 +420,10 @@ public class MainActivity extends Activity {
         setContentView(R.layout.friendprofile);
 
         TextView profileTitle = (TextView) findViewById(R.id.profileTitle);
-        profileTitle.setText("Profile Name: " + name);
+        profileTitle.setText(name +"'s Profile");
 
         TextView profileRating = (TextView) findViewById(R.id.profileRating);
-        profileRating.setText("Profile Rating: " + rating);
+        profileRating.setText(name + "'s Profile Rating: " + rating);
     }
 
     public void blockFriend(View v){
@@ -416,6 +452,31 @@ public class MainActivity extends Activity {
         new getNotificationActivity(this).execute(userName);
     }
 
+    public void featuresScreen(View v){
+        setContentView(R.layout.features);
+        populateFeatures(v);
+    }
+
+    public void populateFeatures(View v){
+        // Very simple test to populate the features list
+        // Still will need to create way to pull the features from the database
+        TableLayout stk = (TableLayout) findViewById(R.id.table_main);
+        stk.setBackgroundColor(Color.WHITE);
+        stk.removeAllViews();
+        stk.removeAllViewsInLayout();
+
+        LinearLayout mainLayout = (LinearLayout)findViewById(R.id.table_main);
+        mainLayout.setBackgroundColor(Color.WHITE);
+        for (int i = 0; i < 4; i++) {
+            // Could be the title of the feature
+            TextView test = new TextView(this);
+            test.setText("Test New Feature " + i);
+            test.setTextSize(24);
+            test.setPadding(0,5,0,5);
+            stk.addView(test);
+        }
+    }
+
     public void notificationScreen(String nList) {
         final String[] contentArray = nList.split("\n");
 
@@ -434,7 +495,6 @@ public class MainActivity extends Activity {
             // Don't know why there is a name with an empty string inside the notifications...
             // But this gets rid of the empty notification
             if(name.equals("")){
-                System.out.println("WHAT");
                 return;
             }
 
@@ -529,6 +589,8 @@ public class MainActivity extends Activity {
                     text.setText(content);
                 }
             }
+            text.setTextSize(32);
+            text.setTextColor(Color.BLACK);
 
             RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)text.getLayoutParams();
             params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
@@ -621,7 +683,7 @@ public class MainActivity extends Activity {
 
             RelativeLayout ratingBar = new RelativeLayout(getContext());
 
-            TextView viewButton = new TextView(this);
+            final TextView viewButton = new TextView(this);
             final ToggleButton toggleButton = new ToggleButton(this);
             if(fav == 1 || favorites == 1) {
                 toggleButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.favorite));
@@ -643,8 +705,14 @@ public class MainActivity extends Activity {
 
                     }
                     else if (!toggleButton.isChecked() && favorites == 1){
+                        toggleButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.unfavorite));
                         unFave.add(recipient);
                         unFave.add(content);
+                    }
+                    else if(favorites == 1){
+                        unFave.remove(recipient);
+                        unFave.remove(content);
+                        toggleButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.favorite));
                     }
                     else {
                         toggleButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.unfavorite));
@@ -696,6 +764,7 @@ public class MainActivity extends Activity {
             viewButton.setTextColor(Color.BLACK);
             viewButton.setGravity(Gravity.CENTER);
             viewButton.setBackgroundColor(Color.WHITE);
+            viewButton.setPadding(0,0,10,0);
             viewButton.setLayoutParams(new TableLayout.LayoutParams(
                     TableLayout.LayoutParams.WRAP_CONTENT,
                     TableLayout.LayoutParams.WRAP_CONTENT,
@@ -705,12 +774,14 @@ public class MainActivity extends Activity {
             viewButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    viewContent(content, fullContent, rating, f);
+                    boolean isFavorite = toggleButton.isChecked();
+                    viewContent(content, fullContent, rating, isFavorite, f);
                 }
             });
 
             tbrow.addView(viewButton, TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT);
             tbrow.addView(toggleButton, TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT);
+            tbrow.setGravity(Gravity.CENTER);
             stk.addView(tbrow);
 
             submit.setOnClickListener(new View.OnClickListener() {
@@ -748,8 +819,8 @@ public class MainActivity extends Activity {
             public void onClick(View view) {
                 // call activity to add favorites
                 // consider calling activity in the delete button above
-                if(f ==1) {
-                    for(int i = 0; i < faves.size(); i += 2) {
+                if(f == 1) {
+                    for(int i = 0; i < unFave.size(); i += 2) {
                         new UnfavoriteActivity(getContext(), current_user).execute(current_user.userName, unFave.get(i), unFave.get(i+1) );
                     }
                 }
@@ -759,6 +830,7 @@ public class MainActivity extends Activity {
                     }
                 }
                 faves.clear();
+                unFave.clear();
                 profileScreen(getCurrentFocus());
             }
         });
@@ -781,14 +853,26 @@ public class MainActivity extends Activity {
         }
     }
 
-    public void viewContent(String details, String fullQ, int rating, int favorites) {
+    public void viewContent(String details, String fullQ, int rating, boolean isFavorite, int favorites) {
         setContentView(R.layout.viewcontent);
         final String fullContent = new String(fullQ);
         TableLayout viewT = (TableLayout) findViewById(R.id.viewtable);
         String[] names = details.split("&");
         String info = names[3];
+        String[] tags = new String[mediaTags.length];
         String[] chunks = names[2].split("\\|");
+        if (chunks.length > 3) {
+            String [] tagChunks = chunks[3].substring(5).split(",");
+            for(int j = 0; j < tags.length; j++) {
+                if(j < tagChunks.length) {
+                    tags[j] = tagChunks[j];
+                }
+                else {
+                    tags[j] = "0";
+                }
+            }
 
+        }
         TableRow senderRow = new TableRow(this);
         TextView senderName = new TextView(this);
         senderName.setText("Sender: " + names[0]);
@@ -841,11 +925,50 @@ public class MainActivity extends Activity {
         rate.addView(bar);
         starBar.addView(rate);
 
+        TableRow tagRow = new TableRow(this);
+        String text = "Tags: ";
+        if(tags.length == 1) {
+            text += "none";
+        }
+        else {
+            for (int i = 0; i < mediaTags.length; i++) {
+                if (Integer.parseInt(tags[i]) == 1) {
+                    text += tagOpts[i] + " | ";
+                }
+            }
+        }
+        if(text.length() == 6) {
+            text += "None";
+        }
+        TextView tagTxt = new TextView(this);
+        tagTxt.setText(text);
+        tagTxt.setTextSize(32);
+        tagRow.addView(tagTxt);
+
+
+
         viewT.addView(senderRow);
         viewT.addView(descriptionRow);
         viewT.addView(type);
         viewT.addView(linkRow);
         viewT.addView(starBar);
+        viewT.addView(tagRow);
+
+        if(isFavorite || favorites == 1){
+            RelativeLayout fav = new RelativeLayout(this);
+            ImageView heartIcon = new ImageView(this);
+            heartIcon.setImageResource(R.drawable.favorite);
+
+            RelativeLayout.LayoutParams rp = new RelativeLayout.LayoutParams(
+                    RelativeLayout.LayoutParams.WRAP_CONTENT,
+                    RelativeLayout.LayoutParams.WRAP_CONTENT
+            );
+            rp.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+
+            fav.addView(heartIcon);
+            viewT.addView(fav);
+
+        }
 
         Button back = (Button) findViewById(R.id.viewBack);
         final int f = favorites;
@@ -865,8 +988,10 @@ public class MainActivity extends Activity {
     }
 
     public void profileScreen(View v) {
-
         setContentView(R.layout.profile);
+        TextView profileText = (TextView) findViewById(R.id.myprofile);
+        String userName = user.substring(1, user.length()-1);
+        profileText.setText(userName + "'s Profile");
     }
 
     public void addFriendScreen (View v) {
@@ -885,8 +1010,10 @@ public class MainActivity extends Activity {
     }
 
     public void changeRecScreen(View v) {
-
         setContentView(R.layout.create);
+        for(int i = 0; i < mediaTags.length; i++){
+            mediaTags[i] = 0;
+        }
         String nameRecommendingTo;
         if(v.getTag() != null){
             nameRecommendingTo = v.getTag().toString();
@@ -896,6 +1023,98 @@ public class MainActivity extends Activity {
 
         EditText name = (EditText) findViewById(R.id.destinationUserName);
         name.setText(nameRecommendingTo);
+
+        TableLayout tags = (TableLayout) findViewById(R.id.recScreenTags);
+        TableRow tagRow = new TableRow(this);
+        for(int i = 0; i < tagOpts.length; i++) {
+            if(i % 3 == 0) {
+                tagRow = new TableRow(this);
+                tagRow.setGravity(Gravity.CENTER);
+            }
+            final CheckBox boxTag = new CheckBox(this);
+            final int p = i;
+            boxTag.setText(tagOpts[i]);
+            boxTag.setTextSize(18);
+            boxTag.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(boxTag.isChecked()) {
+                        mediaTags[p] = 1;
+                    }
+                    else {
+                        mediaTags[p] = 0;
+                    }
+                }
+            });
+            tagRow.addView(boxTag, TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT);
+            if(i != 0 && (i+1) % 3 == 0 || i == tagOpts.length-1) {
+                tags.addView(tagRow, TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT);
+            }
+        }
+        Button done = (Button) findViewById(R.id.btnNewRec);
+        done.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                createRecommendation(getCurrentFocus(), mediaTags);
+
+            }
+        });
+
+    }
+
+    public void setPersonalPreferences(View V) {
+        setContentView(R.layout.preferences);
+
+        // need an activity to retrieve preferences
+        //currently assuming 0 preset
+        for (int i = 0; i < mediaTags.length; i++) {
+            mediaTags[i] = 0;
+        }
+
+        TableLayout tags = (TableLayout) findViewById(R.id.preferTab);
+        TableRow tagRow = new TableRow(this);
+        for (int i = 0; i < tagOpts.length; i++) {
+            if (i % 3 == 0) {
+                tagRow = new TableRow(this);
+                tagRow.setGravity(Gravity.CENTER);
+            }
+            final CheckBox boxTag = new CheckBox(this);
+            final int p = i;
+            boxTag.setText(tagOpts[i]);
+            boxTag.setTextSize(18);
+            boxTag.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (boxTag.isChecked()) {
+                        mediaTags[p] = 1;
+                    } else {
+                        mediaTags[p] = 0;
+                    }
+                }
+            });
+            tagRow.addView(boxTag, TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT);
+            if (i != 0 && (i + 1) % 3 == 0 || i == tagOpts.length - 1) {
+                tags.addView(tagRow, TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT);
+            }
+        }
+        Button confirm = (Button) findViewById(R.id.preferConfirm);
+        confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Activity for setting preferences
+            }
+        });
+
+        Button cancel = (Button) findViewById(R.id.preferCancel);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                for(int i = 0; i < mediaTags.length; i++){
+                    mediaTags[i] = 0;
+                }
+                profileScreen(getCurrentFocus());
+            }
+        });
     }
 
     public void changeQueueScreen(View v) {
@@ -911,9 +1130,10 @@ public class MainActivity extends Activity {
     public void setLoggedIn(boolean loggedIn, String userName) {
         this.loggedIn = loggedIn;
         current_user = new User(userName, null, null, null, null);
-        setContentView(R.layout.queue);
-        Toast.makeText(this, "Loading recommendations for " + userName, Toast.LENGTH_SHORT).show();
-        new getQueueActivity(this).execute(userName);
+        setContentView(R.layout.profile);
+        TextView profileText = (TextView) findViewById(R.id.myprofile);
+        String name = user.substring(1, user.length()-1);
+        profileText.setText(name + "'s Profile");
     }
 
     public void logout(View v){

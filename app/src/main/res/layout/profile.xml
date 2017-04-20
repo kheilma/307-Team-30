@@ -10,6 +10,14 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <TextView
+            android:id="@+id/myprofile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:text="Profile"/>
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -32,53 +40,19 @@
             android:layout_height="wrap_content"
             android:id="@+id/btnAddFriend"
             android:onClick="addFriendScreen"
-            android:text="Add Friend"
-            />
-
-        <Button
-            android:layout_width="178dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/btnViewQueue"
-            android:onClick="changeQueueScreen"
-            android:text="View my queue"
-            />
-
-        <Button
-            android:layout_width="178dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/btnViewFriends"
-            android:onClick="friendScreen"
-            android:text="View My Friends"
-            />
-        <Button
-            android:layout_width="177dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/btnviewNotifications"
-            android:layout_alignParentBottom="true"
-            android:onClick="changeNotificationScreen"
-            android:text="View Notifications"
-            />
-
-        <Button
-            android:id="@+id/button8"
-            android:layout_width="178dp"
-            android:layout_height="wrap_content"
-            android:text="My Groups"
-            android:onClick="groupsScreen"/>
+            android:text="Add Friend" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/favoritesBtn"
-            android:text="favorites"
-            android:onClick="changefavoritesScreen"
-            android:layout_gravity="center"/>
+            android:text="Preferences"
+            android:onClick="setPersonalPreferences"/>
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1">
-        </FrameLayout>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Features"
+            android:onClick="featuresScreen"/>
 
         <Button
             android:layout_width="wrap_content"
@@ -88,9 +62,61 @@
             android:onClick="logout"
             android:text="Logout"/>
 
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_weight=".995">
+        </FrameLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:orientation="horizontal">
 
+            <ImageButton
+                android:background="@null"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:src="@drawable/friends"
+                android:id="@+id/btnViewFriends"
+                android:onClick="friendScreen"/>
 
+            <ImageButton
+                android:background="@null"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:src="@drawable/queue"
+                android:id="@+id/btnViewQueue"
+                android:onClick="changeQueueScreen"/>
+
+            <ImageButton
+                android:background="@null"
+                android:id="@+id/imageButton"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:src="@drawable/favorite"
+                android:onClick="changefavoritesScreen" />
+
+            <ImageButton
+                android:background="@null"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:src="@drawable/notification"
+                android:id="@+id/btnviewNotifications"
+                android:onClick="changeNotificationScreen"/>
+            </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:layout_weight=".005">
+        </FrameLayout>
 
     </LinearLayout>
 
