@@ -426,6 +426,31 @@ public class MainActivity extends Activity {
         new getNotificationActivity(this).execute(userName);
     }
 
+    public void featuresScreen(View v){
+        setContentView(R.layout.features);
+        populateFeatures(v);
+    }
+
+    public void populateFeatures(View v){
+        // Very simple test to populate the features list
+        // Still will need to create way to pull the features from the database
+        TableLayout stk = (TableLayout) findViewById(R.id.table_main);
+        stk.setBackgroundColor(Color.WHITE);
+        stk.removeAllViews();
+        stk.removeAllViewsInLayout();
+
+        LinearLayout mainLayout = (LinearLayout)findViewById(R.id.table_main);
+        mainLayout.setBackgroundColor(Color.WHITE);
+        for (int i = 0; i < 4; i++) {
+            // Could be the title of the feature
+            TextView test = new TextView(this);
+            test.setText("Test New Feature " + i);
+            test.setTextSize(24);
+            test.setPadding(0,5,0,5);
+            stk.addView(test);
+        }
+    }
+
     public void notificationScreen(String nList) {
         final String[] contentArray = nList.split("\n");
 
