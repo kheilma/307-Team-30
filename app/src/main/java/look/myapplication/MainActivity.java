@@ -394,10 +394,10 @@ public class MainActivity extends Activity {
         setContentView(R.layout.friendprofile);
 
         TextView profileTitle = (TextView) findViewById(R.id.profileTitle);
-        profileTitle.setText("Profile Name: " + name);
+        profileTitle.setText(name +"'s Profile");
 
         TextView profileRating = (TextView) findViewById(R.id.profileRating);
-        profileRating.setText("Profile Rating: " + rating);
+        profileRating.setText(name + "'s Profile Rating: " + rating);
     }
 
     public void blockFriend(View v){
@@ -938,8 +938,10 @@ public class MainActivity extends Activity {
     }
 
     public void profileScreen(View v) {
-
         setContentView(R.layout.profile);
+        TextView profileText = (TextView) findViewById(R.id.myprofile);
+        String userName = user.substring(1, user.length()-1);
+        profileText.setText(userName + "'s Profile");
     }
 
     public void addFriendScreen (View v) {
@@ -1079,6 +1081,9 @@ public class MainActivity extends Activity {
         this.loggedIn = loggedIn;
         current_user = new User(userName, null, null, null, null);
         setContentView(R.layout.profile);
+        TextView profileText = (TextView) findViewById(R.id.myprofile);
+        String name = user.substring(1, user.length()-1);
+        profileText.setText(name + "'s Profile");
     }
 
     public void logout(View v){
