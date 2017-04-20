@@ -4,6 +4,21 @@
     android:fillViewport="true"
     android:background="@color/colorPrimaryDark">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_above="@+id/qButtons"
+        android:id="@+id/QScroll">
+
+        <TableLayout
+            android:id="@+id/table_main"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+        </TableLayout>
+    </ScrollView>
+
     <LinearLayout
         android:id="@+id/qButtons"
         android:layout_width="match_parent"
@@ -44,20 +59,5 @@
             android:layout_alignParentEnd="true" />
 
     </LinearLayout>
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_above="@id/qButtons"
-        android:id="@+id/QScroll">
-
-        <TableLayout
-            android:id="@+id/table_main"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            >
-        </TableLayout>
-    </ScrollView>
 
 </RelativeLayout>
