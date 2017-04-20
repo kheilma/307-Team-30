@@ -1010,6 +1010,61 @@ public class MainActivity extends Activity {
 
     }
 
+    public void setPersonalPreferences(View V) {
+        setContentView(R.layout.preferences);
+
+        // need an activity to retrieve preferences
+        //currently assuming 0 preset
+        for (int i = 0; i < mediaTags.length; i++) {
+            mediaTags[i] = 0;
+        }
+
+        TableLayout tags = (TableLayout) findViewById(R.id.preferTab);
+        TableRow tagRow = new TableRow(this);
+        for (int i = 0; i < tagOpts.length; i++) {
+            if (i % 3 == 0) {
+                tagRow = new TableRow(this);
+                tagRow.setGravity(Gravity.CENTER);
+            }
+            final CheckBox boxTag = new CheckBox(this);
+            final int p = i;
+            boxTag.setText(tagOpts[i]);
+            boxTag.setTextSize(18);
+            boxTag.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (boxTag.isChecked()) {
+                        mediaTags[p] = 1;
+                    } else {
+                        mediaTags[p] = 0;
+                    }
+                }
+            });
+            tagRow.addView(boxTag, TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT);
+            if (i != 0 && (i + 1) % 3 == 0 || i == tagOpts.length - 1) {
+                tags.addView(tagRow, TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT);
+            }
+        }
+        Button confirm = (Button) findViewById(R.id.preferConfirm);
+        confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Activity for setting preferences
+            }
+        });
+
+        Button cancel = (Button) findViewById(R.id.preferCancel);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                for(int i = 0; i < mediaTags.length; i++){
+                    mediaTags[i] = 0;
+                }
+                profileScreen(getCurrentFocus());
+            }
+        });
+    }
+
     public void changeQueueScreen(View v) {
         setContentView(R.layout.queue);
         String userName = user.substring(1, user.length()-1);

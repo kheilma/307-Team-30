@@ -33,6 +33,11 @@
             android:id="@+id/btnAddFriend"
             android:onClick="addFriendScreen"
             android:text="Add Friend" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Preferences"
+            android:onClick="setPersonalPreferences"/>
 
         <Button
             android:layout_width="wrap_content"
