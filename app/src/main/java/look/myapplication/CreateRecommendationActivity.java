@@ -29,7 +29,7 @@ public class CreateRecommendationActivity extends AsyncTask<String, Void, String
     @Override
     protected String doInBackground(String... arg0) {
         String userName = arg0[0];
-        String recipient = "1";
+        String recipient = arg0[1];
         String content = arg0[2];
         String data;
         String link;
@@ -37,6 +37,7 @@ public class CreateRecommendationActivity extends AsyncTask<String, Void, String
         String result;
 
         try {
+            HttpURLConnection con =null;
             if (recipient.equals("1")) {
                 String groupName = arg0[3];
                 String groups = new GetGroupsActivity(null).doInBackground(userName);
@@ -53,23 +54,21 @@ public class CreateRecommendationActivity extends AsyncTask<String, Void, String
                             link = "http://l00k.000webhostapp.com/sendRecommendation.php" + data;
 
                             URL url = new URL(link);
-                            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                            con = (HttpURLConnection) url.openConnection();
 
-                            data = "";
-                            link = "";
                         }
                     }
                 }
+            } else {
+                data = "?sender=" + URLEncoder.encode(userName, "UTF-8");
+                data += "&recipient=" + URLEncoder.encode(recipient, "UTF-8");
+                data += "&content=" + URLEncoder.encode(content, "UTF-8");
+
+                link = "http://l00k.000webhostapp.com/sendRecommendation.php" + data;
+
+                URL url = new URL(link);
+                con = (HttpURLConnection) url.openConnection();
             }
-            data = "?sender=" + URLEncoder.encode(userName, "UTF-8");
-            data += "&recipient=" + URLEncoder.encode(recipient, "UTF-8");
-            data += "&content=" + URLEncoder.encode(content, "UTF-8");
-
-            link = "http://l00k.000webhostapp.com/sendRecommendation.php" + data;
-
-            URL url = new URL(link);
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-
             bufferedReader = new BufferedReader(new InputStreamReader(con.getInputStream()));
             result = bufferedReader.readLine();
             return result;

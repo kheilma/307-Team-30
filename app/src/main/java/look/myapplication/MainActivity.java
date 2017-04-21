@@ -48,11 +48,15 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
-        Intent intent = getIntent();
+        if (getIntent().getExtras() != null && loggedIn) {
+            Log.d("log1", "test");
+            setContentView(R.layout.create);
+        } else {
+            setContentView(R.layout.login);
 
-        setContentView(R.layout.login);
-        loggedIn = false;
-        spinnerSet = false;
+            loggedIn = false;
+            spinnerSet = false;
+        }
     }
 
     @Override
@@ -1165,6 +1169,20 @@ public class MainActivity extends Activity {
         TextView profileText = (TextView) findViewById(R.id.myprofile);
         String name = user.substring(1, user.length()-1);
         profileText.setText(name + "'s Profile");
+
+        if (getIntent().getExtras() != null && loggedIn) {
+            Log.d("log1", "test");
+            View view = findViewById(android.R.id.content);
+            EditText temp = (EditText) findViewById(R.id.link);
+            String value1 = "";
+            if (getIntent().getExtras() != null) {
+                Bundle extras = getIntent().getExtras();
+                value1 = extras.getString(Intent.EXTRA_TEXT);
+            }
+
+            changeRecScreen(view);
+            //temp.setHint(value1);
+        }
     }
 
     public void logout(View v){
