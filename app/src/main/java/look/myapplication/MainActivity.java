@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -47,10 +48,16 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
+        Intent intent = getIntent();
 
         setContentView(R.layout.login);
         loggedIn = false;
         spinnerSet = false;
+    }
+
+    @Override
+    public void onBackPressed() {
+        setContentView(R.layout.profile);
     }
 
     public void sendNotification(View v, User sender, String receiver){
@@ -98,6 +105,14 @@ public class MainActivity extends Activity {
 
     public void createRecommendation(View v, int [] mediaTags){
         // Holds code for creating recommendation after clicking the button on the profile
+        int test = 0;
+        String value1 = "";
+        if (getIntent().getExtras() != null) {
+            Bundle extras = getIntent().getExtras();
+            value1 = extras.getString(Intent.EXTRA_TEXT);
+            test = 1;
+        }
+        Log.d("lol1", value1);
         Toast.makeText(this, "Created Recommendation", Toast.LENGTH_SHORT).show();
 
         EditText name = (EditText) findViewById(R.id.destinationUserName);
@@ -123,8 +138,13 @@ public class MainActivity extends Activity {
         tags = tags.substring(0, tags.length()-1);
 
         changeRecScreen(getCurrentFocus());
-
-        String content = "description:" + recDescription + "|type:" + recType + "|link" + recLink + "|tags:" + tags;
+        String content = "";
+        if (test == 1) {
+             content = "description:" + recDescription + "|type:" + recType + "|link" + value1 + "|tags:" + tags;
+        }
+        else {
+             content = "description:" + recDescription + "|type:" + recType + "|link" + recLink + "|tags:" + tags;
+        }
         new CreateRecommendationActivity(this, current_user).execute(user.substring(1, user.length()-1), recipient, content);
     }
 
