@@ -12,8 +12,12 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -21,6 +25,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -35,7 +40,7 @@ import java.util.ArrayList;
 public class MainActivity extends Activity {
 
     private boolean loggedIn;
-    private boolean spinnerSet;
+    private boolean spinnerSet = false;
     public ArrayList<String> delete = new ArrayList<>(20);
     public ArrayList<String> faves = new ArrayList<>(20);
     public ArrayList<String> unFave = new ArrayList<>(20);
@@ -55,13 +60,12 @@ public class MainActivity extends Activity {
             setContentView(R.layout.login);
 
             loggedIn = false;
-            spinnerSet = false;
         }
     }
 
     @Override
     public void onBackPressed() {
-        setContentView(R.layout.profile);
+        profileScreen(getCurrentFocus());
     }
 
     public void sendNotification(View v, User sender, String receiver){
@@ -214,7 +218,7 @@ public class MainActivity extends Activity {
             Button delete = new Button(this);
             if (names[i].indexOf('|') == -1) {
                 Toast.makeText(getContext(), "Add friends before creating a group!" , Toast.LENGTH_SHORT).show();
-                setContentView(R.layout.profile);
+                profileScreen(getCurrentFocus());
                 return;
             }
             String name = names[i].substring(0, names[i].indexOf('|'));
@@ -519,11 +523,7 @@ public class MainActivity extends Activity {
 
         // If there is an error, go back to profile and display message.
         if(stk == null){
-            setContentView(R.layout.profile);
-            Toast.makeText(this, "Failed to load notifications.", Toast.LENGTH_SHORT).show();
-            TextView profileText = (TextView) findViewById(R.id.myprofile);
-            String userName = user.substring(1, user.length()-1);
-            profileText.setText(userName + "'s Profile");
+            profileScreen(getCurrentFocus());
             return;
         }
 
@@ -725,11 +725,7 @@ public class MainActivity extends Activity {
         TableLayout stk = (TableLayout) findViewById(R.id.table_main);
 
         if(stk == null){
-            setContentView(R.layout.profile);
-            Toast.makeText(this, "Failed to load queue.", Toast.LENGTH_SHORT).show();
-            TextView profileText = (TextView) findViewById(R.id.myprofile);
-            String userName = user.substring(1, user.length()-1);
-            profileText.setText(userName + "'s Profile");
+            profileScreen(getCurrentFocus());
             return;
         }
 
@@ -1110,6 +1106,32 @@ public class MainActivity extends Activity {
 
     public void profileScreen(View v) {
         setContentView(R.layout.profile);
+
+        final Spinner spinner = (Spinner) findViewById(R.id.spinner);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                String item = parent.getItemAtPosition(position).toString();
+
+                if (item.equals("Features")) {
+                    featuresScreen(view);
+                } else if (item.equals("Change Password")) {
+                    changePassScreen(view);
+                } else if (item.equals("Report A Bug")) {
+                    bugReportScreen(view);
+                } else if (item.equals("Logout")) {
+                    logout(view);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         TextView profileText = (TextView) findViewById(R.id.myprofile);
         String userName = user.substring(1, user.length()-1);
         profileText.setText(userName + "'s Profile");
@@ -1251,10 +1273,7 @@ public class MainActivity extends Activity {
     public void setLoggedIn(boolean loggedIn, String userName) {
         this.loggedIn = loggedIn;
         current_user = new User(userName, null, null, null, null);
-        setContentView(R.layout.profile);
-        TextView profileText = (TextView) findViewById(R.id.myprofile);
-        String name = user.substring(1, user.length()-1);
-        profileText.setText(name + "'s Profile");
+        profileScreen(getCurrentFocus());
 
         if (getIntent().getExtras() != null && loggedIn) {
             Log.d("log1", "test");

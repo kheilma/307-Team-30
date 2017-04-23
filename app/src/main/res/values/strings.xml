@@ -17,4 +17,12 @@
         <item>Recommend</item>
     </string-array>
 
+    <string-array name="spinnerArray">
+        <item>Options</item>
+        <item>Features</item>
+        <item>Change Password</item>
+        <item>Report A Bug</item>
+        <item>Logout</item>
+    </string-array>
+
 </resources>
