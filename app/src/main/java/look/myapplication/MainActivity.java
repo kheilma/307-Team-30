@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -21,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -720,6 +722,7 @@ public class MainActivity extends Activity {
     }
 
     public void queueScreen(String recQ, final int favorites, String sortWay) {
+        final String recQ1 = recQ;
         String[] contentArray = recQ.split("\n");
         final String fullContent = recQ;
         TableLayout stk = (TableLayout) findViewById(R.id.table_main);
@@ -735,6 +738,38 @@ public class MainActivity extends Activity {
 
         stk.setBackgroundColor(Color.WHITE);
         stk.removeAllViews();
+
+        final Spinner sorter = (Spinner) findViewById(R.id.spinnerSort);
+        if (sortWay.compareTo("default")!=0) {
+            sorter.setSelection(1);
+        }
+        sorter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.d("d1", "true");
+                String selection =  sorter.getSelectedItem().toString();
+                if (selection.compareTo("By Friend")==0) {
+                    Log.d("d2", "ye");
+                    queueScreen(recQ1, favorites, "friend" );
+                    return;
+                }
+                if (selection.compareTo("Recent")==0) {
+                    queueScreen(recQ1, favorites, "default");
+                    return;
+                }
+                if (selection.compareTo("Highest Rated Friends")==0) {
+                    queueScreen(recQ1, favorites, "rating");
+                    return;
+                }
+                sorter.onSaveInstanceState();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
 
         final int f = favorites;
         stk.removeAllViewsInLayout();
@@ -859,7 +894,7 @@ public class MainActivity extends Activity {
                 @Override
                 public void onClick(View view) {
                     boolean isFavorite = toggleButton.isChecked();
-                    viewContent(content, fullContent, rating, isFavorite, f);
+                    viewContent(content, fullContent, rating, isFavorite, f, sorter.getSelectedItem().toString());
                 }
             });
 
@@ -942,12 +977,14 @@ public class MainActivity extends Activity {
         String tempfriend = "";
         LinearLayout tempLayout = null;
         RelativeLayout tempRel = null;
-
+        Log.d("dsorr", sortWay);
         while (flag) {
             flag = false;
             for (int j = 0; j < contentArray.length-1; j++) {
                 if ("friend".compareTo(sortWay)==0) {
-                    if (friendsArray[j].compareTo(friendsArray[j+1])==1) {
+                    Log.d("d2", "sort");
+                    Log.d("d4", String.valueOf(friendsArray[j].compareTo(friendsArray[j+1])));
+                    if (friendsArray[j].compareTo(friendsArray[j+1])>(1)) {
                         tempfriend = friendsArray[j];
                         tempLayout = sortArray[j];
                         tempRel = ratingBarArray[j];
@@ -962,7 +999,7 @@ public class MainActivity extends Activity {
                 }
             }
         }
-        for (int i = contentArray.length-1; i >-1; i--) {
+        for (int i = 0; i < contentArray.length; i++) {
             TextView border = new TextView(this);
             border.setText("-");
             border.setTextSize(1);
@@ -971,10 +1008,11 @@ public class MainActivity extends Activity {
             stk.addView(sortArray[i]);
             mainLayout.addView(ratingBarArray[i]);
             mainLayout.addView(border);
+            Log.d("d3", friendsArray[i]);
         }
     }
 
-    public void viewContent(String details, String fullQ, int rating, boolean isFavorite, int favorites) {
+    public void viewContent(String details, String fullQ, int rating, boolean isFavorite, int favorites, final String sort) {
         setContentView(R.layout.viewcontent);
         final String fullContent = new String(fullQ);
         TableLayout viewT = (TableLayout) findViewById(R.id.viewtable);
@@ -1097,7 +1135,15 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
                 setContentView(R.layout.queue);
-                queueScreen(fullContent, f, "friend");
+                if (sort.compareTo("By Friend")==0) {
+                    queueScreen(fullContent, f, "friend");
+                    return;
+                }
+                else {
+                    queueScreen(fullContent, f, "default");
+                    return;
+                }
+
             }
         });
     }
