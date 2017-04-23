@@ -1306,4 +1306,8 @@ public class MainActivity extends Activity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    public void helpScreen(View view) {
+        setContentView(R.layout.help);
+    }
 }

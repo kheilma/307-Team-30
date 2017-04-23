@@ -57,6 +57,13 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="Help"
+            android:onClick="helpScreen"
+            />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:id="@+id/btnLogout"
             android:layout_alignParentBottom="true"
             android:onClick="logout"
