@@ -516,10 +516,18 @@ public class MainActivity extends Activity {
         final String[] contentArray = nList.split("\n");
 
         TableLayout stk = (TableLayout) findViewById(R.id.notification_table);
+
+        // If there is an error, go back to profile and display message.
+        if(stk == null){
+            setContentView(R.layout.profile);
+            Toast.makeText(this, "Failed to load notifications.", Toast.LENGTH_SHORT).show();
+            TextView profileText = (TextView) findViewById(R.id.myprofile);
+            String userName = user.substring(1, user.length()-1);
+            profileText.setText(userName + "'s Profile");
+        }
+
         stk.removeAllViews();
         stk.removeAllViewsInLayout();
-
-
 
         for (int i = 0; i < contentArray.length; i++) {
             LinearLayout row = new LinearLayout(this);
@@ -689,8 +697,18 @@ public class MainActivity extends Activity {
         String[] contentArray = recQ.split("\n");
         final String fullContent = recQ;
         TableLayout stk = (TableLayout) findViewById(R.id.table_main);
+
+        if(stk == null){
+            setContentView(R.layout.profile);
+            Toast.makeText(this, "Failed to load queue.", Toast.LENGTH_SHORT).show();
+            TextView profileText = (TextView) findViewById(R.id.myprofile);
+            String userName = user.substring(1, user.length()-1);
+            profileText.setText(userName + "'s Profile");
+        }
+
         stk.setBackgroundColor(Color.WHITE);
         stk.removeAllViews();
+
         final int f = favorites;
         stk.removeAllViewsInLayout();
         LinearLayout mainLayout = (LinearLayout)findViewById(R.id.table_main);
