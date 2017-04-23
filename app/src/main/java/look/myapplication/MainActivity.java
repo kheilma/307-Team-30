@@ -1271,6 +1271,10 @@ public class MainActivity extends Activity {
         }
     }
 
+    public void helpScreen ( View v) {
+        setContentView(R.layout.help);
+    }
+
     public void logout(View v){
         Toast.makeText(this, "Logging out...", Toast.LENGTH_SHORT).show();
         this.loggedIn = false;
