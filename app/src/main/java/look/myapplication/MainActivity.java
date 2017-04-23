@@ -529,7 +529,8 @@ public class MainActivity extends Activity {
 
         stk.removeAllViews();
         stk.removeAllViewsInLayout();
-
+        LinearLayout[] sortArray = new LinearLayout[contentArray.length];
+        String[] friendsArray = new String[contentArray.length];
         for (int i = 0; i < contentArray.length; i++) {
             LinearLayout row = new LinearLayout(this);
             row.setOrientation(LinearLayout.HORIZONTAL);
@@ -591,8 +592,32 @@ public class MainActivity extends Activity {
             row.addView(t1v);
             row.addView(accept);
             row.addView(ignore);
-
             stk.addView(row);
+        }
+        /*boolean flag = true;
+        String tempfriend = "";
+        LinearLayout tempLayout = new LinearLayout(null);
+
+        while (flag) {
+            flag = false;
+            for (int j = 0; j < contentArray.length-1; j++) {
+                if ("friend".compareTo(sortWay)==0) {
+                    if (friendsArray[j].compareTo(friendsArray[j+1])==1) {
+                        tempfriend = friendsArray[j];
+                        tempLayout = sortArray[j];
+                        sortArray[j] = sortArray[j+1];
+                        sortArray[j+1] = tempLayout;
+                        friendsArray[j] = friendsArray[j+1];
+                        friendsArray[j+1] = tempfriend;
+                        flag = true;
+                    }
+                }
+            }
+        }*/
+
+        for (int i = 0; i < contentArray.length; i++) {
+
+            stk.addView(sortArray[i]);
         }
     }
 
@@ -688,13 +713,13 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View view) {
                 setContentView(R.layout.queue);
-                queueScreen(fullContent, 1);
+                queueScreen(fullContent, 1, "DEFAULT");
             }
         });
 
     }
 
-    public void queueScreen(String recQ, final int favorites) {
+    public void queueScreen(String recQ, final int favorites, String sortWay) {
         String[] contentArray = recQ.split("\n");
         final String fullContent = recQ;
         TableLayout stk = (TableLayout) findViewById(R.id.table_main);
@@ -714,12 +739,16 @@ public class MainActivity extends Activity {
         final int f = favorites;
         stk.removeAllViewsInLayout();
         LinearLayout mainLayout = (LinearLayout)findViewById(R.id.table_main);
+        LinearLayout[] sortArray = new LinearLayout[contentArray.length];
+        RelativeLayout[] ratingBarArray = new RelativeLayout[contentArray.length];
+        String[] friendsArray = new String[contentArray.length];
         mainLayout.setBackgroundColor(Color.WHITE);
         for (int i = 0; i < contentArray.length; i++) {
             final String content = contentArray[i];
             if (content.indexOf('&') == -1) {
                 return;
             }
+            friendsArray[i] = content.split("&")[0];
             int fav = 0;
             String [] info = content.split("&");
             final String recipient = info[1];
@@ -837,7 +866,8 @@ public class MainActivity extends Activity {
             tbrow.addView(viewButton, TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT);
             tbrow.addView(toggleButton, TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT);
             tbrow.setGravity(Gravity.CENTER);
-            stk.addView(tbrow);
+            sortArray[i] = tbrow;
+            //stk.addView(tbrow);
 
             submit.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -857,8 +887,9 @@ public class MainActivity extends Activity {
 
             ratingBar.addView(bar);
             ratingBar.addView(submit);
-            mainLayout.addView(ratingBar);
-            mainLayout.addView(border, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            //mainLayout.addView(ratingBar);
+            ratingBarArray[i] = ratingBar;
+
         }
         Button delete = (Button) findViewById(R.id.QdeleteButton);
         delete.setOnClickListener(new View.OnClickListener() {
@@ -905,6 +936,41 @@ public class MainActivity extends Activity {
                     changeQueueScreen(getCurrentFocus());
                 }
             });
+        }
+
+        boolean flag = true;
+        String tempfriend = "";
+        LinearLayout tempLayout = null;
+        RelativeLayout tempRel = null;
+
+        while (flag) {
+            flag = false;
+            for (int j = 0; j < contentArray.length-1; j++) {
+                if ("friend".compareTo(sortWay)==0) {
+                    if (friendsArray[j].compareTo(friendsArray[j+1])==1) {
+                        tempfriend = friendsArray[j];
+                        tempLayout = sortArray[j];
+                        tempRel = ratingBarArray[j];
+                        sortArray[j] = sortArray[j+1];
+                        sortArray[j+1] = tempLayout;
+                        friendsArray[j] = friendsArray[j+1];
+                        friendsArray[j+1] = tempfriend;
+                        ratingBarArray[j] = ratingBarArray[j+1];
+                        ratingBarArray[j+1] = tempRel;
+                        flag = true;
+                    }
+                }
+            }
+        }
+        for (int i = contentArray.length-1; i >-1; i--) {
+            TextView border = new TextView(this);
+            border.setText("-");
+            border.setTextSize(1);
+            border.setTextColor(Color.BLACK);
+            border.setBackgroundColor(Color.BLACK);
+            stk.addView(sortArray[i]);
+            mainLayout.addView(ratingBarArray[i]);
+            mainLayout.addView(border);
         }
     }
 
@@ -1031,7 +1097,7 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
                 setContentView(R.layout.queue);
-                queueScreen(fullContent, f);
+                queueScreen(fullContent, f, "friend");
             }
         });
     }

@@ -65,7 +65,7 @@ public class getQueueActivity extends AsyncTask<String, Void, String> {
                 if (query_result.equals("SUCCESS")) {
                     Toast.makeText(context, "Succesfully pulled up queue.", Toast.LENGTH_SHORT).show();
                     MainActivity mainActivity = (MainActivity)context;
-                    mainActivity.queueScreen(jsonObj.getString("query_message"),0);
+                    mainActivity.queueScreen(jsonObj.getString("query_message"),0, "friend");
                 } else if (query_result.equals("FAILURE")) {
                     Toast.makeText(context, "Failed to pull up recommendations for " + userName, Toast.LENGTH_SHORT).show();
                 } else {
