@@ -524,6 +524,7 @@ public class MainActivity extends Activity {
             TextView profileText = (TextView) findViewById(R.id.myprofile);
             String userName = user.substring(1, user.length()-1);
             profileText.setText(userName + "'s Profile");
+            return;
         }
 
         stk.removeAllViews();
@@ -704,6 +705,7 @@ public class MainActivity extends Activity {
             TextView profileText = (TextView) findViewById(R.id.myprofile);
             String userName = user.substring(1, user.length()-1);
             profileText.setText(userName + "'s Profile");
+            return;
         }
 
         stk.setBackgroundColor(Color.WHITE);
