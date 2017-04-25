@@ -939,9 +939,9 @@ public class MainActivity extends Activity {
                 int fav = 0;
                 String[] info = content.split("&");
                 final String recipient = info[1];
-                final int rating = Integer.parseInt(info[3]);
+                final int rating = Integer.parseInt(info[info.length-2]);
                 if (favorites == 0) {
-                    fav = Integer.parseInt(info[4]);
+                    fav = Integer.parseInt(info[info.length-1]);
                 }
                 Button submit = new Button(this);
                 submit.setText("Submit");
@@ -1167,7 +1167,8 @@ public class MainActivity extends Activity {
             String[] names = details.split("&");
             String info = names[3];
             String[] tags = new String[mediaTags.length];
-            String[] chunks = names[2].split("\\|");
+            String [] chunks = new String[4];
+            chunks = names[2].split("\\|");
             if (chunks.length > 3) {
                 String[] tagChunks = chunks[3].substring(5).split(",");
                 for (int j = 0; j < tags.length; j++) {
@@ -1177,8 +1178,8 @@ public class MainActivity extends Activity {
                         tags[j] = "0";
                     }
                 }
-
             }
+
             TableRow senderRow = new TableRow(this);
             TextView senderName = new TextView(this);
             senderName.setText("Sender: " + names[0]);
@@ -1213,7 +1214,26 @@ public class MainActivity extends Activity {
             }
             linkText.setTextSize(32);
             linkText.setText(link);
+            final String linkFinal = link;
+            linkText.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    try {
+
+                        Uri uri = Uri.parse(linkFinal.substring(6));
+                        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                        startActivity(intent);
+                    }catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+
             linkRow.addView(linkText);
+
+
+
+
 
             RelativeLayout rate = new RelativeLayout(this);
 
