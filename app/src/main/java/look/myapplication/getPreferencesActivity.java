@@ -21,6 +21,7 @@ public class getPreferencesActivity extends AsyncTask<String, Void, String> {
 
     private Context context;
     private String mode = "";
+    private String name = "";
 
     public getPreferencesActivity(Context context) {
         this.context = context;
@@ -31,6 +32,7 @@ public class getPreferencesActivity extends AsyncTask<String, Void, String> {
         String userName = "'" + arg0[0] + "'";
         String preferences = arg0[1];
         this.mode = preferences;
+        this.name = arg0[0];
 
         String data;
         String link;
@@ -66,7 +68,7 @@ public class getPreferencesActivity extends AsyncTask<String, Void, String> {
                         m.getPersonalPreferences(jsonObj.getString("query_message"));
                     }
                     else if(mode.equals("friend")) {
-                        m.getFriendPreferences(jsonObj.getString("query_message"));
+                        m.definefriendtags(jsonObj.getString("query_message"),name);
                     }
                 } else if (query_result.equals("FAILURE")) {
                     Toast.makeText(context, "Failed to retrieve preferences.", Toast.LENGTH_SHORT).show();

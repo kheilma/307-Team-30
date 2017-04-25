@@ -443,7 +443,35 @@ public class MainActivity extends Activity {
             new ReportBugActivity(this).execute(e.getMessage());
         }
     }
-    
+
+    public void getFriendTags(String name) {
+        new getPreferencesActivity(this).execute(name, "friend");
+    }
+
+    public void definefriendtags(String tag, String name) {
+        String [] tagSplit = tag.split(",");
+        int [] vals = new int[mediaTags.length];
+        for(int j = 0; j < tagSplit.length; j++) {
+            String split = tagSplit[j];
+            if(!split.equals("1") && !split.equals("0")) {
+                continue;
+            }
+            vals[j] = Integer.parseInt(tagSplit[j]);
+        }
+        for(int i = 0; i < mediaTags.length; i++) {
+            mediaTags[i] = vals[i];
+        }
+        TextView tags = new TextView(this);
+        String tagText = "";
+        for (int j = 0; j < mediaTags.length; j++) {
+            if (mediaTags[j] == 1) {
+                tagText += tagOpts[j] + " | ";
+            }
+        }
+        tags.setText(tagText);
+        tags.setTextSize(16);
+
+    }
 
     public void setFriendScreen(String friendsString) {
         try {
@@ -463,7 +491,6 @@ public class MainActivity extends Activity {
                 if (endIndex == -1) break;
                 final String name = names[i].substring(0, endIndex);
                 String accepted = names[i].substring(endIndex + 1);
-
 
                 if (accepted.equals("1")) {
                     text.setText(name);
@@ -531,8 +558,22 @@ public class MainActivity extends Activity {
             TextView profileTitle = (TextView) findViewById(R.id.profileTitle);
             profileTitle.setText(name + "'s Profile");
 
+            TextView tags = new TextView(this);
+            getFriendTags(name);
+            String tagText = "";
+            for (int j = 0; j < mediaTags.length; j++) {
+                if (mediaTags[j] == 1) {
+                    tagText += tagOpts[j] + " | ";
+                }
+            }
+            tags.setText(tagText);
+            tags.setTextSize(16);
+
             TextView profileRating = (TextView) findViewById(R.id.profileRating);
-            profileRating.setText(name + "'s Profile Rating: " + rating);
+            profileRating.setText(name + "'s Profile Rating: " + rating
+            +"\n" + tagText);
+
+
         }catch(Exception e) {
             new ReportBugActivity(this).execute(e.getMessage());
         }

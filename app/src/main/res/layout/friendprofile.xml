@@ -30,6 +30,16 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
 
+        <TextView
+            android:id="@+id/profileTags"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Profile Rating!"
+            android:layout_below="@+id/profileRating"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
         <Button
             android:text="block"
             android:id="@+id/block"
