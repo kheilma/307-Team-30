@@ -7,11 +7,15 @@ package look.myapplication;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -20,6 +24,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -1565,5 +1570,74 @@ public class MainActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void optionsWindow (View v) {
+        try {
+
+            LayoutInflater li = (LayoutInflater) getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+            ViewGroup container = (ViewGroup) li.inflate(R.layout.optionspopup, null);
+
+            // Get screen size
+            DisplayMetrics displayMetrics = new DisplayMetrics();
+            getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+
+            int height = displayMetrics.heightPixels;
+            int width = displayMetrics.widthPixels;
+
+            int heightScaled = (int)(height*.5);
+            int widthScaled = (int)(width*.6);
+
+            final PopupWindow pw = new PopupWindow(container,widthScaled,heightScaled,true);
+            pw.showAtLocation(v, Gravity.CENTER, 0,0);
+
+            Button btnFeatures = (Button) container.findViewById(R.id.features);
+            btnFeatures.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    featuresScreen(v);
+                    pw.dismiss();
+                }
+            });
+
+            Button btnHelp = (Button) container.findViewById(R.id.help);
+            btnHelp.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    helpScreen(v);
+                    pw.dismiss();
+                }
+            });
+
+            Button btnBug = (Button) container.findViewById(R.id.bugs);
+            btnBug.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    bugReportScreen(v);
+                    pw.dismiss();
+                }
+            });
+
+            Button btnLogout = (Button) container.findViewById(R.id.btnLogout);
+            btnLogout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    logout(v);
+                    pw.dismiss();
+                }
+            });
+
+
+            container.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    pw.dismiss();
+                    return true;
+                }
+            });
+
+        }catch(Exception e) {
+            new ReportBugActivity(this).execute(e.getMessage());
+        }
     }
 }

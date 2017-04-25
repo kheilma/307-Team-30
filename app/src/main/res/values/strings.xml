@@ -23,4 +23,12 @@
         <item>Highest Rated Friends</item>
     </string-array>
 
+    <string-array name="profileOptions">
+        <item>Options</item>
+        <item>Features</item>
+        <item>Help</item>
+        <item>Report A Bug</item>
+        <item>Logout</item>
+    </string-array>
+
 </resources>

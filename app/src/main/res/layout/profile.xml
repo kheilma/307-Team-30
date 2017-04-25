@@ -1,136 +1,106 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:weightSum="1"
-        android:gravity="center"
+    <ImageButton
+        android:background="@null"
+        android:src="@drawable/options"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/myprofile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
-            android:text="Profile"/>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/btnCreateR"
-            android:tag=""
-            android:onClick="changeRecScreen"
-            android:text="Create New Recommendation"/>
-
-        <Button
-            android:text="Change Password"
-            android:layout_width="178dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/btnChangePasswordScreen"
-            android:layout_weight="0.01"
-            android:onClick="changePassScreen"
-            android:elevation="0dp" />
-
-        <Button
-            android:layout_width="178dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/btnAddFriend"
-            android:onClick="addFriendScreen"
-            android:text="Add Friend" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Preferences"
-            android:onClick="setPersonalPreferences"/>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Features"
-            android:onClick="featuresScreen"/>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Help"
-            android:onClick="helpScreen"/>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/btnLogout"
-            android:layout_alignParentBottom="true"
-            android:onClick="logout"
-            android:text="Logout"/>
-
-        <Button
-            android:text="Report a bug"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="bugReportScreen"
-            android:id="@+id/bugs" />
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:layout_weight=".995">
-        </FrameLayout>
+        android:id="@+id/btnPopup"
+        android:onClick="optionsWindow" />
 
         <LinearLayout
+            android:layout_marginTop="40dp"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:orientation="horizontal">
+            android:weightSum="1"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <ImageButton
-                android:background="@null"
+            <TextView
+                android:id="@+id/myprofile"
                 android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
-                android:layout_weight="1"
-                android:src="@drawable/friends"
-                android:id="@+id/btnViewFriends"
-                android:onClick="friendScreen"/>
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:text="Profile"/>
 
-            <ImageButton
-                android:background="@null"
+            <Button
                 android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
-                android:layout_weight="1"
-                android:src="@drawable/queue"
-                android:id="@+id/btnViewQueue"
-                android:onClick="changeQueueScreen"/>
+                android:layout_height="wrap_content"
+                android:id="@+id/btnCreateR"
+                android:tag=""
+                android:onClick="changeRecScreen"
+                android:text="Create New Recommendation"/>
 
-            <ImageButton
-                android:background="@null"
-                android:id="@+id/imageButton"
+            <Button
+                android:text="Change Password"
+                android:layout_width="178dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnChangePasswordScreen"
+                android:layout_weight="0.01"
+                android:onClick="changePassScreen"
+                android:elevation="0dp" />
+
+            <Button
+                android:layout_width="178dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnAddFriend"
+                android:onClick="addFriendScreen"
+                android:text="Add Friend" />
+
+            <Button
                 android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
-                android:layout_weight="1"
-                android:src="@drawable/favorite"
-                android:onClick="changefavoritesScreen" />
+                android:layout_height="wrap_content"
+                android:text="Preferences"
+                android:onClick="setPersonalPreferences"/>
 
-            <ImageButton
-                android:background="@null"
-                android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
-                android:layout_weight="1"
-                android:src="@drawable/notification"
-                android:id="@+id/btnviewNotifications"
-                android:onClick="changeNotificationScreen"/>
-            </LinearLayout>
+        </LinearLayout>
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="5dp"
-            android:layout_weight=".005">
-        </FrameLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal">
 
+        <ImageButton
+            android:background="@null"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:src="@drawable/friends"
+            android:id="@+id/btnViewFriends"
+            android:onClick="friendScreen"/>
+
+        <ImageButton
+            android:background="@null"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:src="@drawable/queue"
+            android:id="@+id/btnViewQueue"
+            android:onClick="changeQueueScreen"/>
+
+        <ImageButton
+            android:background="@null"
+            android:id="@+id/imageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:src="@drawable/favorite"
+            android:onClick="changefavoritesScreen" />
+
+        <ImageButton
+            android:background="@null"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:src="@drawable/notification"
+            android:id="@+id/btnviewNotifications"
+            android:onClick="changeNotificationScreen"/>
     </LinearLayout>
 
-</ScrollView>
+</RelativeLayout>
