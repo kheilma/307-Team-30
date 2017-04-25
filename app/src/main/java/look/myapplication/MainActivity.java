@@ -939,9 +939,13 @@ public class MainActivity extends Activity {
                 int fav = 0;
                 String[] info = content.split("&");
                 final String recipient = info[1];
-                final int rating = Integer.parseInt(info[info.length-2]);
+                final int rating;
                 if (favorites == 0) {
+                    rating = Integer.parseInt(info[info.length-2]);
                     fav = Integer.parseInt(info[info.length-1]);
+                }
+                else {
+                    rating = Integer.parseInt(info[info.length-1]);
                 }
                 Button submit = new Button(this);
                 submit.setText("Submit");
