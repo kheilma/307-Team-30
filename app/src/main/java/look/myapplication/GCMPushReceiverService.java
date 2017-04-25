@@ -1,4 +1,4 @@
-package look.myapplication;
+/*package look.myapplication;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -40,3 +40,4 @@ public class GCMPushReceiverService extends GcmListenerService {
         notificationManager.notify(0, noBuilder.build()); //0 = ID of notification
     }
 }
+*/

@@ -1,4 +1,4 @@
-package look.myapplication;
+/*package look.myapplication;
 
 import android.app.IntentService;
 import android.content.Intent;
@@ -59,3 +59,4 @@ public class GCMRegistrationIntentService extends IntentService {
         LocalBroadcastManager.getInstance(this).sendBroadcast(registrationComplete);
     }
 }
+*/

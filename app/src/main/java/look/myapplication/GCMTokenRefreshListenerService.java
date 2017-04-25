@@ -1,4 +1,4 @@
-package look.myapplication;
+/*package look.myapplication;
 
 import android.content.Intent;
 
@@ -14,3 +14,4 @@ public class GCMTokenRefreshListenerService extends InstanceIDListenerService {
         startService(intent);
     }
 }
+*/
