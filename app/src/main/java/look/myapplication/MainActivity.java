@@ -143,6 +143,7 @@ public class MainActivity extends Activity {
                 Bundle extras = getIntent().getExtras();
                 value1 = extras.getString(Intent.EXTRA_TEXT);
                 test = 1;
+                //getIntent().removeExtra("key");
             }
             Log.d("lol1", value1);
             Toast.makeText(this, "Created Recommendation", Toast.LENGTH_SHORT).show();
