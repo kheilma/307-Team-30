@@ -1369,6 +1369,9 @@ public class MainActivity extends Activity {
     public void changeRecScreen(View v) {
         try {
             setContentView(R.layout.create);
+
+            String link = "";
+
             for (int i = 0; i < mediaTags.length; i++) {
                 mediaTags[i] = 0;
             }
@@ -1381,6 +1384,16 @@ public class MainActivity extends Activity {
 
             EditText name = (EditText) findViewById(R.id.destinationUserName);
             name.setText(nameRecommendingTo);
+
+            if (getIntent().getExtras() != null) {
+                Bundle extras = getIntent().getExtras();
+                link = extras.getString(Intent.EXTRA_TEXT);
+            } else {
+                link = "";
+            }
+
+            EditText linkText = (EditText) findViewById(R.id.link);
+            linkText.setText(link);
 
             TableLayout tags = (TableLayout) findViewById(R.id.recScreenTags);
             TableRow tagRow = new TableRow(this);
