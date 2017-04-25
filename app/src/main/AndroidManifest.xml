@@ -15,7 +15,7 @@ package="look.myapplication" >
         android:windowSoftInputMode="stateVisible|adjustResize">
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
-
+            //test
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
         <intent-filter>
