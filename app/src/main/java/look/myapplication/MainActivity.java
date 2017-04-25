@@ -471,6 +471,8 @@ public class MainActivity extends Activity {
         tags.setText(tagText);
         tags.setTextSize(16);
 
+        TextView profiletags = (TextView) findViewById(R.id.profileTags);
+        profiletags.setText("Preferences: " +  tagText);
     }
 
     public void setFriendScreen(String friendsString) {
@@ -570,8 +572,7 @@ public class MainActivity extends Activity {
             tags.setTextSize(16);
 
             TextView profileRating = (TextView) findViewById(R.id.profileRating);
-            profileRating.setText(name + "'s Profile Rating: " + rating
-            +"\n" + tagText);
+            profileRating.setText(name + "'s Profile Rating: " + rating);
 
 
         }catch(Exception e) {
