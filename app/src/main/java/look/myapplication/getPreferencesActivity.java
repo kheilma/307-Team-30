@@ -20,6 +20,7 @@ import java.net.URLEncoder;
 public class getPreferencesActivity extends AsyncTask<String, Void, String> {
 
     private Context context;
+    private String mode = "";
 
     public getPreferencesActivity(Context context) {
         this.context = context;
@@ -27,8 +28,9 @@ public class getPreferencesActivity extends AsyncTask<String, Void, String> {
 
     @Override
     protected String doInBackground(String... arg0) {
-        String userName = arg0[0];
+        String userName = "'" + arg0[0] + "'";
         String preferences = arg0[1];
+        this.mode = preferences;
 
         String data;
         String link;
@@ -39,6 +41,7 @@ public class getPreferencesActivity extends AsyncTask<String, Void, String> {
             data = "?username=" + URLEncoder.encode(userName, "UTF-8");
 
             link = "http://l00k.000webhostapp.com/getPreferences.php" + data;
+            System.out.println(link);
             URL url = new URL(link);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
 
@@ -52,12 +55,19 @@ public class getPreferencesActivity extends AsyncTask<String, Void, String> {
 
     protected void onPostExecute(String result) {
         String jsonStr = result;
+        MainActivity m = (MainActivity) context;
         if (jsonStr != null) {
             try {
                 JSONObject jsonObj = new JSONObject(jsonStr);
                 String query_result = jsonObj.getString("query_result");
                 if (query_result.equals("SUCCESS")) {
                     Toast.makeText(context, "Preferences retrieved.", Toast.LENGTH_SHORT).show();
+                    if(mode.equals("user")) {
+                        m.getPersonalPreferences(jsonObj.getString("query_message"));
+                    }
+                    else if(mode.equals("friend")) {
+                        m.getFriendPreferences(jsonObj.getString("query_message"));
+                    }
                 } else if (query_result.equals("FAILURE")) {
                     Toast.makeText(context, "Failed to retrieve preferences.", Toast.LENGTH_SHORT).show();
                 } else {

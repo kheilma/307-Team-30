@@ -24,7 +24,7 @@ public class SetPersonalPreferences extends AsyncTask<String, Void, String> {
 
     @Override
     protected String doInBackground(String... arg0) {
-        String userName = arg0[0];
+        String userName = "'" + arg0[0] + "'";
         String preferences = arg0[1];
 
         String data;

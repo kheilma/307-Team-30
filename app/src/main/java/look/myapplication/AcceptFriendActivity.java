@@ -39,6 +39,7 @@ public class AcceptFriendActivity extends AsyncTask<String, Void, String> {
         String link;
         BufferedReader bufferedReader;
         String result;
+        MainActivity main = (MainActivity) context;
 
         try {
             data = "?user=" + URLEncoder.encode(user, "UTF-8");
@@ -56,12 +57,14 @@ public class AcceptFriendActivity extends AsyncTask<String, Void, String> {
             result = bufferedReader.readLine();
             return result;
         } catch (Exception e) {
+            main.sendError(e.getMessage());
             return new String("Exception: " + e.getMessage());
         }
     }
 
     protected void onPostExecute(String result) {
         String jsonStr = result;
+        MainActivity main = (MainActivity) context;
         if (jsonStr != null) {
             try {
                 JSONObject jsonObj = new JSONObject(jsonStr);
@@ -83,6 +86,7 @@ public class AcceptFriendActivity extends AsyncTask<String, Void, String> {
                     Toast.makeText(context, "Please seek assistance from your Complaint Department representative.", Toast.LENGTH_SHORT).show();
                 }
             } catch (JSONException e) {
+                main.sendError(e.getMessage());
                 e.printStackTrace();
                 Toast.makeText(context, result , Toast.LENGTH_SHORT).show();
             }

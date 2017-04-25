@@ -31,6 +31,7 @@ public class ChangePasswordActivity extends AsyncTask<String, Void, String> {
     }
 
     public static String byteArrayToHexString(byte[] b){
+
         StringBuffer sb = new StringBuffer(b.length * 2);
         for (int i = 0; i < b.length; i++){
             int v = b[i] & 0xff;
@@ -63,6 +64,7 @@ public class ChangePasswordActivity extends AsyncTask<String, Void, String> {
         String data;
         BufferedReader bufferedReader;
         String result;
+        MainActivity main = (MainActivity) context;
 
         if (currentPass.matches("")) {
             return new String("Please enter your current password");
@@ -102,6 +104,7 @@ public class ChangePasswordActivity extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String result) {
         String jsonStr = result;
+        MainActivity main = (MainActivity) context;
         if (jsonStr != null) {
             try {
                 JSONObject jsonObj = new JSONObject(jsonStr);

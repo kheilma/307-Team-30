@@ -38,6 +38,7 @@ public class BlockActivity extends AsyncTask<String, Void, String> {
         String data;
         BufferedReader bufferedReader;
         String result;
+        MainActivity main = (MainActivity) context;
 
         try {
             String blocker = arg0[0];
@@ -62,6 +63,7 @@ public class BlockActivity extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String result) {
         String jsonStr = result;
+        MainActivity main = (MainActivity) context;
         if (jsonStr != null) {
             try {
                 JSONObject jsonObj = new JSONObject(jsonStr);

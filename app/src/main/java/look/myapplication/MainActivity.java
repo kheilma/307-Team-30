@@ -443,6 +443,7 @@ public class MainActivity extends Activity {
             new ReportBugActivity(this).execute(e.getMessage());
         }
     }
+    
 
     public void setFriendScreen(String friendsString) {
         try {
@@ -1346,60 +1347,86 @@ public class MainActivity extends Activity {
 
     }
 
+    public void sendError( String e) {
+        new ReportBugActivity(this).execute(e);
+    }
+
+    public void getFriendPreferences(String s) {
+
+    }
+
+    public void getPersonalPreferences (String tag) {
+        setContentView(R.layout.preferences);
+        String [] tagSplit = tag.split(",");
+        int [] vals = new int[mediaTags.length];
+        for(int j = 0; j < tagSplit.length; j++) {
+            String split = tagSplit[j];
+            if(!split.equals("1") && !split.equals("0")) {
+                continue;
+            }
+            vals[j] = Integer.parseInt(tagSplit[j]);
+        }
+        for(int i = 0; i < mediaTags.length; i++) {
+            mediaTags[i] = vals[i];
+        }
+
+        TableLayout tags = (TableLayout) findViewById(R.id.preferTab);
+        TableRow tagRow = new TableRow(this);
+        for (int i = 0; i < tagOpts.length; i++) {
+            if (i % 3 == 0) {
+                tagRow = new TableRow(this);
+                tagRow.setGravity(Gravity.CENTER);
+            }
+            final CheckBox boxTag = new CheckBox(this);
+            final int p = i;
+            boxTag.setText(tagOpts[i]);
+            boxTag.setTextSize(18);
+            if(mediaTags[i] == 1) {
+                boxTag.setChecked(true);
+            }
+            boxTag.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (boxTag.isChecked()) {
+                        mediaTags[p] = 1;
+                    } else {
+                        mediaTags[p] = 0;
+                    }
+                }
+            });
+            tagRow.addView(boxTag, TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT);
+            if (i != 0 && (i + 1) % 3 == 0 || i == tagOpts.length - 1) {
+                tags.addView(tagRow, TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT);
+            }
+        }
+        Button confirm = (Button) findViewById(R.id.preferConfirm);
+        confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String t = "";
+                for(int k = 0; k < mediaTags.length; k++) {
+                    t += mediaTags[k] + ",";
+                }
+                new SetPersonalPreferences(getContext()).execute(current_user.userName, t);
+            }
+        });
+
+        Button cancel = (Button) findViewById(R.id.preferCancel);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                for (int i = 0; i < mediaTags.length; i++) {
+                    mediaTags[i] = 0;
+                }
+                profileScreen(getCurrentFocus());
+            }
+        });
+    }
+
     public void setPersonalPreferences(View V) {
         try {
             setContentView(R.layout.preferences);
-
-            // need an activity to retrieve preferences
-            //currently assuming 0 preset
-            for (int i = 0; i < mediaTags.length; i++) {
-                mediaTags[i] = 0;
-            }
-
-            TableLayout tags = (TableLayout) findViewById(R.id.preferTab);
-            TableRow tagRow = new TableRow(this);
-            for (int i = 0; i < tagOpts.length; i++) {
-                if (i % 3 == 0) {
-                    tagRow = new TableRow(this);
-                    tagRow.setGravity(Gravity.CENTER);
-                }
-                final CheckBox boxTag = new CheckBox(this);
-                final int p = i;
-                boxTag.setText(tagOpts[i]);
-                boxTag.setTextSize(18);
-                boxTag.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if (boxTag.isChecked()) {
-                            mediaTags[p] = 1;
-                        } else {
-                            mediaTags[p] = 0;
-                        }
-                    }
-                });
-                tagRow.addView(boxTag, TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT);
-                if (i != 0 && (i + 1) % 3 == 0 || i == tagOpts.length - 1) {
-                    tags.addView(tagRow, TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT);
-                }
-            }
-            Button confirm = (Button) findViewById(R.id.preferConfirm);
-            confirm.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    // Activity for setting preferences
-                }
-            });
-
-            Button cancel = (Button) findViewById(R.id.preferCancel);
-            cancel.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    for (int i = 0; i < mediaTags.length; i++) {
-                        mediaTags[i] = 0;
-                    }
-                    profileScreen(getCurrentFocus());
-                }
-            });
+            new getPreferencesActivity(this).execute(current_user.userName, "user");
         }catch(Exception e) {
             new ReportBugActivity(this).execute(e.getMessage());
         }

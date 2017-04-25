@@ -27,6 +27,7 @@ public class CreateGroupActivity extends AsyncTask<String, Void, String> {
 
     @Override
     protected String doInBackground(String... arg0) {
+        MainActivity main = (MainActivity) context;
         String owner = arg0[0];
         String groupName = "'" + arg0[1] + "'";
         String members = "'" + arg0[2] + "'";
@@ -54,6 +55,7 @@ public class CreateGroupActivity extends AsyncTask<String, Void, String> {
     }
 
     protected void onPostExecute(String result) {
+        MainActivity main = (MainActivity) context;
         String jsonStr = result;
         if (jsonStr != null) {
             try {
