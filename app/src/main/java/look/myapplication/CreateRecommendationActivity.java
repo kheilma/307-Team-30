@@ -85,7 +85,7 @@ public class CreateRecommendationActivity extends AsyncTask<String, Void, String
                 JSONObject jsonObj = new JSONObject(jsonStr);
                 String query_result = jsonObj.getString("query_result");
                 if (query_result.equals("SUCCESS")) {
-                    String token = jsonObj.getString("message");
+                    String token = jsonObj.getString("query_message");
                     MainActivity mainActivity = (MainActivity)context;
                     mainActivity.send(recipient, token);
                     Toast.makeText(context, "Recommendation sent.", Toast.LENGTH_SHORT).show();
