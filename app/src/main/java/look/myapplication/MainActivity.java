@@ -506,11 +506,11 @@ public class MainActivity extends Activity {
 
                 if (accepted.equals("1")) {
                     text.setText(name);
-                    text.setTextSize(16);
+                    text.setTextSize(22);
                 } else {
                     String othername = name + "\n (not accepted)";
                     text.setText(othername);
-                    text.setTextSize(8);
+                    text.setTextSize(14);
                 }
                 text.setPadding(0, 0, 20, 0);
                 text.setTextColor(Color.MAGENTA);
