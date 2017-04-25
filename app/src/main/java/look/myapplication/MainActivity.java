@@ -448,31 +448,35 @@ public class MainActivity extends Activity {
         new getPreferencesActivity(this).execute(name, "friend");
     }
 
-    public void definefriendtags(String tag, String name) {
-        String [] tagSplit = tag.split(",");
-        int [] vals = new int[mediaTags.length];
-        for(int j = 0; j < tagSplit.length; j++) {
-            String split = tagSplit[j];
-            if(!split.equals("1") && !split.equals("0")) {
-                continue;
+    public void defineFriendTags(String tag, String name) {
+        try {
+            String[] tagSplit = tag.split(",");
+            int[] vals = new int[mediaTags.length];
+            for (int j = 0; j < tagSplit.length; j++) {
+                String split = tagSplit[j];
+                if (!split.equals("1") && !split.equals("0")) {
+                    continue;
+                }
+                vals[j] = Integer.parseInt(tagSplit[j]);
             }
-            vals[j] = Integer.parseInt(tagSplit[j]);
-        }
-        for(int i = 0; i < mediaTags.length; i++) {
-            mediaTags[i] = vals[i];
-        }
-        TextView tags = new TextView(this);
-        String tagText = "";
-        for (int j = 0; j < mediaTags.length; j++) {
-            if (mediaTags[j] == 1) {
-                tagText += tagOpts[j] + " | ";
+            for (int i = 0; i < mediaTags.length; i++) {
+                mediaTags[i] = vals[i];
             }
-        }
-        tags.setText(tagText);
-        tags.setTextSize(16);
+            TextView tags = new TextView(this);
+            String tagText = "";
+            for (int j = 0; j < mediaTags.length; j++) {
+                if (mediaTags[j] == 1) {
+                    tagText += tagOpts[j] + " | ";
+                }
+            }
+            tags.setText(tagText);
+            tags.setTextSize(16);
 
-        TextView profiletags = (TextView) findViewById(R.id.profileTags);
-        profiletags.setText("Preferences: " +  tagText);
+            TextView profiletags = (TextView) findViewById(R.id.profileTags);
+            profiletags.setText("Preferences: " + tagText);
+        }catch (Exception e) {
+            new ReportBugActivity(this).execute(e.getMessage());
+        }
     }
 
     public void setFriendScreen(String friendsString) {

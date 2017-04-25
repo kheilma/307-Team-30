@@ -24,6 +24,7 @@ public class SetPersonalPreferences extends AsyncTask<String, Void, String> {
 
     @Override
     protected String doInBackground(String... arg0) {
+        MainActivity mainActivity = (MainActivity)context;
         String userName = "'" + arg0[0] + "'";
         String preferences = arg0[1];
 
@@ -46,11 +47,13 @@ public class SetPersonalPreferences extends AsyncTask<String, Void, String> {
             result = bufferedReader.readLine();
             return result;
         } catch (Exception e) {
+            mainActivity.sendError(e.getMessage());
             return new String("Exception: " + e.getMessage());
         }
     }
 
     protected void onPostExecute(String result) {
+        MainActivity mainActivity = (MainActivity)context;
         String jsonStr = result;
         if (jsonStr != null) {
             try {
@@ -65,6 +68,7 @@ public class SetPersonalPreferences extends AsyncTask<String, Void, String> {
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
+                mainActivity.sendError(e.getMessage());
                 Toast.makeText(context, result , Toast.LENGTH_SHORT).show();
             }
         } else {

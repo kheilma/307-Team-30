@@ -39,7 +39,7 @@ public class AcceptFriendActivity extends AsyncTask<String, Void, String> {
         String link;
         BufferedReader bufferedReader;
         String result;
-        MainActivity main = (MainActivity) context;
+        MainActivity mainActivity = (MainActivity)context;
 
         try {
             data = "?user=" + URLEncoder.encode(user, "UTF-8");
@@ -57,7 +57,7 @@ public class AcceptFriendActivity extends AsyncTask<String, Void, String> {
             result = bufferedReader.readLine();
             return result;
         } catch (Exception e) {
-            main.sendError(e.getMessage());
+            mainActivity.sendError(e.getMessage());
             return new String("Exception: " + e.getMessage());
         }
     }

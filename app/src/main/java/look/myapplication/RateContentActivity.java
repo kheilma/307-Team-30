@@ -34,6 +34,7 @@ public class RateContentActivity  extends AsyncTask<String, Void, String> {
 
     @Override
     protected String doInBackground(String... arg0) {
+        MainActivity mainActivity = (MainActivity)context;
 
         String link;
         String data;
@@ -59,12 +60,14 @@ public class RateContentActivity  extends AsyncTask<String, Void, String> {
             result = bufferedReader.readLine();
             return result;
         } catch (Exception e) {
+            mainActivity.sendError(e.getMessage());
             return new String("Exception: " + e.getMessage());
         }
     }
 
     @Override
     protected void onPostExecute(String result) {
+        MainActivity mainActivity = (MainActivity)context;
         String jsonStr = result;
         if (jsonStr != null) {
             try {
@@ -79,6 +82,7 @@ public class RateContentActivity  extends AsyncTask<String, Void, String> {
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
+                mainActivity.sendError(e.getMessage());
                 Toast.makeText(context, result, Toast.LENGTH_SHORT).show();
             }
         } else {

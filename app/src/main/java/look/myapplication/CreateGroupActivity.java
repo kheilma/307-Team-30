@@ -27,7 +27,7 @@ public class CreateGroupActivity extends AsyncTask<String, Void, String> {
 
     @Override
     protected String doInBackground(String... arg0) {
-        MainActivity main = (MainActivity) context;
+        MainActivity mainActivity = (MainActivity) context;
         String owner = arg0[0];
         String groupName = "'" + arg0[1] + "'";
         String members = "'" + arg0[2] + "'";
@@ -50,12 +50,13 @@ public class CreateGroupActivity extends AsyncTask<String, Void, String> {
             result = bufferedReader.readLine();
             return result;
         } catch (Exception e) {
+            mainActivity.sendError(e.getMessage());
             return new String("Exception: " + e.getMessage());
         }
     }
 
     protected void onPostExecute(String result) {
-        MainActivity main = (MainActivity) context;
+        MainActivity mainActivity = (MainActivity) context;
         String jsonStr = result;
         if (jsonStr != null) {
             try {
@@ -69,6 +70,7 @@ public class CreateGroupActivity extends AsyncTask<String, Void, String> {
                     Toast.makeText(context, "Please seek assistance from your Complaint Department representative.", Toast.LENGTH_SHORT).show();
                 }
             } catch (JSONException e) {
+                mainActivity.sendError(e.getMessage());
                 e.printStackTrace();
                 Toast.makeText(context, result , Toast.LENGTH_SHORT).show();
             }

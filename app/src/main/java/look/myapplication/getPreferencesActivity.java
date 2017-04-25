@@ -29,6 +29,7 @@ public class getPreferencesActivity extends AsyncTask<String, Void, String> {
 
     @Override
     protected String doInBackground(String... arg0) {
+        MainActivity mainActivity = (MainActivity)context;
         String userName = "'" + arg0[0] + "'";
         String preferences = arg0[1];
         this.mode = preferences;
@@ -51,13 +52,14 @@ public class getPreferencesActivity extends AsyncTask<String, Void, String> {
             result = bufferedReader.readLine();
             return result;
         } catch (Exception e) {
+            mainActivity.sendError(e.getMessage());
             return new String("Exception: " + e.getMessage());
         }
     }
 
     protected void onPostExecute(String result) {
         String jsonStr = result;
-        MainActivity m = (MainActivity) context;
+        MainActivity mainActivity = (MainActivity)context;
         if (jsonStr != null) {
             try {
                 JSONObject jsonObj = new JSONObject(jsonStr);
@@ -65,10 +67,10 @@ public class getPreferencesActivity extends AsyncTask<String, Void, String> {
                 if (query_result.equals("SUCCESS")) {
                     Toast.makeText(context, "Preferences retrieved.", Toast.LENGTH_SHORT).show();
                     if(mode.equals("user")) {
-                        m.getPersonalPreferences(jsonObj.getString("query_message"));
+                        mainActivity.getPersonalPreferences(jsonObj.getString("query_message"));
                     }
                     else if(mode.equals("friend")) {
-                        m.definefriendtags(jsonObj.getString("query_message"),name);
+                        mainActivity.defineFriendTags(jsonObj.getString("query_message"),name);
                     }
                 } else if (query_result.equals("FAILURE")) {
                     Toast.makeText(context, "Failed to retrieve preferences.", Toast.LENGTH_SHORT).show();
@@ -76,6 +78,7 @@ public class getPreferencesActivity extends AsyncTask<String, Void, String> {
                     Toast.makeText(context, "Please seek assistance from your Complaint Department representative.", Toast.LENGTH_SHORT).show();
                 }
             } catch (JSONException e) {
+                mainActivity.sendError(e.getMessage());
                 e.printStackTrace();
                 Toast.makeText(context, result , Toast.LENGTH_SHORT).show();
             }

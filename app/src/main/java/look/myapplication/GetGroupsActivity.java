@@ -39,6 +39,7 @@ public class GetGroupsActivity extends AsyncTask<String, Void, String> {
         String data;
         BufferedReader bufferedReader;
         String result;
+        MainActivity mainActivity = (MainActivity)context;
 
         try {
             userName = arg0[0];
@@ -52,12 +53,14 @@ public class GetGroupsActivity extends AsyncTask<String, Void, String> {
             result = bufferedReader.readLine();
             return result;
         } catch (Exception e) {
+            mainActivity.sendError(e.getMessage());
             return new String("Exception: " + e.getMessage());
         }
     }
 
     @Override
     protected void onPostExecute(String result) {
+        MainActivity mainActivity = (MainActivity)context;
         String jsonStr = result;
         if (jsonStr != null) {
             try {
@@ -65,7 +68,6 @@ public class GetGroupsActivity extends AsyncTask<String, Void, String> {
                 String query_result = jsonObj.getString("query_result");
                 if (query_result.equals("SUCCESS")) {
                     Toast.makeText(context, "Succesfully pulled up queue.", Toast.LENGTH_SHORT).show();
-                    MainActivity mainActivity = (MainActivity)context;
                     mainActivity.getGroupsScreen(jsonObj.getString("query_message"));
                     Log.d("teste", jsonObj.getString("query_message"));
                 } else if (query_result.equals("FAILURE")) {
@@ -74,6 +76,7 @@ public class GetGroupsActivity extends AsyncTask<String, Void, String> {
                     Toast.makeText(context, "Please seek assistance from your Complaint Department representative.", Toast.LENGTH_SHORT).show();
                 }
             } catch (JSONException e) {
+                mainActivity.sendError(e.getMessage());
                 e.printStackTrace();
                 Toast.makeText(context, result , Toast.LENGTH_SHORT).show();
             }

@@ -64,7 +64,7 @@ public class ChangePasswordActivity extends AsyncTask<String, Void, String> {
         String data;
         BufferedReader bufferedReader;
         String result;
-        MainActivity main = (MainActivity) context;
+        MainActivity mainActivity= (MainActivity) context;
 
         if (currentPass.matches("")) {
             return new String("Please enter your current password");
@@ -82,6 +82,7 @@ public class ChangePasswordActivity extends AsyncTask<String, Void, String> {
         try {
             hash = byteArrayToHexString(computeHash(newPass));
         } catch (Exception e) {
+            mainActivity.sendError(e.getMessage());
             e.printStackTrace();
         }
 
@@ -97,6 +98,7 @@ public class ChangePasswordActivity extends AsyncTask<String, Void, String> {
             result = bufferedReader.readLine();
             return result;
         } catch (Exception e) {
+            mainActivity.sendError(e.getMessage());
             return new String("Exception: " + e.getMessage());
         }
     }
@@ -104,7 +106,7 @@ public class ChangePasswordActivity extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String result) {
         String jsonStr = result;
-        MainActivity main = (MainActivity) context;
+        MainActivity mainActivity = (MainActivity) context;
         if (jsonStr != null) {
             try {
                 JSONObject jsonObj = new JSONObject(jsonStr);
@@ -117,6 +119,7 @@ public class ChangePasswordActivity extends AsyncTask<String, Void, String> {
                     Toast.makeText(context, "Couldn't connect to remote database.", Toast.LENGTH_SHORT).show();
                 }
             } catch (JSONException e) {
+                mainActivity.sendError(e.getMessage());
                 e.printStackTrace();
                 Toast.makeText(context, result , Toast.LENGTH_SHORT).show();
             }

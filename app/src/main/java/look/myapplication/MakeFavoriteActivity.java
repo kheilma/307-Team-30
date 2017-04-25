@@ -29,6 +29,7 @@ public class MakeFavoriteActivity extends AsyncTask<String, Void, String> {
 
     @Override
     protected String doInBackground(String... arg0) {
+        MainActivity mainActivity = (MainActivity)context;
         String userName = arg0[0];
         String recipient = arg0[1];
         String Content = arg0[2].split("&")[2];
@@ -52,11 +53,13 @@ public class MakeFavoriteActivity extends AsyncTask<String, Void, String> {
             result = bufferedReader.readLine();
             return result;
         } catch (Exception e) {
+            mainActivity.sendError(e.getMessage());
             return new String("Exception: " + e.getMessage());
         }
     }
 
     protected void onPostExecute(String result) {
+        MainActivity mainActivity = (MainActivity)context;
         String jsonStr = result;
         if (jsonStr != null) {
             try {
@@ -70,6 +73,7 @@ public class MakeFavoriteActivity extends AsyncTask<String, Void, String> {
                     Toast.makeText(context, "Please seek assistance from your Complaint Department representative.", Toast.LENGTH_SHORT).show();
                 }
             } catch (JSONException e) {
+                mainActivity.sendError(e.getMessage());
                 e.printStackTrace();
                 Toast.makeText(context, result , Toast.LENGTH_SHORT).show();
             }

@@ -27,6 +27,7 @@ public class CreateNotificationActivity extends AsyncTask<String, Void, String> 
 
     @Override
     protected String doInBackground(String... arg0) {
+        MainActivity mainActivity = (MainActivity) context;
         String userName = arg0[0];
         String recipient = arg0[1];
         String message = arg0[2];
@@ -49,12 +50,14 @@ public class CreateNotificationActivity extends AsyncTask<String, Void, String> 
             result = bufferedReader.readLine();
             return result;
         } catch (Exception e) {
+            mainActivity.sendError(e.getMessage());
             return new String("Exception: " + e.getMessage());
         }
     }
 
     protected void onPostExecute(String result) {
         String jsonStr = result;
+        MainActivity mainActivity = (MainActivity) context;
         if (jsonStr != null) {
             try {
                 JSONObject jsonObj = new JSONObject(jsonStr);
@@ -67,6 +70,7 @@ public class CreateNotificationActivity extends AsyncTask<String, Void, String> 
                     Toast.makeText(context, "Please seek assistance from your Complaint Department representative.", Toast.LENGTH_SHORT).show();
                 }
             } catch (JSONException e) {
+                mainActivity.sendError(e.getMessage());
                 e.printStackTrace();
                 Toast.makeText(context, result , Toast.LENGTH_SHORT).show();
             }

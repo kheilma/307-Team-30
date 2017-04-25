@@ -27,6 +27,7 @@ public class SubmitBugActivity extends AsyncTask<String, Void, String> {
 
     @Override
     protected String doInBackground(String... arg0) {
+        MainActivity mainActivity = (MainActivity)context;
         String device =  arg0[0];
         String issue =  arg0[1];
         String version = arg0[2];
@@ -56,11 +57,13 @@ public class SubmitBugActivity extends AsyncTask<String, Void, String> {
             result = bufferedReader.readLine();
             return result;
         } catch (Exception e) {
+            mainActivity.sendError(e.getMessage());
             return new String("Exception: " + e.getMessage());
         }
     }
 
     protected void onPostExecute(String result) {
+        MainActivity mainActivity = (MainActivity)context;
         String jsonStr = result;
         if (jsonStr != null) {
             try {
@@ -75,6 +78,7 @@ public class SubmitBugActivity extends AsyncTask<String, Void, String> {
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
+                mainActivity.sendError(e.getMessage());
                 Toast.makeText(context, result , Toast.LENGTH_SHORT).show();
             }
         } else {
