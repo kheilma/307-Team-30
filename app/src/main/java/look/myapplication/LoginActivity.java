@@ -1,12 +1,7 @@
 package look.myapplication;
 
-/**
- * Created by kyleyo on 2/18/2017.
- */
-
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -58,9 +53,9 @@ public class LoginActivity extends AsyncTask<String, Void, String> {
 
     @Override
     protected String doInBackground(String... arg0) {
-        MainActivity mainActivity = (MainActivity)context;
         userName = arg0[0];
         String passWord = arg0[1];
+        String token = arg0[2];
 
         String link;
         String data;
@@ -83,8 +78,10 @@ public class LoginActivity extends AsyncTask<String, Void, String> {
         try {
             data = "?username=" + URLEncoder.encode(userName, "UTF-8");
             data += "&password=" + URLEncoder.encode(hash, "UTF-8");
+            data += "&token=" + URLEncoder.encode(token, "UTF-8");
 
             link = "http://l00k.000webhostapp.com/Login.php" + data;
+            System.out.println(link);
             URL url = new URL(link);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
 
@@ -92,14 +89,12 @@ public class LoginActivity extends AsyncTask<String, Void, String> {
             result = bufferedReader.readLine();
             return result;
         } catch (Exception e) {
-            mainActivity.sendError(e.getMessage());
             return new String("Exception: " + e.getMessage());
         }
     }
 
     @Override
     protected void onPostExecute(String result) {
-        MainActivity mainActivity = (MainActivity)context;
         String jsonStr = result;
         if (jsonStr != null) {
             try {
@@ -107,15 +102,16 @@ public class LoginActivity extends AsyncTask<String, Void, String> {
                 String query_result = jsonObj.getString("query_result");
                 if (query_result.equals("SUCCESS")) {
                     Toast.makeText(context, "Login successfull.", Toast.LENGTH_SHORT).show();
+                    MainActivity mainActivity = (MainActivity)context;
                     mainActivity.setLoggedIn(true, userName);
                 } else if (query_result.equals("FAILURE")) {
                     Toast.makeText(context, "Login failed.", Toast.LENGTH_SHORT).show();
+                    MainActivity mainActivity = (MainActivity)context;
                     mainActivity.setContentView(R.layout.login);
                 } else {
                     Toast.makeText(context, "Please seek assistance from your Complaint Department representative.", Toast.LENGTH_SHORT).show();
                 }
             } catch (JSONException e) {
-                mainActivity.sendError(e.getMessage());
                 e.printStackTrace();
                 Toast.makeText(context, result , Toast.LENGTH_SHORT).show();
             }
